@@ -1,0 +1,14 @@
+#pragma once
+
+typedef enum _mylib_status
+{
+    MYLIB_STATUS_OK = 0,
+
+    MYLIB_STATUS_UNKNOWN_ERROR = -1,
+    MYLIB_STATUS_INVALID_HANDLE = -2,
+    MYLIB_STATUS_INVALID_ARGUMENT = -3,
+
+    MYLIB_STATUS_LOGIC_ERROR = -11,
+    MYLIB_STATUS_OVERFLOW_ERROR = -12,
+    MYLIB_STATUS_RANGE_ERROR = -13,
+} mylib_status_t;
