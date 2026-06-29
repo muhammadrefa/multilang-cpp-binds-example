@@ -6,10 +6,18 @@ CXX = g++
 CXXFLAGS = -fPIC -Wall -std=c++17
 LDFLAGS = -shared -L. -lmylibrary -Wl,-rpath,'$$ORIGIN'
 
+# For Windows
+ifeq ($(OS),Windows_NT)
+	DLL_EXT = dll
+    CXXFLAGS += -DMYLIB_BUILD_DLL
+else
+	DLL_EXT = so
+endif
+
 # Source and object files
 SOURCES = calculator.cpp circular_buffer.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
-LIBRARY = libmylibraryc.so
+LIBRARY = libmylibraryc.$(DLL_EXT)
 
 # Default target
 all: $(LIBRARY)
