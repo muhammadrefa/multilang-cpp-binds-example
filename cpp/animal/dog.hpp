@@ -10,11 +10,11 @@ namespace MyLibrary
             using Animal::Animal;
             using Animal::speak;
 
-            void speak();
-            void sleep();
+            void speak() override;
+            void sleep() override;
 
             bool fetch();
-            int getEnergy();
+            int getEnergy() const;
 
         private:        
             int energy = 50;

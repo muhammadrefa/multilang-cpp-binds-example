@@ -19,7 +19,7 @@ void MyLibrary::Tiger::sleep()
     hunger += 10;
 }
 
-int MyLibrary::Tiger::getHunger()
+int MyLibrary::Tiger::getHunger() const
 {
     return hunger;
 }

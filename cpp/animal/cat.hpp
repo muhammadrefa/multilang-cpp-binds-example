@@ -10,9 +10,10 @@ namespace MyLibrary
             using Animal::Animal;
             using Animal::speak;
 
-            void speak();
+            void speak() override;
+
             bool fight(bool bigger_cat);
-            bool stillAlive();
+            bool stillAlive() const;
 
         protected:
             int lives = 9;

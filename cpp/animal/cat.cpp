@@ -27,7 +27,7 @@ bool MyLibrary::Cat::fight(bool bigger_cat)
     }
 }
 
-bool MyLibrary::Cat::stillAlive()
+bool MyLibrary::Cat::stillAlive() const
 {
     return (lives > 0);
 }

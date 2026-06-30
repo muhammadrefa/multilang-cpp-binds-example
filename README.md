@@ -12,5 +12,6 @@ This library contains several classes with different complexity.
 - exception handling
 
 `animal`
-- inheritance
+- (multi-level) inheritance
+- polymorphism
 - method overloading

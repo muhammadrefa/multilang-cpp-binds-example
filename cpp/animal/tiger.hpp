@@ -10,10 +10,11 @@ namespace MyLibrary
             using Cat::Cat;
             using Cat::speak;
 
-            void speak();
+            void speak() override;
+            void sleep() override;
+
             void hunt();
-            void sleep();
-            int getHunger();
+            int getHunger() const;
 
         private:
             int hunger = 50;

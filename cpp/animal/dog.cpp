@@ -28,7 +28,7 @@ bool MyLibrary::Dog::fetch()
     return true;
 }
 
-int MyLibrary::Dog::getEnergy()
+int MyLibrary::Dog::getEnergy() const
 {
     return energy;
 }
