@@ -7,3 +7,8 @@ In this example, the C wrapper loads the C++ library which is compiled as DLL. T
 - `libmylibraryc.so`, which is the C wrapper
 
 This library contains `main.c` file to test the library. It can be compiled using `make libtest` command.
+
+
+MinGW notes
+
+If the library compiled using MinGW, make sure the MinGW runtime DLL dependencies are also copied with the library. [Dependencies](https://github.com/lucasg/Dependencies) is a great tool to check the dependencies. To minimise the dependencies, link `libstdc++` and `libgcc` statically, or use MSVC instead.
