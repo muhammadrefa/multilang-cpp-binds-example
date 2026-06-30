@@ -1,12 +1,22 @@
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -fPIC -Wall -std=c++17
+CXXFLAGS = -Wall -std=c++17
 LDFLAGS = -shared
+
+# For Windows
+ifeq ($(OS),Windows_NT)
+	DLL_PREFIX = 
+	DLL_EXT = dll
+else
+	DLL_PREFIX = lib
+	DLL_EXT = so
+	CXXFLAGS += -fPIC
+endif
 
 # Source and object files
 SOURCES = calculator.cpp circular_buffer.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
-LIBRARY = libmylibrary.so
+LIBRARY = $(DLL_PREFIX)mylibrary.$(DLL_EXT)
 
 # Default target
 all: $(LIBRARY)

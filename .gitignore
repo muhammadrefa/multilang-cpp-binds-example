@@ -1,19 +1,22 @@
 cpp/*.o
 cpp/*.so
+cpp/*.dll
 cpp/libtest
 
 c_wrapper/*.o
 c_wrapper/*.so
+c_wrapper/*.dll
 c_wrapper/libtest
 
 python/.idea
 python/mylib/__pycache__
 python/mylib/_bindings/__pycache__
 python/mylib/native/*.so
+python/mylib/native/*.dll
 
 cs/MyLib/bin
 cs/MyLib/obj
 cs/MyLib/runtimes/linux-x64/native/*.so
-cs/MyLib/runtimes/win-x64/native/*.so
+cs/MyLib/runtimes/win-x64/native/*.dll
 cs/LibTest/bin
 cs/LibTest/obj
