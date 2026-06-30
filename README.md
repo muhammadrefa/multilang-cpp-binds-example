@@ -10,3 +10,7 @@ This library contains several classes with different complexity.
 `circular buffer`
 - dynamic memory allocation
 - exception handling
+
+`animal`
+- inheritance
+- method overloading

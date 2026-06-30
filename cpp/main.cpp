@@ -4,6 +4,11 @@
 #include "calculator.hpp"
 #include "circular_buffer.hpp"
 
+#include "animal/animal.hpp"
+#include "animal/dog.hpp"
+#include "animal/cat.hpp"
+#include "animal/tiger.hpp"
+
 void calculator_check()
 {
     int val;
@@ -83,6 +88,70 @@ void circbuff_check()
     delete buf;
 }
 
+void animal_check()
+{
+    // create animal1
+    MyLibrary::Animal *animal1 = new MyLibrary::Animal();
+    animal1->name = "specimen1";
+    animal1->speak();
+
+    // create animal2
+    MyLibrary::Animal *animal2 = new MyLibrary::Animal("specimen2");
+    animal2->speak(3);
+
+    // adopt a dog
+    MyLibrary::Dog *dog = new MyLibrary::Dog("Pluto");
+    dog->speak();
+    for (int i=0; i<7; ++i)
+    {
+        if (dog->fetch())
+            std::cout << dog->name << " fetch the stick!" << std::endl;
+        else
+            std::cout << dog->name << " did not fetch the stick!" << std::endl;
+    }
+    std::cout << dog->name << " energy: " << std::to_string(dog->getEnergy()) << std::endl;
+    dog->sleep();
+    if (dog->fetch())
+        std::cout << dog->name << " fetch the stick!" << std::endl;
+    
+    // adopt a cat
+    MyLibrary::Cat *cat = new MyLibrary::Cat("Pretty");
+    cat->speak(2);
+    cat->fight(false);
+    cat->fight(true);
+    cat->fight(true);
+    cat->fight(false);
+    if (cat->stillAlive())
+        std::cout << cat->name << " still alive" << std::endl;
+    for (int i=0; i<9; ++i)
+        cat->fight(true);
+    if (cat->stillAlive())
+        std::cout << cat->name << " still alive" << std::endl;
+
+    // adopt a tiger (?)
+    MyLibrary::Tiger *tiger = new MyLibrary::Tiger("Tigris");
+    tiger->speak(3);
+    tiger->fight(false);
+    tiger->fight(true);
+    tiger->fight(true);
+    tiger->fight(false);
+    if (tiger->stillAlive())
+        std::cout << tiger->name << " still alive" << std::endl;
+    std::cout << tiger->name << " hunger level: " << std::to_string(tiger->getHunger()) << std::endl;
+    tiger->hunt();
+    tiger->hunt();
+    std::cout << tiger->name << " hunger level: " << std::to_string(tiger->getHunger()) << std::endl;
+    tiger->sleep();
+    std::cout << tiger->name << " hunger level: " << std::to_string(tiger->getHunger()) << std::endl;
+
+    // kill them :(
+    delete animal1;
+    delete animal2;
+    delete dog;
+    delete cat;
+    delete tiger;
+}
+
 int main()
 {
     printf("--- calculator check ---\n");
@@ -91,6 +160,10 @@ int main()
 
     printf("--- circbuff check ---\n");
     circbuff_check();
+    printf("\n");
+
+    printf("--- animal check ---\n");
+    animal_check();
     printf("\n");
 
     return 0;
