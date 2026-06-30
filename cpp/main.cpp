@@ -105,14 +105,14 @@ void animal_check()
     for (int i=0; i<7; ++i)
     {
         if (dog->fetch())
-            std::cout << dog->name << " fetch the stick!" << std::endl;
+            std::cout << dog->name << " fetched the stick!" << std::endl;
         else
             std::cout << dog->name << " did not fetch the stick!" << std::endl;
     }
     std::cout << dog->name << " energy: " << std::to_string(dog->getEnergy()) << std::endl;
     dog->sleep();
     if (dog->fetch())
-        std::cout << dog->name << " fetch the stick!" << std::endl;
+        std::cout << dog->name << " fetched the stick!" << std::endl;
     
     // adopt a cat
     MyLibrary::Cat *cat = new MyLibrary::Cat("Pretty");
@@ -123,10 +123,14 @@ void animal_check()
     cat->fight(false);
     if (cat->stillAlive())
         std::cout << cat->name << " still alive" << std::endl;
+    else
+        std::cout << cat->name << " died" << std::endl;
     for (int i=0; i<9; ++i)
         cat->fight(true);
     if (cat->stillAlive())
         std::cout << cat->name << " still alive" << std::endl;
+    else
+        std::cout << cat->name << " died" << std::endl;
 
     // adopt a tiger (?)
     MyLibrary::Tiger *tiger = new MyLibrary::Tiger("Tigris");
@@ -137,6 +141,8 @@ void animal_check()
     tiger->fight(false);
     if (tiger->stillAlive())
         std::cout << tiger->name << " still alive" << std::endl;
+    else
+        std::cout << cat->name << " died" << std::endl;
     std::cout << tiger->name << " hunger level: " << std::to_string(tiger->getHunger()) << std::endl;
     tiger->hunt();
     tiger->hunt();

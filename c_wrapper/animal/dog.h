@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stddef.h>
 #include "../mylib_export.h"
 #include "../status_code.h"
 
@@ -31,6 +32,11 @@ MYLIB_API mylib_status_t MyLib_Dog_GetEnergy(mylib_dog_t* handle, int* energy);
 MYLIB_API mylib_status_t MyLib_Dog_Speak(mylib_dog_t* handle);
 MYLIB_API mylib_status_t MyLib_Dog_Speak_Multiple_Times(mylib_dog_t* handle, int times);
 MYLIB_API mylib_status_t MyLib_Dog_Sleep(mylib_dog_t* handle);
+
+// Animal public data member
+MYLIB_API mylib_status_t MyLib_Dog_Set_Name(mylib_dog_t* handle, char* name, int length);
+MYLIB_API mylib_status_t MyLib_Dog_Get_Name(mylib_dog_t* handle, char* name, size_t buffer_size, int* length);
+
 
 #ifdef __cplusplus
 }

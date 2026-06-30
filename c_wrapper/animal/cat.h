@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stddef.h>
 #include "../mylib_export.h"
 #include "../status_code.h"
 
@@ -31,6 +32,10 @@ MYLIB_API mylib_status_t MyLib_Cat_StillAlive(mylib_cat_t* handle, int* is_alive
 MYLIB_API mylib_status_t MyLib_Cat_Speak(mylib_cat_t* handle);
 MYLIB_API mylib_status_t MyLib_Cat_Speak_Multiple_Times(mylib_cat_t* handle, int times);
 MYLIB_API mylib_status_t MyLib_Cat_Sleep(mylib_cat_t* handle);
+
+// Animal public data member
+MYLIB_API mylib_status_t MyLib_Cat_Set_Name(mylib_cat_t* handle, char* name, int length);
+MYLIB_API mylib_status_t MyLib_Cat_Get_Name(mylib_cat_t* handle, char* name, size_t buffer_size, int* length);
 
 #ifdef __cplusplus
 }

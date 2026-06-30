@@ -1,4 +1,6 @@
 #include <stdexcept>
+#include <cstddef>
+#include <cstring>
 
 #include "animal.h"
 #include "cat.h"
@@ -135,6 +137,36 @@ mylib_status_t MyLib_Tiger_Sleep(mylib_tiger_t* handle)
         return MYLIB_STATUS_INVALID_HANDLE;
 
     GetObject(handle)->sleep();
+
+    return MYLIB_STATUS_OK;
+}
+
+mylib_status_t MyLib_Tiger_Set_Name(mylib_tiger_t* handle, char* name, int length)
+{
+    if (handle == nullptr)
+        return MYLIB_STATUS_INVALID_HANDLE;
+
+    GetObject(handle)->name = std::string(name, length);
+
+    return MYLIB_STATUS_OK;
+}
+
+mylib_status_t MyLib_Tiger_Get_Name(mylib_tiger_t* handle, char* name, size_t buffer_size, int* length)
+{
+    if (handle == nullptr)
+        return MYLIB_STATUS_INVALID_HANDLE;
+    if (name == nullptr)
+        return MYLIB_STATUS_INVALID_ARGUMENT;
+    if (length == nullptr)
+        return MYLIB_STATUS_INVALID_ARGUMENT;
+
+    std::string _name = GetObject(handle)->name;
+    *length = _name.length();
+
+    if (buffer_size < *length)
+        return MYLIB_STATUS_BUFFER_TOO_SMALL;
+
+    strcpy(name, _name.c_str());
 
     return MYLIB_STATUS_OK;
 }
