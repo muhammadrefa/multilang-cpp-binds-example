@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace MyLib.Interop.Handles
 {
-    public sealed class SafeCircularBufferHandle : SafeHandle
+    internal sealed class SafeCircularBufferHandle : SafeHandle
     {
         public override bool IsInvalid => handle == IntPtr.Zero;
 
@@ -11,7 +11,7 @@ namespace MyLib.Interop.Handles
 
         protected override bool ReleaseHandle()
         {
-            return CalculatorNative.Destroy(handle) == MyLibStatus.Ok;
+            return CircularBufferNative.Destroy(handle) == MyLibStatus.Ok;
         }
     }
 }
