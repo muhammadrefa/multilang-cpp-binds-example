@@ -16,13 +16,13 @@ bool MyLibrary::Cat::fight(bool bigger_cat)
 
     if (bigger_cat)
     {
-        std::cout << name << " loses fight!" << std::endl;
+        std::cout << name << " loses the fight!" << std::endl;
         --lives;
         return false;
     }
     else
     {
-        std::cout << name << " wins fight!" << std::endl;
+        std::cout << name << " wins the fight!" << std::endl;
         return true;
     }
 }
