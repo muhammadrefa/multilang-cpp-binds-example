@@ -5,10 +5,17 @@ using MyLib.Interop.Handles;
 
 namespace MyLib
 {
+    /// <summary>
+    /// Animal - bindings from C wrapper to C++ class
+    /// </summary>
     public class Animal : IDisposable
     {
         private SafeAnimalHandle _handleAnimal;
 
+        /// <summary>
+        /// Create new Animal
+        /// </summary>
+        /// <exception cref="OutOfMemoryException"></exception>
         public Animal()
         {
             _handleAnimal = AnimalNative.Create();
@@ -16,6 +23,11 @@ namespace MyLib
                 throw new OutOfMemoryException("Failed to create animal.");
         }
 
+        /// <summary>
+        /// Create new Animal
+        /// </summary>
+        /// <param name="name">Animal name</param>
+        /// <exception cref="OutOfMemoryException"></exception>
         public Animal(string name)
         {
             _handleAnimal = AnimalNative.Create_With_Name(Encoding.UTF8.GetBytes(name), name.Length);
@@ -23,11 +35,18 @@ namespace MyLib
                 throw new OutOfMemoryException("Failed to create animal.");
         }
 
+        /// <summary>
+        /// Initialise handle from its derivative
+        /// </summary>
+        /// <param name="handle">Animal handle</param>
         private protected void InitializeAnimalHandle(SafeAnimalHandle handle)
         {
             _handleAnimal = handle;
         }
 
+        /// <summary>
+        /// Animal name
+        /// </summary>
         public string Name
         {
             get

@@ -6,10 +6,17 @@ using MyLib.Interop.Handles;
 
 namespace MyLib
 {
+    /// <summary>
+    /// Cat - bindings from C wrapper to C++ class
+    /// </summary>
     public class Cat : Animal
     {
         private SafeCatHandle _handleCat;
 
+        /// <summary>
+        /// Create new Cat
+        /// </summary>
+        /// <exception cref="OutOfMemoryException"></exception>
         public Cat()
         {
             _handleCat = CatNative.Create();
@@ -18,6 +25,11 @@ namespace MyLib
             base.InitializeAnimalHandle(CatNative.As_Animal(_handleCat));
         }
 
+        /// <summary>
+        /// Create new Cat
+        /// </summary>
+        /// <param name="name">Cat name</param>
+        /// <exception cref="OutOfMemoryException"></exception>
         public Cat(string name)
         {
             _handleCat = CatNative.Create_With_Name(Encoding.UTF8.GetBytes(name), name.Length);
@@ -26,12 +38,21 @@ namespace MyLib
             base.InitializeAnimalHandle(CatNative.As_Animal(_handleCat));
         }
 
+        /// <summary>
+        /// Initialise handle from its derivative
+        /// </summary>
+        /// <param name="handle">Cat handle</param>
         private protected void InitializeCatHandle(SafeCatHandle handle)
         {
             _handleCat = handle;
             base.InitializeAnimalHandle(CatNative.As_Animal(_handleCat));
         }
 
+        /// <summary>
+        /// Fight!
+        /// </summary>
+        /// <param name="bigger_cat">Is the challenger cat bigger?</param>
+        /// <returns></returns>
         public bool Fight(bool bigger_cat)
         {
             ThrowIfDisposed();
@@ -42,6 +63,10 @@ namespace MyLib
             return success;
         }
 
+        /// <summary>
+        /// Is the cat still alive?
+        /// </summary>
+        /// <returns>Is alive</returns>
         public bool StillAlive()
         {
             ThrowIfDisposed();
