@@ -64,7 +64,7 @@ namespace MyLib
         private void ThrowIfDisposed()
         {
             if (_handle.IsClosed)
-                throw new ObjectDisposedException(nameof(Calculator));
+                throw new ObjectDisposedException(nameof(CircularBuffer));
         }
     }
 }
