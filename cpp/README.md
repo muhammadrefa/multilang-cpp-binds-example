@@ -1,5 +1,5 @@
 Sample C++ library
-
+===
 This folder contains sample C++ library. The primary goal of the library is to demonstrate how the C++ library can be wrapped into C and loaded into other languages. Class function is not the primary focus.
 
 This library compiles into dynamically-linked library. When wrapped, this approach resulting 2 files needed to use the library:
@@ -12,5 +12,5 @@ This library contains `main.cpp` file to test the library. It can be compiled us
 
 
 MinGW notes
-
+---
 If the library compiled using MinGW, make sure the MinGW runtime DLL dependencies are also copied with the library. [Dependencies](https://github.com/lucasg/Dependencies) is a great tool to check the dependencies. To minimise the dependencies, link `libstdc++` and `libgcc` statically, or use MSVC instead.
