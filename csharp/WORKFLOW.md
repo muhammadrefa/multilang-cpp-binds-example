@@ -5,137 +5,187 @@ This document will guide you step-by-step on how to write the C# bindings by uti
 Important files and directories
 ---
 (You may rename the files and directories)
-1. `runtimes/<rid>/native` stores the DLL libraries.
+1. `runtimes/<rid>/native` stores the DLL libraries. Click [here](https://learn.microsoft.com/en-us/dotnet/core/rid-catalog) to see the .NET RID catalog.
 2. `src/Interop/Handles/` contains `SafeHandle` for every handles. It also manages handle disposal.
 3. `src/Interop/*Native.cs` contains the binding to native C functions **(important!!!)**
 4. `src/Interop/NativeConstants.cs` contains the library filepath that will be loaded by `*Native.cs`.
 4. `src/Interop/NativeEnums.cs` contains general enum from the library, with status as one of them.
 5. `src/Interop/StatusExtensions.cs` contains the extension of `status` which is defined in the `NativeEnums.cs`. This extension translates status codes into C# exceptions.
+6. `src/Exceptions/` contains custom exceptions.
 
 Writing the bindings
 ---
-1. Starts with creating a new file in `bindings/`. In this repo, the filename follows the C wrapper header filename. Import the helpers to make life easier.
-```python
-# (e.g. bindings/mywrapper.py)
+1. Starts with write a class for the handle, inheriting from `SafeHandle`. You can copy an example from `src/Interop/Handles/` straight away and make some modification. Make sure you write the implementation of `ReleaseHandle()` correctly (i.e. call the `Destroy()` function). Since the native binder has not been written yet, we can visit `ReleaseHandle()` later.
+2. Create `src/Interop/*Native.cs` file. Use the file in this example as a template to define every C functions. Start with the constructor (`Create()`) and the destructor (`Destroy(IntPtr)`), and continue to other functions. Do not forget to use the `SafeHandle` we wrote earlier.
+```c
+// (e.g. myclass_wrapper.h)
 
-import ctypes
-
-from .._loader import load_library
-from .._errors import check_pointer, check_status
-from ._binding_utils import FunctionBinder
-
-_bind = FunctionBinder(load_library()).bind_function
+status_t The_Function_Name_In_C(mytype_t* handle, int arg1, char* arg2, int* result);
 ```
-2. Define the new data type for opaque handles in `_types.py`. And then import it in the binding file.
-3. Define every functions by using `_bind()` (of `FunctionBinder(CDLL).bind_function`) which does `getattr()` and set the `restypes`, `argtypes`, and `errcheck` behind the scene. Read more about `errcheck` [here](https://docs.python.org/3/library/ctypes.html#ctypes._CFuncPtr.errcheck). You may give different function name with the C wrapper, but it is better to have similar name to avoid confusion.
-```python
-# (e.g. bindings/mywrapper.py)
+```csharp
+// (e.g. Interop/MyClassNative.cs)
 
-my_py_func = _bind(
-    "The_Function_Name_In_C",
-    xxx_t,
-    [argtype1, argtype2],
-    errcheck_func_py
-)
+// the library name stored in NativeConstants.cs
+[DllImport(
+    NativeConstants.LibraryName,
+    CallingConvention = CallingConvention.Cdecl,
+    EntryPoint = "The_Function_Name_In_C")]
+internal static extern MyStatus MyFunc(
+    SafeMyClassHandle handle,
+    int arg1,
+    byte[] arg2,
+    out int result
+);
 ```
-4. Create new file which will be imported by the user. In this case, a file contains the class we will implement. Do not forget to import the binder we created earlier.
-```python
-# (e.g. my_cool_class.py)
+3. Go back to the `Safe*Handle` class in `src/Interop/Handles/`, and fix the `ReleaseHandle()` method since we have write the binding for the destructor.
+4. Create a new file in `src/` which will be used by the library consumer. Write a new class which inherited from `IDisposable`. Here we start to reconstruct the object-oriented parts. Let's start with the handle and the constructor.
+```csharp
+// (e.g. MyClass.cs)
 
-import ctypes
+private readonly SafeMyClassHandle _handle;
 
-from ._bindings import mywrapper as c_mywrapper
-
-class MyCoolClass:
+public MyClass()
+{
+    _handle = MyClassNative.Create();
+    if (_handle.IsInvalid)
+        throw new OutOfMemoryException("Failed to create.");
+}
 ```
-5. Add the constructor and the destructor. Store the opaque handle as (private) class member (I know, python does not understand privates. That is why [leading underscore (`_`) become a convention to make it 'private'](https://peps.python.org/pep-0008/#method-names-and-instance-variables)).
-```python
-# (e.g. my_cool_class.py)
+5. Since the destructor implemented inside the `SafeHandle`, it does not need to re-implemented here. We only have to add the code to dispose the handle.
+```csharp
+// (e.g. MyClass.cs)
 
-def __init__(self):
-    self._ptr = c_mywrapper.create()
+public void Dispose()
+{
+    _handle.Dispose();
+}
 
-def __del__(self):
-    c_mywrapper.destroy(self._ptr)
+private void ThrowIfDisposed()
+{
+    if (_handle.IsClosed)
+        throw new ObjectDisposedException(nameof(MyClass));
+}
 ```
-6. Continue to work on other methods. Use [primitive data types from `ctypes`](https://docs.python.org/3/library/ctypes.html#fundamental-data-types) if you need, and [`ctypes.byref`](https://docs.python.org/3/library/ctypes.html#ctypes.byref) if you have to pass a pointer.
-7. C++ public class members can re-implemented as property. Call the getter and setter inside the property's getter and setter respectively.
+6. Now it is time to reconstruct the object-oriented parts by adding the methods which calls the native functions.
+```csharp
+// (e.g. MyClass.cs)
+
+public int MyMethod(int arg1, byte[] arg2)
+{
+    ThrowIfDisposed();
+    var status = MyClassNative.Add(_handle, arg1, arg2, out int result);
+    status.ThrowIfError();
+    return result;
+}
+```
+7. C++ public class members can be re-implemented as property. Call the getter and setter inside the property's getter and setter respectively.
 ```C
-// In C header file
+// In the C header file
 
 status_t MyWrapper_Set_Age(mytype_t* handle, int age);
 status_t MyWrapper_Get_Age(mytype_t* handle, int* age);
 
 ```
-```python
-# In function binder
+```csharp
+// In the function binder
 
-set_age = _bind(
-    "MyWrapper_Set_Age",
-    status_t,
-    [mytype_t, ctypes.c_int],
-    check_status
-)
+[DllImport(
+    NativeConstants.LibraryName,
+    CallingConvention = CallingConvention.Cdecl,
+    EntryPoint = "MyWrapper_Set_Age")]
+internal static extern MyStatus Set_Age(
+    SafeMyClassHandle handle,
+    int age
+);
 
-get_age = _bind(
-    "MyWrapper_Get_Age",
-    status_t,
-    [mytype_t, ctypes.POINTER(ctypes.c_int)],
-    check_status
-)
+[DllImport(
+    NativeConstants.LibraryName,
+    CallingConvention = CallingConvention.Cdecl,
+    EntryPoint = "MyWrapper_Get_Age")]
+internal static extern MyStatus Set_Age(
+    SafeMyClassHandle handle,
+    out int age
+);
 ```
-```python
-# Inside the class
+```csharp
+// Inside the class
 
-@property
-def age(self) -> int:
-    _age = ctypes.c_int()
-    c_mywrapper.get_age(self._ptr, ctypes.byref(_age))
-    return age.value
-
-@age.setter
-def age(self, new_age: int):
-    c_mywrapper.set_name(self._ptr, new_age)
+public int Age
+{
+    get
+    {
+        ThrowIfDisposed();
+        var status = MyClassNative.Get_Age(_handleAnimal, out int age);
+        status.ThrowIfError();
+        return age;
+    }
+    set
+    {
+        ThrowIfDisposed();
+        var status = MyClassNative.Set_Age(_handleAnimal, value);
+        status.ThrowIfError();
+    }
+}
 
 ```
-8. For inheritance, remember there are 2 approaches? (they are mentioned when writing the C wrapper). If you choose to use upcasting (which is more relfecting the nature of OO), you have to set the pointers. Let me tell you by example
-```python
-# In the base class (e.g. base.py)
+8. For inheritance, remember there are 2 approaches? (they are mentioned when writing the C wrapper). If you choose to use upcasting (which is more relfecting the nature of OO), you have to set the pointers. Let me tell you by example.
+```csharp
+// In the base class (e.g. base.cs)
 
-class MyBaseClass:
-    def __init__(self):
-        self._ptr_base = c_mywrapper_base.create()
+public class MyBaseClass : IDisposable
+{
+    private SafeBaseHandle _handleBase;
 
-    def __del__(self):
-        c_mywrapper_base.destroy(self._ptr_base)
+    public MyBaseClass()
+    {
+        _handleBase = BaseNative.Create();
+        if (_handleBase.IsInvalid)
+            throw new OutOfMemoryException("Failed to create base class.");
+    }
 
-    # self._ptr_base needed when calling the inherited method
-    def _init_from_ptr(self, ptr) -> None:
-        self._ptr_base = ptr
+    // _handleBase is needed when calling the inherited method
+    private protected void InitializeBaseHandle(SafeBaseHandle handle)
+    {
+        _handleBase = handle;
+    }
 
-    # this function works from inherited class since self._ptr_base is defined
-    def base_method(self) -> None:
-        c_mywrapper_base.method(self._ptr_base)
+    // inherited class can use this method since _handleBase is defined
+    public virtual void BaseMethod()
+    {
+        ThrowIfDisposed();
+        var status = BaseNative.Sleep(_handleBase);
+        status.ThrowIfError();
+    }
+}
 ```
-```python
-# In the inherited class (e.g. inherited.py)
+```csharp
+// In the base class (e.g. inherited.cs)
 
-class MyInheritedClass(MyBaseClass):
-    def __init__(self):
-        self._ptr_inherited = c_mywrapper_inherited.create()
-        super()._init_from_ptr(c_my_wrapper_inherited.as_base(self._ptr_inherited))      # upcasting; initialise handle for parent class
+public class MyInheritedClass : MyBaseClass
+{
+    private SafeInheritedHandle _handleInherited;
 
-    def __del__(self):
-        c_mywrapper_inherited.destroy(self._ptr_inherited)
+    public MyInheritedClass()
+    {
+        _handleInherited = InheritedNative.Create();
+        if (_handleInherited.IsInvalid)
+            throw new OutOfMemoryException("Failed to create inherited class.");
+        // using C# base keyword to call the base class' method
+        base.InitializeBaseHandle(InheritedNative.As_Base(_handleBase));  // upcasting: initialise handle for parent class
+    }
 
-    # needed when calling the inherited method
-    def _init_from_ptr(self, ptr) -> None:
-        self._ptr_inherited = ptr
+    // _handleInherited is needed when calling the inherited method
+    private protected void InitializeInheritedHandle(SafeInheritedHandle handle)
+    {
+        _handleInherited = handle;
+    }
 
-    # no need to reimplement base_method()
+    // no need to reimplement the BaseMethod()
+}
 ```
 
 Building and shipping the library
 ---
-1. Ship the library/wrapper with all the dependencies.
-That's all what I'm thinking on how to ship it (at least when this I write this document)...
+1. Put the DLL and its dependencies into `runtimes/<rid>/native`.
+2. Run `dotnet build` or `dotnet build -c Release`.
+3. Ship the `.dll` and `.xml` inside the `bin/<configuration>/<target_framework>`.
