@@ -14,7 +14,7 @@ Writing the wrapper
 2. Create an opaque handle `typedef xxx xxx_t` which holds the pointer to the object.
 3. Start with constructor (`_Create()`) and destructor (`_Destroy(xxx_t)`). The constructor returns a pointer to the handle, and the destructor asks for the handle. Do not forget the macro to export your function.
 4. Write the rest of the **public methods**. Don't forget to ask for the handle. Remember to **use only primitive data types**. (You can go to step 6 and come back later)
-5. When dealing with inheritance, there are 2 approaches which are discussed in the README.md file. The important thing is to wrap their own methods and wrap the overridden methods.
+5. When dealing with inheritance, there are 2 approaches which are discussed in the [README.md](README.md#design-choice) file. The important thing is to wrap their own methods and wrap the overridden methods.
 6. Now it is time to write the implementations. The implementation can be written in C++ (you are wrapping classes so it must be C++). Create a new `.cpp` file.
 7. To minimise repetition, write `GetObject(xxx_t)` function to get the object from the handle. This function returns a pointer to the object.
 8. Write the implementation for the constructor (`_Create()`) and the destructor (`_Destroy(xxx_t)`) first! The constructor contains `X = new Xxx()` and the destructor contains `delete GetObject(handle)` (which is translated to `delete X`).

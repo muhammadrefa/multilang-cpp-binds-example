@@ -1,7 +1,7 @@
 Object-oriented C# library utilising C wrapper
 ===
 
-This library utilises `DllImport` to load the C wrapper and rewrite the classes to mimic the C++ library. `DllImport` used to achieve compatibility for apps using legacy .NET framework.
+This library utilises `DllImport` to load the C wrapper and rewrite the classes to mimic the C++ library. `DllImport` used to achieve compatibility for apps using legacy .NET framework. Read the workflow in [WORKFLOW.md](WORKFLOW.md).
 
 The structure of the library is as follows.
 ```

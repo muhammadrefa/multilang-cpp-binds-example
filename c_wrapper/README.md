@@ -1,7 +1,7 @@
 C wrapper for C++ library
 ===
 
-This wrapper wraps C++ library into C. The C wrapper can be used as an interface for C/other language to the C++ library.
+This wrapper wraps C++ library into C. The C wrapper can be used as an interface for C/other language to the C++ library. Read the workflow in [WORKFLOW.md](WORKFLOW.md).
 
 In this example, the C wrapper loads the C++ library which is compiled as DLL. This approach resulting 2 files needed to use the library:
 - `libmylibrary.so`, which is the C++ library

@@ -1,7 +1,7 @@
 Object-oriented Python library utilising C wrapper
 ===
 
-This library utilises `ctypes` to load the C wrapper and rewrite the classes to mimic the C++ library.
+This library utilises `ctypes` to load the C wrapper and rewrite the classes to mimic the C++ library. Read the workflow in [WORKFLOW.md](WORKFLOW.md).
 
 The structure of the library is as follows.
 ```
