@@ -27,11 +27,13 @@ MYLIB_API mylib_animal_t* MyLib_Dog_As_Animal(mylib_dog_t* handle);
 MYLIB_API mylib_status_t MyLib_Dog_Fetch(mylib_dog_t* handle, int* success);
 MYLIB_API mylib_status_t MyLib_Dog_GetEnergy(mylib_dog_t* handle, int* energy);
 
+// Overridden Animal methods
+MYLIB_API mylib_status_t MyLib_Dog_Speak(mylib_dog_t* handle);
+MYLIB_API mylib_status_t MyLib_Dog_Sleep(mylib_dog_t* handle);
+
 // Wrapper for inherited Animal methods
 // Consumers do not need to think about inheritance or upcasting
-MYLIB_API mylib_status_t MyLib_Dog_Speak(mylib_dog_t* handle);
 MYLIB_API mylib_status_t MyLib_Dog_Speak_Multiple_Times(mylib_dog_t* handle, int times);
-MYLIB_API mylib_status_t MyLib_Dog_Sleep(mylib_dog_t* handle);
 
 // Animal public data member
 MYLIB_API mylib_status_t MyLib_Dog_Set_Name(mylib_dog_t* handle, char* name, int length);

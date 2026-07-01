@@ -27,9 +27,11 @@ MYLIB_API mylib_animal_t* MyLib_Cat_As_Animal(mylib_cat_t* handle);
 MYLIB_API mylib_status_t MyLib_Cat_Fight(mylib_cat_t* handle, int bigger_cat, int* success);
 MYLIB_API mylib_status_t MyLib_Cat_StillAlive(mylib_cat_t* handle, int* is_alive);
 
+// Overridden Animal methods
+MYLIB_API mylib_status_t MyLib_Cat_Speak(mylib_cat_t* handle);
+
 // Wrapper for inherited Animal methods
 // Consumers do not need to think about inheritance or upcasting
-MYLIB_API mylib_status_t MyLib_Cat_Speak(mylib_cat_t* handle);
 MYLIB_API mylib_status_t MyLib_Cat_Speak_Multiple_Times(mylib_cat_t* handle, int times);
 MYLIB_API mylib_status_t MyLib_Cat_Sleep(mylib_cat_t* handle);
 
