@@ -160,7 +160,7 @@ void animal_check()
     else
         printf("%s died\n", cat_name);
     for (int i=0; i<9; ++i)
-        status = MyLib_Cat_Fight(cat, 0, &cat_fight_success);
+        status = MyLib_Cat_Fight(cat, 1, &cat_fight_success);
     status = MyLib_Cat_StillAlive(cat, &is_cat_alive);
     if (is_cat_alive)
         printf("%s still alive\n", cat_name);
