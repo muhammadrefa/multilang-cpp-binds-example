@@ -4,10 +4,18 @@ using MyLib.Interop.Handles;
 
 namespace MyLib
 {
+    /// <summary>
+    /// Circular buffer - bindings from C wrapper to C++ class
+    /// </summary>
     public sealed class CircularBuffer : IDisposable
     {
         private readonly SafeCircularBufferHandle _handle;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="bufsize">Buffer size</param>
+        /// <exception cref="OutOfMemoryException"></exception>
         public CircularBuffer(int bufsize)
         {
             _handle = CircularBufferNative.Create(bufsize);
@@ -15,6 +23,10 @@ namespace MyLib
                 throw new OutOfMemoryException("Failed to create circular buffer.");
         }
 
+        /// <summary>
+        /// Get the number of elements inside the buffer
+        /// </summary>
+        /// <returns>The number of elements inside the buffer</returns>
         public int GetLength()
         {
             ThrowIfDisposed();
@@ -23,6 +35,11 @@ namespace MyLib
             return returned_length;
         }
 
+        /// <summary>
+        /// Put data into buffer
+        /// </summary>
+        /// <param name="data">Data to put</param>
+        /// <returns>Number of inserted bytes</returns>
         public int Put(byte[] data)
         {
             ThrowIfDisposed();
@@ -31,6 +48,12 @@ namespace MyLib
             return returned_length;
         }
 
+        /// <summary>
+        /// Put data into buffer
+        /// </summary>
+        /// <param name="data">Data to put</param>
+        /// <param name="length">Length of data to put</param>
+        /// <returns>Number of inserted bytes</returns>
         public int Put(byte[] data, int length)
         {
             ThrowIfDisposed();
@@ -39,6 +62,11 @@ namespace MyLib
             return returned_length;
         }
 
+        /// <summary>
+        /// Get data from buffer
+        /// </summary>
+        /// <param name="length">Data length to get</param>
+        /// <returns>Data from buffer</returns>
         public byte[] Get(int length)
         {
             ThrowIfDisposed();
@@ -48,6 +76,10 @@ namespace MyLib
             return dest[..returned_length];
         }
 
+        /// <summary>
+        /// Clean up the buffer
+        /// </summary>
+        /// <returns>Number of items cleaned</returns>
         public int Clean()
         {
             ThrowIfDisposed();

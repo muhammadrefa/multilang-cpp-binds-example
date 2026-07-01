@@ -22,6 +22,7 @@ namespace MyLib.Interop
                 MyLibStatus.OverflowError => new OverflowException("Integer overflow."),
                 MyLibStatus.RangeError => new ArgumentOutOfRangeException("Out of range."),
                 MyLibStatus.UnknownError => new MyLibException(status, $"Unknown error!"),
+                MyLibStatus.BufferTooSmall => new IndexOutOfRangeException("Buffer too small."),
                 _ => new MyLibException(status),
             };
         }

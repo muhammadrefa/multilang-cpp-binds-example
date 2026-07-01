@@ -6,10 +6,17 @@ using MyLib.Interop.Handles;
 
 namespace MyLib
 {
+    /// <summary>
+    /// Tiger - bindings from C wrapper to C++ class
+    /// </summary>
     public class Tiger : Cat
     {
         private SafeTigerHandle _handleTiger;
 
+        /// <summary>
+        /// Create new Tiger
+        /// </summary>
+        /// <exception cref="OutOfMemoryException"></exception>
         public Tiger()
         {
             _handleTiger = TigerNative.Create();
@@ -18,6 +25,11 @@ namespace MyLib
             base.InitializeCatHandle(TigerNative.As_Animal(_handleTiger));
         }
 
+        /// <summary>
+        /// Create new Tiger
+        /// </summary>
+        /// <param name="name">Tiger name</param>
+        /// <exception cref="OutOfMemoryException"></exception>
         public Tiger(string name)
         {
             _handleTiger = TigerNative.Create_With_Name(Encoding.UTF8.GetBytes(name), name.Length);
@@ -26,6 +38,10 @@ namespace MyLib
             base.InitializeCatHandle(TigerNative.As_Animal(_handleTiger));
         }
 
+        /// <summary>
+        /// Initialise handle from its derivative
+        /// </summary>
+        /// <param name="handle">Tiger handle</param>
         private protected void InitializeTigerHandle(SafeTigerHandle handle)
         {
             _handleTiger = handle;
@@ -39,6 +55,10 @@ namespace MyLib
             status.ThrowIfError();
         }
 
+        /// <summary>
+        /// Get hunger level
+        /// </summary>
+        /// <returns>Hunger level</returns>
         public int GetHunger()
         {
             ThrowIfDisposed();

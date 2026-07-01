@@ -11,5 +11,7 @@ namespace MyLib.Interop
         LogicError = -11,
         OverflowError = -12,
         RangeError = -13,
+
+        BufferTooSmall = -51
     }
 }

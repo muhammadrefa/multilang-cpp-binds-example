@@ -6,10 +6,17 @@ using MyLib.Interop.Handles;
 
 namespace MyLib
 {
+    /// <summary>
+    /// Dog - bindings from C wrapper to C++ class
+    /// </summary>
     public class Dog : Animal
     {
         private SafeDogHandle _handleDog;
 
+        /// <summary>
+        /// Create new Dog
+        /// </summary>
+        /// <exception cref="OutOfMemoryException"></exception>
         public Dog()
         {
             _handleDog = DogNative.Create();
@@ -18,6 +25,11 @@ namespace MyLib
             base.InitializeAnimalHandle(DogNative.As_Animal(_handleDog));
         }
 
+        /// <summary>
+        /// Create new Dog
+        /// </summary>
+        /// <param name="name">Dog name</param>
+        /// <exception cref="OutOfMemoryException"></exception>
         public Dog(string name)
         {
             _handleDog = DogNative.Create_With_Name(Encoding.UTF8.GetBytes(name), name.Length);
@@ -26,12 +38,20 @@ namespace MyLib
             base.InitializeAnimalHandle(DogNative.As_Animal(_handleDog));
         }
 
+        /// <summary>
+        /// Initialise handle from its derivative
+        /// </summary>
+        /// <param name="handle">Dog handle</param>
         private protected void InitializeDogHandle(SafeDogHandle handle)
         {
             _handleDog = handle;
             base.InitializeAnimalHandle(DogNative.As_Animal(_handleDog));
         }
 
+        /// <summary>
+        /// Fetch!
+        /// </summary>
+        /// <returns>Fetch result</returns>
         public bool Fetch()
         {
             ThrowIfDisposed();
@@ -41,6 +61,10 @@ namespace MyLib
             return success;
         }
 
+        /// <summary>
+        /// Get energy
+        /// </summary>
+        /// <returns>Energy</returns>
         public int GetEnergy()
         {
             ThrowIfDisposed();
