@@ -113,6 +113,8 @@ void animal_check()
     dog->sleep();
     if (dog->fetch())
         std::cout << dog->name << " fetched the stick!" << std::endl;
+    else
+        std::cout << dog->name << " did not fetch the stick!" << std::endl;
     
     // adopt a cat
     MyLibrary::Cat *cat = new MyLibrary::Cat("Pretty");
