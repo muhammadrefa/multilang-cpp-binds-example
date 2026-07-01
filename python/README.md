@@ -6,9 +6,21 @@ The structure of the library is as follows.
 ```
 mylib
 ├── _bindings
+│   ├── animal
+│   │   ├── __init__.py
+│   │   ├── animal.py
+│   │   ├── cat.py
+│   │   ├── dog.py
+│   │   └── tiger.py
 │   ├── _binding_utils.py
 │   ├── calculator.py
 │   └── circularbuffer.py
+├── animal
+│   ├── __init__.py
+│   ├── animal.py
+│   ├── cat.py
+│   ├── dog.py
+│   └── tiger.py
 ├── native
 │   └── PUT DLLs HERE
 ├── __init__.py

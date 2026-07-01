@@ -13,10 +13,21 @@ MyLib
 │       └── native
 │           └── PUT WINDOWS DLLs HERE
 ├── src
+│   ├── Animal
+│   │   ├── Animal.cs
+│   │   ├── Cat.cs
+│   │   ├── Dog.cs
+│   │   └── Tiger.cs
 │   ├── Exceptions
 │   │   └── MyLibException.cs
 │   ├── Interop
+│   │   ├── Animal
+│   │   │   ├── AnimalNative.cs
+│   │   │   ├── CatNative.cs
+│   │   │   ├── DogNative.cs
+│   │   │   └── TigerNative.cs
 │   │   ├── Handles
+│   │   │   ├── SafeAnimalHandle.cs
 │   │   │   ├── SafeCalculatorHandle.cs
 │   │   │   └── SafeCircularBufferHandle.cs
 │   │   ├── CalculatorNative.cs
