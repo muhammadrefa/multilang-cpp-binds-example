@@ -60,16 +60,16 @@ def __del__(self):
     c_mywrapper.destroy(self._ptr)
 ```
 6. Continue to work on other methods. Use [primitive data types from `ctypes`](https://docs.python.org/3/library/ctypes.html#fundamental-data-types) if you need, and [`ctypes.byref`](https://docs.python.org/3/library/ctypes.html#ctypes.byref) if you have to pass a pointer.
-7. C++ public class members can re-implemented as property. Call the getter and setter inside the property's getter and setter respectively.
+7. C++ public class members can be re-implemented as property. Call the getter and setter inside the property's getter and setter respectively.
 ```C
-// In C header file
+// In the C header file
 
 status_t MyWrapper_Set_Age(mytype_t* handle, int age);
 status_t MyWrapper_Get_Age(mytype_t* handle, int* age);
 
 ```
 ```python
-# In function binder
+# In the function binder
 
 set_age = _bind(
     "MyWrapper_Set_Age",
@@ -99,7 +99,7 @@ def age(self, new_age: int):
     c_mywrapper.set_name(self._ptr, new_age)
 
 ```
-8. For inheritance, remember there are 2 approaches? (they are mentioned when writing the C wrapper). If you choose to use upcasting (which is more relfecting the nature of OO), you have to set the pointers. Let me tell you by example
+8. For inheritance, remember there are 2 approaches? (they are mentioned when writing the C wrapper). If you choose to use upcasting (which is more relfecting the nature of OO), you have to set the pointers. Let me tell you by example.
 ```python
 # In the base class (e.g. base.py)
 
@@ -110,11 +110,11 @@ class MyBaseClass:
     def __del__(self):
         c_mywrapper_base.destroy(self._ptr_base)
 
-    # self._ptr_base needed when calling the inherited method
+    # self._ptr_base is needed when calling the inherited method
     def _init_from_ptr(self, ptr) -> None:
         self._ptr_base = ptr
 
-    # this function works from inherited class since self._ptr_base is defined
+    # inherited class can use this method since self._ptr_base is defined
     def base_method(self) -> None:
         c_mywrapper_base.method(self._ptr_base)
 ```
@@ -138,5 +138,7 @@ class MyInheritedClass(MyBaseClass):
 
 Building and shipping the library
 ---
+
 1. Ship the library/wrapper with all the dependencies.
+
 That's all what I'm thinking on how to ship it (at least when this I write this document)...
