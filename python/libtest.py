@@ -1,5 +1,6 @@
 from mylib.calculator import Calculator
 from mylib.circularbuffer import CircularBuffer
+from mylib.animal import Animal, Dog, Cat, Tiger
 
 
 def calculator_check():
@@ -76,6 +77,72 @@ def circbuff_check():
     print(f"cleaned {length}! filled {buf.get_length()}")
 
 
+def animal_check():
+    # create animal1
+    animal1 = Animal()
+    animal1.name = "specimen1"
+    animal1.speak()
+
+    # create animal2
+    animal2 = Animal("specimen2")
+    animal2.speak(3)
+
+    # adopt a dog
+    dog = Dog("Pluto")
+    dog.speak()
+    for i in range(7):
+        if dog.fetch():
+            print(f"{dog.name} fetched the stick!")
+        else:
+            print(f"{dog.name} did not fetch the stick!")
+    print(f"{dog.name} energy: {dog.get_energy()}")
+    dog.sleep()
+    if dog.fetch():
+        print(f"{dog.name} fetched the stick!")
+    else:
+        print(f"{dog.name} did not fetch the stick!")
+    
+    # adopt a cat
+    cat = Cat("Pretty")
+    cat.speak(2)
+    cat.fight(False)
+    cat.fight(True)
+    cat.fight(True)
+    cat.fight(False)
+    if cat.still_alive():
+        print(f"{cat.name} still alive")
+    else:
+        print(f"{cat.name} died")
+    for i in range(9):
+        cat.fight(True)
+    if cat.still_alive():
+        print(f"{cat.name} still alive")
+    else:
+        print(f"{cat.name} died")
+
+    # adopt a tiger (?)
+    tiger = Tiger("Tigris")
+    tiger.speak(3)
+    tiger.fight(False)
+    tiger.fight(True)
+    tiger.fight(True)
+    tiger.fight(False)
+    if tiger.still_alive():
+        print(f"{tiger.name} still alive")
+    else:
+        print(f"{tiger.name} died")
+    print(f"{tiger.name} hunger level: {tiger.get_hunger()}")
+    tiger.hunt()
+    tiger.hunt()
+    print(f"{tiger.name} hunger level: {tiger.get_hunger()}")
+    tiger.sleep()
+    print(f"{tiger.name} hunger level: {tiger.get_hunger()}")
+    
+    # kill them (silently) :(
+    # they should have been died when this function returned
+
+
+
 if __name__ == "__main__":
     print("--- calculator check ---")
     calculator_check()
@@ -83,4 +150,8 @@ if __name__ == "__main__":
 
     print("--- circbuff check ---")
     circbuff_check()
+    print()
+
+    print("--- animal check ---")
+    animal_check()
     print()

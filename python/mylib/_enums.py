@@ -11,3 +11,5 @@ class Status(IntEnum):
     LOGIC_ERROR = -11
     OVERFLOW_ERROR = -12
     RANGE_ERROR = -13
+
+    BUFFER_TOO_SMALL = -51
