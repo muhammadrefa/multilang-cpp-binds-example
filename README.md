@@ -12,19 +12,34 @@ This approach utilising C to wrap object-oriented parts of C++, and adapts it in
 
 Oh you already have the C wrapper? Good! Because in this approach, other language only sees the C parts instead of the C++ parts.
 
+How it works?
+---
+```mermaid
+flowchart LR
+    A[C++]
+    B[C]
+    C[Python]
+    D[C#]
+    E[Other languages]
+    A <-->|Wrap| B
+    B <-->|Bind| C
+    B <-->|Bind| D
+    B <--> E
+```
+
 What is inside?
 ---
 
-This library contains several classes with different complexity.
+This library contains several classes, demonstrating how to work with different level of complexity.
 
-`calculator`
-- simple class
+- `calculator`
+  - simple class
 
-`circular buffer`
-- dynamic memory allocation
-- exception handling
+- `circular buffer`
+  - dynamic memory allocation
+  - exception handling
 
-`animal`
-- (multi-level) inheritance
-- polymorphism
-- method overloading
+- `animal`
+  - (multi-level) inheritance
+  - polymorphism
+  - method overloading
