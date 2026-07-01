@@ -132,8 +132,6 @@ mylib_status_t MyLib_Dog_Get_Name(mylib_dog_t* handle, char* name, size_t buffer
 {
     if (handle == nullptr)
         return MYLIB_STATUS_INVALID_HANDLE;
-    if (name == nullptr)
-        return MYLIB_STATUS_INVALID_ARGUMENT;
     if (length == nullptr)
         return MYLIB_STATUS_INVALID_ARGUMENT;
 
@@ -142,6 +140,10 @@ mylib_status_t MyLib_Dog_Get_Name(mylib_dog_t* handle, char* name, size_t buffer
 
     if (buffer_size < *length)
         return MYLIB_STATUS_BUFFER_TOO_SMALL;
+
+    // name can be null if only wants to get name length
+    if (name == nullptr)
+        return MYLIB_STATUS_INVALID_ARGUMENT;
 
     strcpy(name, _name.c_str());
 
