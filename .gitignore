@@ -13,7 +13,7 @@ cpp/libtest
 c_wrapper/libtest
 
 # csharp builds
-cs/MyLib/bin
-cs/MyLib/obj
-cs/LibTest/bin
-cs/LibTest/obj
+csharp/MyLib/bin
+csharp/MyLib/obj
+csharp/LibTest/bin
+csharp/LibTest/obj
