@@ -21,5 +21,7 @@ def check_status(result, func, args):
         raise OverflowError(f"{func.__name__} failed: {Status(result).name}")
     if result == Status.RANGE_ERROR:
         raise IndexError(f"{func.__name__} failed: {Status(result).name}")
+    if result == Status.BUFFER_TOO_SMALL:
+        raise BufferError(f"{func.__name__} failed: {Status(result).name}")
     
     raise RuntimeError(f"{func.__name__} failed: {result}")

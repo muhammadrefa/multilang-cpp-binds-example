@@ -84,5 +84,82 @@ void circbuff_check()
     Console.WriteLine($"cleaned {length}! filled {buf.GetLength()}");
 }
 
+void animal_check()
+{
+    // create animal1
+    using var animal1 = new Animal();
+    animal1.Name = "specimen1";
+    animal1.Speak();
+
+    // create animal2
+    using var animal2 = new Animal("specimen2");
+    animal2.Speak(3);
+
+    // adopt a dog
+    using var dog = new Dog("Pluto");
+    dog.Speak();;
+    for (int i=0; i<7; ++i)
+    {
+        if (dog.Fetch())
+            Console.WriteLine($"{dog.Name} fetched the stick!");
+        else
+            Console.WriteLine($"{dog.Name} did not fetch the stick!");
+    }
+    Console.WriteLine($"{dog.Name} energy: {dog.GetEnergy()}");
+    dog.Sleep();
+    if (dog.Fetch())
+        Console.WriteLine($"{dog.Name} fetched the stick!");
+    else
+        Console.WriteLine($"{dog.Name} did not fetch the stick!");
+    
+    // adopt a cat
+    using var cat = new Cat("Pretty");
+    cat.Speak(2);
+    cat.Fight(false);
+    cat.Fight(true);
+    cat.Fight(true);
+    cat.Fight(false);
+    if (cat.StillAlive())
+        Console.WriteLine($"{cat.Name} still alive");
+    else
+        Console.WriteLine($"{cat.Name} died");
+    for (int i=0; i<9; ++i)
+        cat.Fight(true);
+    if (cat.StillAlive())
+        Console.WriteLine($"{cat.Name} still alive");
+    else
+        Console.WriteLine($"{cat.Name} died");
+
+    // adopt a tiger (?)
+    using var tiger = new Tiger("Tigris");
+    tiger.Speak(3);
+    tiger.Fight(false);
+    tiger.Fight(true);
+    tiger.Fight(true);
+    tiger.Fight(false);
+    if (tiger.StillAlive())
+        Console.WriteLine($"{tiger.Name} still alive");
+    else
+        Console.WriteLine($"{tiger.Name} died");
+    Console.WriteLine($"{tiger.Name} hunger level: {tiger.GetHunger()}");
+    tiger.Hunt();
+    tiger.Hunt();
+    Console.WriteLine($"{tiger.Name} hunger level: {tiger.GetHunger()}");
+    tiger.Sleep();
+    Console.WriteLine($"{tiger.Name} hunger level: {tiger.GetHunger()}");
+
+    // kill them (silently) :(
+    // they should have been died when this function returned
+}
+
+Console.WriteLine("--- calculator check ---");
 calculator_check();
+Console.WriteLine();
+
+Console.WriteLine("--- circbuff check ---");
 circbuff_check();
+Console.WriteLine();
+
+Console.WriteLine("--- animal check ---");
+animal_check();
+Console.WriteLine();

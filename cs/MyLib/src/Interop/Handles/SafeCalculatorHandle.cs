@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace MyLib.Interop.Handles
 {
-    public sealed class SafeCalculatorHandle : SafeHandle
+    internal sealed class SafeCalculatorHandle : SafeHandle
     {
         public override bool IsInvalid => handle == IntPtr.Zero;
 

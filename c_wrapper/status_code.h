@@ -11,4 +11,6 @@ typedef enum _mylib_status
     MYLIB_STATUS_LOGIC_ERROR = -11,
     MYLIB_STATUS_OVERFLOW_ERROR = -12,
     MYLIB_STATUS_RANGE_ERROR = -13,
+
+    MYLIB_STATUS_BUFFER_TOO_SMALL = -51
 } mylib_status_t;
