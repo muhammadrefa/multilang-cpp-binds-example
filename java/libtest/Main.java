@@ -1,10 +1,11 @@
 import binding.CalculatorNative;
 import binding.refs.IntRef;
+import binding.handles.CalculatorHandle;
 
 public final class Main {
 
     public static void main(String[] args) {
-        long handle = CalculatorNative.create();
+        CalculatorHandle handle = CalculatorNative.create();
         System.out.println("Handle: " + handle);
 
         IntRef result = new IntRef();

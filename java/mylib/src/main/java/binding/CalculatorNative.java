@@ -1,6 +1,7 @@
 package binding;
 
 import binding.refs.IntRef;
+import binding.handles.CalculatorHandle;
 
 public final class CalculatorNative {
 
@@ -11,11 +12,39 @@ public final class CalculatorNative {
     private CalculatorNative() {
     }
 
-    // TODO: change long to handle
-    public static native long create();
-    public static native int destroy(long handle);
-    public static native int add(long handle, int a, int b, IntRef result);
-    public static native int sub(long handle, int a, int b, IntRef result);
-    public static native int cntOpsDone(long handle, IntRef retval);
-    public static native int resetCounter(long handle, IntRef retval);
+    private static native long nativeCreate();
+    public static CalculatorHandle create()
+    {
+        return new CalculatorHandle(nativeCreate());
+    }
+    
+    private static native int nativeDestroy(long handle);
+    public static int destroy(CalculatorHandle handle)
+    {
+        return nativeDestroy(handle.value());
+    }
+    
+    private static native int nativeAdd(long handle, int a, int b, IntRef result);
+    public static int add(CalculatorHandle handle, int a, int b, IntRef result)
+    {
+        return nativeAdd(handle.value(), a, b, result);
+    }
+    
+    private static native int nativeSub(long handle, int a, int b, IntRef result);
+    public static int sub(CalculatorHandle handle, int a, int b, IntRef result)
+    {
+        return nativeSub(handle.value(), a, b, result);
+    }
+    
+    private static native int nativeCntOpsDone(long handle, IntRef retval);
+    public static int cntOpsDone(CalculatorHandle handle, IntRef retval)
+    {
+        return nativeCntOpsDone(handle.value(), retval);
+    }
+    
+    private static native int nativeResetCounter(long handle, IntRef retval);
+    public static int resetCounter(CalculatorHandle handle, IntRef retval)
+    {
+        return nativeResetCounter(handle.value(), retval);
+    }
 }

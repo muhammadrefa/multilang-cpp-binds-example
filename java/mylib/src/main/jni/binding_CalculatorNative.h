@@ -9,50 +9,50 @@ extern "C" {
 #endif
 /*
  * Class:     binding_CalculatorNative
- * Method:    create
+ * Method:    nativeCreate
  * Signature: ()J
  */
-JNIEXPORT jlong JNICALL Java_binding_CalculatorNative_create
+JNIEXPORT jlong JNICALL Java_binding_CalculatorNative_nativeCreate
   (JNIEnv *, jclass);
 
 /*
  * Class:     binding_CalculatorNative
- * Method:    destroy
+ * Method:    nativeDestroy
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_binding_CalculatorNative_destroy
+JNIEXPORT jint JNICALL Java_binding_CalculatorNative_nativeDestroy
   (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     binding_CalculatorNative
- * Method:    add
+ * Method:    nativeAdd
  * Signature: (JIILbinding/refs/IntRef;)I
  */
-JNIEXPORT jint JNICALL Java_binding_CalculatorNative_add
+JNIEXPORT jint JNICALL Java_binding_CalculatorNative_nativeAdd
   (JNIEnv *, jclass, jlong, jint, jint, jobject);
 
 /*
  * Class:     binding_CalculatorNative
- * Method:    sub
+ * Method:    nativeSub
  * Signature: (JIILbinding/refs/IntRef;)I
  */
-JNIEXPORT jint JNICALL Java_binding_CalculatorNative_sub
+JNIEXPORT jint JNICALL Java_binding_CalculatorNative_nativeSub
   (JNIEnv *, jclass, jlong, jint, jint, jobject);
 
 /*
  * Class:     binding_CalculatorNative
- * Method:    cntOpsDone
+ * Method:    nativeCntOpsDone
  * Signature: (JLbinding/refs/IntRef;)I
  */
-JNIEXPORT jint JNICALL Java_binding_CalculatorNative_cntOpsDone
+JNIEXPORT jint JNICALL Java_binding_CalculatorNative_nativeCntOpsDone
   (JNIEnv *, jclass, jlong, jobject);
 
 /*
  * Class:     binding_CalculatorNative
- * Method:    resetCounter
+ * Method:    nativeResetCounter
  * Signature: (JLbinding/refs/IntRef;)I
  */
-JNIEXPORT jint JNICALL Java_binding_CalculatorNative_resetCounter
+JNIEXPORT jint JNICALL Java_binding_CalculatorNative_nativeResetCounter
   (JNIEnv *, jclass, jlong, jobject);
 
 #ifdef __cplusplus
