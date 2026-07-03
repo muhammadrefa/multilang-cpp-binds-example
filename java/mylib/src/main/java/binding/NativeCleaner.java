@@ -1,4 +1,4 @@
-// Java 8 does not supports Cleaner
+// Cleaner requires Java 9+
 
 package binding;
 
