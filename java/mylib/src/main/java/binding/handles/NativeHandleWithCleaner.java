@@ -1,0 +1,66 @@
+/*
+ * NativeHandle with Cleaner implementation reference
+ * 
+ * A drop-in replacement for NativeHandle
+ * Cleaner requires Java 9+
+ */
+
+package binding.handles;
+
+import java.util.function.LongToIntFunction;
+import java.lang.ref.Cleaner;
+
+public abstract class NativeHandleWithCleaner {
+
+    private static final class State implements Runnable {
+
+        private long value;
+        private final LongToIntFunction releaser;
+
+        State(long value, LongToIntFunction releaser) {
+            this.value = value;
+        this.releaser = releaser;
+        }
+
+        public final long value() {
+            if (value == 0)
+                throw new IllegalStateException("Handle is closed");
+            return value;
+        }
+
+        public final boolean isNull() {
+            return value == 0;
+        }
+
+        @Override
+        public void run() {
+            if (value == 0)
+                return;
+
+            StatusHelper.check(releaser.applyAsInt(value));
+
+            value = 0;
+        }
+    }
+
+    private static final Cleaner CLEANER = Cleaner.create();
+    private final Cleaner.Cleanable cleanable;
+    private final State state;
+
+    protected NativeHandleWithCleaner(long value, LongToIntFunction releaser) {
+        this.state = new State(value, releaser);
+        this.cleanable = CLEANER.register(this, state);
+    }
+
+    public final void close() {
+        cleanable.clean();
+    }
+
+    public final long value() {
+        return state.value();
+    }
+
+    public final boolean isNull() {
+        return state.isNull();
+    }
+}
