@@ -15,7 +15,7 @@ public final class CalculatorNative {
     private static native long nativeCreate();
     public static CalculatorHandle create()
     {
-        return new CalculatorHandle(nativeCreate());
+        return new CalculatorHandle(nativeCreate(), CalculatorNative::nativeDestroy);
     }
     
     private static native int nativeDestroy(long handle);

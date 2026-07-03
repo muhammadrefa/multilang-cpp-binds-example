@@ -1,13 +1,30 @@
 package binding.handles;
 
-public abstract class NativeHandle {
-    private final long value;
+import java.util.function.LongToIntFunction;
+import binding.StatusHelper;
 
-    protected NativeHandle(long value) {
+public abstract class NativeHandle {
+
+    private long value;
+    private final LongToIntFunction releaser;
+
+    protected NativeHandle(long value, LongToIntFunction releaser) {
         this.value = value;
+        this.releaser = releaser;
+    }
+
+    public final void close() {
+        if (value == 0)
+            return;
+
+        StatusHelper.check(releaser.applyAsInt(value));
+
+        value = 0;
     }
 
     public final long value() {
+        if (value == 0)
+            throw new IllegalStateException("Handle is closed");
         return value;
     }
 
