@@ -2,6 +2,8 @@
  * NativeHandle with Cleaner implementation reference
  * 
  * A drop-in replacement for NativeHandle
+ * Rename NativeHandlerWithCleaner to NativeHandler, and you're good to go
+ * 
  * Cleaner requires Java 9+
  */
 
