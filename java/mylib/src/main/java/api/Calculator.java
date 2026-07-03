@@ -1,19 +1,10 @@
 package api;
 
-// Cleaner requires Java 9+
-// import binding.NativeCleaner;
-
 import binding.CalculatorNative;
 import binding.handles.CalculatorHandle;
 import binding.refs.IntRef;
 import binding.StatusHelper;
 
-/*
- * Implementation without Cleaner
- * 
- * Implemented to keep compatibility with Java 8
- * Code for implementation using Cleaner are commented below this code
- */
 public final class Calculator implements AutoCloseable {
     private final CalculatorHandle handle;
     private boolean is_closed;

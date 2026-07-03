@@ -1,4 +1,8 @@
-// Cleaner requires Java 9+
+/*
+ * Reference implementation
+ * 
+ * Cleaner requires Java 9+
+ */
 
 package binding;
 
