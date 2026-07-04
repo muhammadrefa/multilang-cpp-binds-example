@@ -1,7 +1,8 @@
-package binding;
+package mylib.internal;
 
 import java.nio.BufferOverflowException;
-import exceptions.MyLibException;
+import mylib.binding.MyLibStatus;
+import mylib.exceptions.MyLibException;
 
 public final class StatusHelper {
 

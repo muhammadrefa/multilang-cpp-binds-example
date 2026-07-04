@@ -7,10 +7,11 @@
  * Cleaner requires Java 9+
  */
 
-package binding.handles;
+package mylib.binding.handles;
 
 import java.util.function.LongToIntFunction;
 import java.lang.ref.Cleaner;
+import mylib.internal.StatusHelper;
 
 public abstract class NativeHandleWithCleaner {
 

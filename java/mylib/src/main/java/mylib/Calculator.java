@@ -1,9 +1,9 @@
-package api;
+package mylib;
 
-import binding.CalculatorNative;
-import binding.handles.CalculatorHandle;
-import binding.refs.IntRef;
-import binding.StatusHelper;
+import mylib.binding.CalculatorNative;
+import mylib.binding.handles.CalculatorHandle;
+import mylib.binding.refs.IntRef;
+import mylib.internal.StatusHelper;
 
 public final class Calculator implements AutoCloseable {
     private final CalculatorHandle handle;

@@ -1,4 +1,4 @@
-package binding.refs;
+package mylib.binding.refs;
 
 public final class IntRef {
 

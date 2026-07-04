@@ -1,7 +1,7 @@
-package binding.handles;
+package mylib.binding.handles;
 
 import java.util.function.LongToIntFunction;
-import binding.StatusHelper;
+import mylib.internal.StatusHelper;
 
 public abstract class NativeHandle {
 

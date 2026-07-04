@@ -3,41 +3,34 @@
 #include "helpers/ref_helper.h"
 #include "calculator.h"
 #include "status_code.h"
-#include "binding_CalculatorNative.h"
+#include "mylib_binding_CalculatorNative.h"
 
 mylib_calculator_t* get_handle(jlong handle)
 {
     return (mylib_calculator_t*)handle;
 }
 
-JNIEXPORT jlong JNICALL Java_binding_CalculatorNative_nativeCreate(JNIEnv* env, jclass clazz)
+JNIEXPORT jlong JNICALL Java_mylib_binding_CalculatorNative_nativeCreate(JNIEnv* env, jclass clazz)
 {
     mylib_calculator_t* calc = MyLib_Calculator_Create();
     return (jlong)calc;
 }
 
-JNIEXPORT jint JNICALL Java_binding_CalculatorNative_nativeDestroy(JNIEnv* env, jclass clazz, jlong handle)
+JNIEXPORT jint JNICALL Java_mylib_binding_CalculatorNative_nativeDestroy(JNIEnv* env, jclass clazz, jlong handle)
 {
     return (jint)MyLib_Calculator_Destroy(get_handle(handle));
 }
 
-JNIEXPORT jint JNICALL Java_binding_CalculatorNative_nativeAdd(JNIEnv* env, jclass clazz, jlong handle, jint a, jint b, jobject result)
+JNIEXPORT jint JNICALL Java_mylib_binding_CalculatorNative_nativeAdd(JNIEnv* env, jclass clazz, jlong handle, jint a, jint b, jobject result)
 {
     int c_result;
     mylib_status_t status = MyLib_Calculator_Add(get_handle(handle), a, b, &c_result);
-
-    // // get the class
-    // jclass ref_class = (*env)->GetObjectClass(env, result);
-    // // find the field
-    // jfieldID value_field = (*env)->GetFieldID(env, ref_class, "value", "I");
-    // // store the result
-    // (Env)->SetIntField(env, result, value_field, (jint)c_result);
-
+    
     Helper_IntRef_Set(env, result, c_result);
     return (jint)status;
 }
 
-JNIEXPORT jint JNICALL Java_binding_CalculatorNative_nativeSub(JNIEnv* env, jclass clazz, jlong handle, jint a, jint b, jobject result)
+JNIEXPORT jint JNICALL Java_mylib_binding_CalculatorNative_nativeSub(JNIEnv* env, jclass clazz, jlong handle, jint a, jint b, jobject result)
 {
     int c_result;
     mylib_status_t status = MyLib_Calculator_Sub(get_handle(handle), a, b, &c_result);
@@ -46,7 +39,7 @@ JNIEXPORT jint JNICALL Java_binding_CalculatorNative_nativeSub(JNIEnv* env, jcla
     return (jint)status;
 }
 
-JNIEXPORT jint JNICALL Java_binding_CalculatorNative_nativeCntOpsDone(JNIEnv* env, jclass clazz, jlong handle, jobject retval)
+JNIEXPORT jint JNICALL Java_mylib_binding_CalculatorNative_nativeCntOpsDone(JNIEnv* env, jclass clazz, jlong handle, jobject retval)
 {
     int c_retval;
     mylib_status_t status = MyLib_Calculator_CntOpsDone(get_handle(handle), &c_retval);
@@ -55,7 +48,7 @@ JNIEXPORT jint JNICALL Java_binding_CalculatorNative_nativeCntOpsDone(JNIEnv* en
     return (jint)status;
 }
 
-JNIEXPORT jint JNICALL Java_binding_CalculatorNative_nativeResetCounter(JNIEnv* env, jclass clazz, jlong handle, jobject retval)
+JNIEXPORT jint JNICALL Java_mylib_binding_CalculatorNative_nativeResetCounter(JNIEnv* env, jclass clazz, jlong handle, jobject retval)
 {
     int c_retval;
     mylib_status_t status = MyLib_Calculator_ResetCounter(get_handle(handle), &c_retval);

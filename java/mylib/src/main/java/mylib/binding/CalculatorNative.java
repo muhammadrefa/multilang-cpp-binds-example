@@ -1,7 +1,7 @@
-package binding;
+package mylib.binding;
 
-import binding.refs.IntRef;
-import binding.handles.CalculatorHandle;
+import mylib.binding.refs.IntRef;
+import mylib.binding.handles.CalculatorHandle;
 
 public final class CalculatorNative {
 

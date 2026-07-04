@@ -1,4 +1,4 @@
-package exceptions;
+package mylib.exceptions;
 
 public class MyLibException
     extends RuntimeException {

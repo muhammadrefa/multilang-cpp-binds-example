@@ -42,7 +42,7 @@ $(LIBRARY): $(OBJECTS)
 	$(CC) $(CFLAGS) $(JNI_INC) -c $< -o $@
 
 jni_headers:
-	javac -h src/main/jni $(shell find src/main/java -name "*.java")
+	javac -h src/main/jni $(shell find src/main/java/mylib -name "*.java")
 
 clean:
 	rm -f $(OBJECTS) $(LIBRARY)

@@ -1,4 +1,4 @@
-import api.Calculator;
+import mylib.Calculator;
 
 public final class Main {
 

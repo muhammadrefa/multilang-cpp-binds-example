@@ -1,4 +1,4 @@
-package binding;
+package mylib.binding;
 
 public final class MyLibStatus {
     private MyLibStatus() {}
