@@ -42,17 +42,31 @@ int Helper_CharRef_Set(JNIEnv* env, jobject charref_obj, char* data, int length)
 }
 */
 
-int Helper_CharRef_Get(JNIEnv* env, jobject charref_obj, char* dest)
+int Helper_CharRef_Get(JNIEnv* env, jobject charref_obj, char** dest)
 {
+    if (dest == NULL)
+        return 0;
+
     jclass ref_class = (*env)->GetObjectClass(env, charref_obj);
     jfieldID value_field = (*env)->GetFieldID(env, ref_class, "value", "[B");
     jbyteArray byte_arr = (jbyteArray)(*env)->GetObjectField(env, charref_obj, value_field);
     
     // get pointer to array and array length
     jbyte* arr = (*env)->GetByteArrayElements(env, byte_arr, NULL);
-    jsize arr_len = GetArrayLength(env, byte_arr);
+    jsize arr_len = (*env)->GetArrayLength(env, byte_arr);
 
     // set the pointers
-    dest = arr;
+    *dest = (char *)arr;
     return arr_len;
+}
+
+void Helper_CharRef_Free(JNIEnv* env, jobject charref_obj, char* p_char)
+{
+    jclass ref_class = (*env)->GetObjectClass(env, charref_obj);
+    jfieldID value_field = (*env)->GetFieldID(env, ref_class, "value", "[B");
+    jbyteArray byte_arr = (jbyteArray)(*env)->GetObjectField(env, charref_obj, value_field);
+    
+    // get pointer to array and array length
+    // jbyte* arr = (*env)->GetByteArrayElements(env, byte_arr, NULL);
+    (*env)->ReleaseByteArrayElements(env, byte_arr, (jbyte *)p_char, 0);
 }
