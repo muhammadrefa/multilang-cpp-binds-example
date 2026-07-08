@@ -24,8 +24,9 @@ else
 endif
 
 SOURCES = \
+	src/main/jni/helpers/ref_helper.c \
 	src/main/jni/CalculatorNative.c \
-	src/main/jni/helpers/ref_helper.c
+	src/main/jni/CircularBufferNative.c
 
 OBJECTS = $(SOURCES:.c=.o)
 LIBRARY = $(DLL_PREFIX)mylibrary_jni.$(DLL_EXT)
