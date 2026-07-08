@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Text;
 using MyLib.Interop;
@@ -11,41 +12,60 @@ namespace MyLib
     /// </summary>
     public class Dog : Animal
     {
-        private SafeDogHandle _handleDog;
+        private readonly SafeDogHandle handle;
 
         /// <summary>
         /// Create new Dog
         /// </summary>
-        /// <exception cref="OutOfMemoryException"></exception>
-        public Dog()
+        public Dog() : this(CreateHandle())
         {
-            _handleDog = DogNative.Create();
-            if (_handleDog.IsInvalid)
-                throw new OutOfMemoryException("Failed to create dog.");
-            base.InitializeAnimalHandle(DogNative.As_Animal(_handleDog));
         }
 
         /// <summary>
         /// Create new Dog
         /// </summary>
         /// <param name="name">Dog name</param>
-        /// <exception cref="OutOfMemoryException"></exception>
-        public Dog(string name)
+        public Dog(string name) : this(CreateHandle(name))
         {
-            _handleDog = DogNative.Create_With_Name(Encoding.UTF8.GetBytes(name), name.Length);
-            if (_handleDog.IsInvalid)
-                throw new OutOfMemoryException("Failed to create cat.");
-            base.InitializeAnimalHandle(DogNative.As_Animal(_handleDog));
         }
 
         /// <summary>
-        /// Initialise handle from its derivative
+        /// Create Dog by passing the handle
+        /// Used by its derivatives to set the handle for Dog
         /// </summary>
-        /// <param name="handle">Dog handle</param>
-        private protected void InitializeDogHandle(SafeDogHandle handle)
+        /// <param name="handle">Dog handle which does not owns handle</param>
+        private protected Dog(SafeDogHandle handle): base(SafeAnimalHandle.AsReference(handle.DangerousGetHandle()))
         {
-            _handleDog = handle;
-            base.InitializeAnimalHandle(DogNative.As_Animal(_handleDog));
+            this.handle = handle;
+        }
+
+        /// <summary>
+        /// Calls the native code to create new Dog
+        /// Used by the constructor
+        /// </summary>
+        /// <returns>Dog handle</returns>
+        /// <exception cref="OutOfMemoryException"></exception>
+        private static SafeDogHandle CreateHandle()
+        {
+            SafeDogHandle handle = DogNative.Create();
+            if (handle.IsInvalid)
+                throw new OutOfMemoryException("Failed to create dog.");
+            return handle;
+        }
+
+        /// <summary>
+        /// Calls the native code to create new Dog
+        /// Used by the constructor
+        /// </summary>
+        /// <param name="name">Dog name</param>
+        /// <returns>Dog handle</returns>
+        /// <exception cref="OutOfMemoryException"></exception>
+        private static SafeDogHandle CreateHandle(string name)
+        {
+            SafeDogHandle handle = DogNative.Create_With_Name(Encoding.UTF8.GetBytes(name), name.Length);
+            if (handle.IsInvalid)
+                throw new OutOfMemoryException("Failed to create dog.");
+            return handle;
         }
 
         /// <summary>
@@ -55,7 +75,7 @@ namespace MyLib
         public bool Fetch()
         {
             ThrowIfDisposed();
-            var status = DogNative.Fetch(_handleDog, out int success_int);
+            var status = DogNative.Fetch(handle, out int success_int);
             status.ThrowIfError();
             bool success = success_int != 0;
             return success;
@@ -68,7 +88,7 @@ namespace MyLib
         public int GetEnergy()
         {
             ThrowIfDisposed();
-            var status = DogNative.GetEnergy(_handleDog, out int energy);
+            var status = DogNative.GetEnergy(handle, out int energy);
             status.ThrowIfError();
             return energy;
         }
@@ -76,25 +96,25 @@ namespace MyLib
         public override void Speak()
         {
             ThrowIfDisposed();
-            var status = DogNative.Speak(_handleDog);
+            var status = DogNative.Speak(handle);
             status.ThrowIfError();
         }
 
         public override void Sleep()
         {
             ThrowIfDisposed();
-            var status = DogNative.Sleep(_handleDog);
+            var status = DogNative.Sleep(handle);
             status.ThrowIfError();
         }
 
         public override void Dispose()
         {
-            _handleDog.Dispose();
+            handle.Dispose();
         }
 
         private void ThrowIfDisposed()
         {
-            if (_handleDog.IsClosed)
+            if (handle.IsClosed)
                 throw new ObjectDisposedException(nameof(Dog));
         }
     }

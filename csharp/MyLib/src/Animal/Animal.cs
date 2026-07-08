@@ -10,38 +10,60 @@ namespace MyLib
     /// </summary>
     public class Animal : IDisposable
     {
-        private SafeAnimalHandle _handleAnimal;
+        private readonly SafeAnimalHandle handle;
 
         /// <summary>
         /// Create new Animal
         /// </summary>
-        /// <exception cref="OutOfMemoryException"></exception>
-        public Animal()
+        public Animal() : this(CreateHandle())
         {
-            _handleAnimal = AnimalNative.Create();
-            if (_handleAnimal.IsInvalid)
-                throw new OutOfMemoryException("Failed to create animal.");
         }
 
         /// <summary>
         /// Create new Animal
         /// </summary>
         /// <param name="name">Animal name</param>
-        /// <exception cref="OutOfMemoryException"></exception>
-        public Animal(string name)
+        public Animal(string name) : this(CreateHandle(name))
         {
-            _handleAnimal = AnimalNative.Create_With_Name(Encoding.UTF8.GetBytes(name), name.Length);
-            if (_handleAnimal.IsInvalid)
-                throw new OutOfMemoryException("Failed to create animal.");
         }
 
         /// <summary>
-        /// Initialise handle from its derivative
+        /// Create Animal by passing the handle
+        /// Used by its derivatives to set the handle for Animal
         /// </summary>
-        /// <param name="handle">Animal handle</param>
-        private protected void InitializeAnimalHandle(SafeAnimalHandle handle)
+        /// <param name="handle">Animal handle which does not owns handle</param>
+        private protected Animal(SafeAnimalHandle handle)
         {
-            _handleAnimal = handle;
+            this.handle = handle;
+        }
+
+        /// <summary>
+        /// Calls the native code to create new Animal
+        /// Used by the constructor
+        /// </summary>
+        /// <returns>Animal handle</returns>
+        /// <exception cref="OutOfMemoryException"></exception>
+        private static SafeAnimalHandle CreateHandle()
+        {
+            SafeAnimalHandle handle = AnimalNative.Create();
+            if (handle.IsInvalid)
+                throw new OutOfMemoryException("Failed to create animal.");
+            return handle;
+        }
+
+        /// <summary>
+        /// Calls the native code to create new Animal
+        /// Used by the constructor
+        /// </summary>
+        /// <param name="name">Animal name</param>
+        /// <returns>Animal handle</returns>
+        /// <exception cref="OutOfMemoryException"></exception>
+        private static SafeAnimalHandle CreateHandle(string name)
+        {
+            SafeAnimalHandle handle = AnimalNative.Create_With_Name(Encoding.UTF8.GetBytes(name), name.Length);
+            if (handle.IsInvalid)
+                throw new OutOfMemoryException("Failed to create animal.");
+            return handle;
         }
 
         /// <summary>
@@ -53,7 +75,7 @@ namespace MyLib
             {
                 ThrowIfDisposed();
                 byte[] _name = new byte[100];
-                var status = AnimalNative.Get_Name(_handleAnimal, _name, 100, out int length);
+                var status = AnimalNative.Get_Name(handle, _name, 100, out int length);
                 status.ThrowIfError();
                 return Encoding.UTF8.GetString(_name);
             }
@@ -61,7 +83,7 @@ namespace MyLib
             {
                 ThrowIfDisposed();
                 byte[] _name = Encoding.UTF8.GetBytes(value);
-                var status = AnimalNative.Set_Name(_handleAnimal, _name, _name.Length);
+                var status = AnimalNative.Set_Name(handle, _name, _name.Length);
                 status.ThrowIfError();
             }
         }
@@ -69,32 +91,32 @@ namespace MyLib
         public virtual void Speak()
         {
             ThrowIfDisposed();
-            var status = AnimalNative.Speak(_handleAnimal);
+            var status = AnimalNative.Speak(handle);
             status.ThrowIfError();
         }
 
         public void Speak(int times)
         {
             ThrowIfDisposed();
-            var status = AnimalNative.Speak_Multiple_Times(_handleAnimal, times);
+            var status = AnimalNative.Speak_Multiple_Times(handle, times);
             status.ThrowIfError();
         }
 
         public virtual void Sleep()
         {
             ThrowIfDisposed();
-            var status = AnimalNative.Sleep(_handleAnimal);
+            var status = AnimalNative.Sleep(handle);
             status.ThrowIfError();
         }
 
         public virtual void Dispose()
         {
-            _handleAnimal.Dispose();
+            handle.Dispose();
         }
 
         private void ThrowIfDisposed()
         {
-            if (_handleAnimal.IsClosed)
+            if (handle.IsClosed)
                 throw new ObjectDisposedException(nameof(Animal));
         }
     }

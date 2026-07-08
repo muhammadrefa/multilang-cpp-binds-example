@@ -3,11 +3,19 @@ using System.Runtime.InteropServices;
 
 namespace MyLib.Interop.Handles
 {
-    internal sealed class SafeAnimalHandle : SafeHandle
+    internal class SafeAnimalHandle : SafeHandle
     {
         public override bool IsInvalid => handle == IntPtr.Zero;
 
-        private SafeAnimalHandle() : base(IntPtr.Zero, ownsHandle: true) { }
+        private protected SafeAnimalHandle() : base(IntPtr.Zero, ownsHandle: true) { }
+        private protected SafeAnimalHandle(bool ownsHandle) : base(IntPtr.Zero, ownsHandle) { }
+
+        internal static SafeAnimalHandle AsReference(IntPtr ptr)
+        {
+            var handle = new SafeAnimalHandle(false);
+            handle.SetHandle(ptr);
+            return handle;
+        }
 
         protected override bool ReleaseHandle()
         {
@@ -15,11 +23,18 @@ namespace MyLib.Interop.Handles
         }
     }
 
-    internal sealed class SafeDogHandle : SafeHandle
+    internal class SafeDogHandle : SafeAnimalHandle
     {
-        public override bool IsInvalid => handle == IntPtr.Zero;
 
-        private SafeDogHandle() : base(IntPtr.Zero, ownsHandle: true) { }
+        private protected SafeDogHandle() : base() { }
+        private protected SafeDogHandle(bool ownsHandle) : base(ownsHandle) { }
+
+        internal new static SafeDogHandle AsReference(IntPtr ptr)
+        {
+            var handle = new SafeDogHandle(false);
+            handle.SetHandle(ptr);
+            return handle;
+        }
 
         protected override bool ReleaseHandle()
         {
@@ -27,11 +42,19 @@ namespace MyLib.Interop.Handles
         }
     }
 
-    internal sealed class SafeCatHandle : SafeHandle
+    internal class SafeCatHandle : SafeAnimalHandle
     {
         public override bool IsInvalid => handle == IntPtr.Zero;
 
-        private SafeCatHandle() : base(IntPtr.Zero, ownsHandle: true) { }
+        private protected SafeCatHandle() : base() { }
+        private protected SafeCatHandle(bool ownsHandle) : base(ownsHandle) { }
+
+        internal new static SafeCatHandle AsReference(IntPtr ptr)
+        {
+            var handle = new SafeCatHandle(false);
+            handle.SetHandle(ptr);
+            return handle;
+        }
 
         protected override bool ReleaseHandle()
         {
@@ -39,11 +62,19 @@ namespace MyLib.Interop.Handles
         }
     }
 
-    internal sealed class SafeTigerHandle : SafeHandle
+    internal class SafeTigerHandle : SafeAnimalHandle
     {
         public override bool IsInvalid => handle == IntPtr.Zero;
 
-        private SafeTigerHandle() : base(IntPtr.Zero, ownsHandle: true) { }
+        private protected SafeTigerHandle() : base() { }
+        private protected SafeTigerHandle(bool ownsHandle) : base(ownsHandle) { }
+
+        internal new static SafeTigerHandle AsReference(IntPtr ptr)
+        {
+            var handle = new SafeTigerHandle(false);
+            handle.SetHandle(ptr);
+            return handle;
+        }
 
         protected override bool ReleaseHandle()
         {

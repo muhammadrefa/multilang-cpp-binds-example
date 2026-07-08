@@ -11,47 +11,69 @@ namespace MyLib
     /// </summary>
     public class Tiger : Cat
     {
-        private SafeTigerHandle _handleTiger;
+        private SafeTigerHandle handle;
 
         /// <summary>
         /// Create new Tiger
         /// </summary>
-        /// <exception cref="OutOfMemoryException"></exception>
-        public Tiger()
+        public Tiger() : this(CreateHandle())
         {
-            _handleTiger = TigerNative.Create();
-            if (_handleTiger.IsInvalid)
-                throw new OutOfMemoryException("Failed to create tiger.");
-            base.InitializeCatHandle(TigerNative.As_Animal(_handleTiger));
         }
 
         /// <summary>
         /// Create new Tiger
         /// </summary>
         /// <param name="name">Tiger name</param>
-        /// <exception cref="OutOfMemoryException"></exception>
-        public Tiger(string name)
+        public Tiger(string name) : this(CreateHandle(name))
         {
-            _handleTiger = TigerNative.Create_With_Name(Encoding.UTF8.GetBytes(name), name.Length);
-            if (_handleTiger.IsInvalid)
-                throw new OutOfMemoryException("Failed to create tiger.");
-            base.InitializeCatHandle(TigerNative.As_Animal(_handleTiger));
         }
 
         /// <summary>
-        /// Initialise handle from its derivative
+        /// Create Tiger by passing the handle
+        /// Used by its derivatives to set the handle for Tiger
         /// </summary>
-        /// <param name="handle">Tiger handle</param>
-        private protected void InitializeTigerHandle(SafeTigerHandle handle)
+        /// <param name="handle">Tiger handle which does not owns handle</param>
+        private protected Tiger(SafeTigerHandle handle): base(SafeCatHandle.AsReference(handle.DangerousGetHandle()))
         {
-            _handleTiger = handle;
-            base.InitializeCatHandle(TigerNative.As_Animal(_handleTiger));
+            this.handle = handle;
         }
 
+        /// <summary>
+        /// Calls the native code to create new Tiger
+        /// Used by the constructor
+        /// </summary>
+        /// <returns>Tiger handle</returns>
+        /// <exception cref="OutOfMemoryException"></exception>
+        private static SafeTigerHandle CreateHandle()
+        {
+            SafeTigerHandle handle = TigerNative.Create();
+            if (handle.IsInvalid)
+                throw new OutOfMemoryException("Failed to create cat.");
+            return handle;
+        }
+
+        /// <summary>
+        /// Calls the native code to create new Tiger
+        /// Used by the constructor
+        /// </summary>
+        /// <param name="name">Tiger name</param>
+        /// <returns>Tiger handle</returns>
+        /// <exception cref="OutOfMemoryException"></exception>
+        private static SafeTigerHandle CreateHandle(string name)
+        {
+            SafeTigerHandle handle = TigerNative.Create_With_Name(Encoding.UTF8.GetBytes(name), name.Length);
+            if (handle.IsInvalid)
+                throw new OutOfMemoryException("Failed to create cat.");
+            return handle;
+        }
+
+        /// <summary>
+        /// Hunt!
+        /// </summary>
         public void Hunt()
         {
             ThrowIfDisposed();
-            var status = TigerNative.Hunt(_handleTiger);
+            var status = TigerNative.Hunt(handle);
             status.ThrowIfError();
         }
 
@@ -62,7 +84,7 @@ namespace MyLib
         public int GetHunger()
         {
             ThrowIfDisposed();
-            var status = TigerNative.GetHunger(_handleTiger, out int hunger);
+            var status = TigerNative.GetHunger(handle, out int hunger);
             status.ThrowIfError();
             return hunger;
         }
@@ -70,25 +92,25 @@ namespace MyLib
         public override void Speak()
         {
             ThrowIfDisposed();
-            var status = TigerNative.Speak(_handleTiger);
+            var status = TigerNative.Speak(handle);
             status.ThrowIfError();
         }
 
         public override void Sleep()
         {
             ThrowIfDisposed();
-            var status = TigerNative.Sleep(_handleTiger);
+            var status = TigerNative.Sleep(handle);
             status.ThrowIfError();
         }
 
         public override void Dispose()
         {
-            _handleTiger.Dispose();
+            handle.Dispose();
         }
 
         private void ThrowIfDisposed()
         {
-            if (_handleTiger.IsClosed)
+            if (handle.IsClosed)
                 throw new ObjectDisposedException(nameof(Tiger));
         }
     }
