@@ -1,0 +1,72 @@
+#include <jni.h>
+
+#include "helpers/ref_helper.h"
+#include "calculator.h"
+#include "status_code.h"
+#include "mylib_binding_CalculatorNative.h"
+
+static mylib_calculator_t* get_handle(jlong handle)
+{
+    return (mylib_calculator_t*)handle;
+}
+
+JNIEXPORT jlong JNICALL Java_mylib_binding_CalculatorNative_nativeCreate(JNIEnv* env, jclass clazz)
+{
+    (void)env;      // unused
+    (void)clazz;    // unused
+
+    mylib_calculator_t* calc = MyLib_Calculator_Create();
+    return (jlong)calc;
+}
+
+JNIEXPORT jint JNICALL Java_mylib_binding_CalculatorNative_nativeDestroy(JNIEnv* env, jclass clazz, jlong handle)
+{
+    (void)env;      // unused
+    (void)clazz;    // unused
+
+    return (jint)MyLib_Calculator_Destroy(get_handle(handle));
+}
+
+JNIEXPORT jint JNICALL Java_mylib_binding_CalculatorNative_nativeAdd(JNIEnv* env, jclass clazz, jlong handle, jint a, jint b, jobject result)
+{
+    (void)clazz;    // unused
+
+    int c_result;
+    mylib_status_t status = MyLib_Calculator_Add(get_handle(handle), a, b, &c_result);
+    
+    Helper_IntRef_Set(env, result, c_result);
+    return (jint)status;
+}
+
+JNIEXPORT jint JNICALL Java_mylib_binding_CalculatorNative_nativeSub(JNIEnv* env, jclass clazz, jlong handle, jint a, jint b, jobject result)
+{
+    (void)clazz;    // unused
+
+    int c_result;
+    mylib_status_t status = MyLib_Calculator_Sub(get_handle(handle), a, b, &c_result);
+
+    Helper_IntRef_Set(env, result, c_result);
+    return (jint)status;
+}
+
+JNIEXPORT jint JNICALL Java_mylib_binding_CalculatorNative_nativeCntOpsDone(JNIEnv* env, jclass clazz, jlong handle, jobject retval)
+{
+    (void)clazz;    // unused
+    
+    int c_retval;
+    mylib_status_t status = MyLib_Calculator_CntOpsDone(get_handle(handle), &c_retval);
+
+    Helper_IntRef_Set(env, retval, c_retval);
+    return (jint)status;
+}
+
+JNIEXPORT jint JNICALL Java_mylib_binding_CalculatorNative_nativeResetCounter(JNIEnv* env, jclass clazz, jlong handle, jobject retval)
+{
+    (void)clazz;    // unused
+    
+    int c_retval;
+    mylib_status_t status = MyLib_Calculator_ResetCounter(get_handle(handle), &c_retval);
+
+    Helper_IntRef_Set(env, retval, c_retval);
+    return (jint)status;
+}

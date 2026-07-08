@@ -4,6 +4,7 @@
 *.dll
 *.exe
 *.pyc
+*.class
 
 # IDEs
 python/.idea
