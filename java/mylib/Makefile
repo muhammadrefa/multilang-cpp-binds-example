@@ -28,7 +28,9 @@ SOURCES = \
 	src/main/jni/CalculatorNative.c \
 	src/main/jni/CircularBufferNative.c \
 	src/main/jni/animal/AnimalNative.c \
-	src/main/jni/animal/DogNative.c
+	src/main/jni/animal/DogNative.c \
+	src/main/jni/animal/CatNative.c \
+	src/main/jni/animal/TigerNative.c
 
 OBJECTS = $(SOURCES:.c=.o)
 LIBRARY = $(DLL_PREFIX)mylibrary_jni.$(DLL_EXT)
