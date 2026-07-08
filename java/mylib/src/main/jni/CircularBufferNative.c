@@ -38,7 +38,7 @@ JNIEXPORT jint JNICALL Java_mylib_binding_CircularBufferNative_nativePut(JNIEnv*
     mylib_status_t status = MyLib_CircularBuffer_Put(get_handle(handle), arr, length, &c_returned_length);
 
     Helper_IntRef_Set(env, returned_length, c_returned_length);
-    Helper_CharRef_Free(env, data, arr);
+    Helper_CharRef_Release(env, data, arr);
     return (jint)status;
 }
 
@@ -51,7 +51,7 @@ JNIEXPORT jint JNICALL Java_mylib_binding_CircularBufferNative_nativeGet(JNIEnv*
     mylib_status_t status = MyLib_CircularBuffer_Get(get_handle(handle), arr, length, &c_returned_length);
 
     Helper_IntRef_Set(env, returned_length, c_returned_length);
-    Helper_CharRef_Free(env, dest, arr);
+    Helper_CharRef_Release(env, dest, arr);
     return (jint)status;
 }
 

@@ -60,7 +60,7 @@ int Helper_CharRef_Get(JNIEnv* env, jobject charref_obj, char** dest)
     return arr_len;
 }
 
-void Helper_CharRef_Free(JNIEnv* env, jobject charref_obj, char* p_char)
+void Helper_CharRef_Release(JNIEnv* env, jobject charref_obj, char* p_char)
 {
     jclass ref_class = (*env)->GetObjectClass(env, charref_obj);
     jfieldID value_field = (*env)->GetFieldID(env, ref_class, "value", "[B");
