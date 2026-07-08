@@ -1,5 +1,7 @@
 package mylib;
 
+import java.util.Arrays;
+
 import mylib.binding.CircularBufferNative;
 import mylib.binding.handles.CircularBufferHandle;
 import mylib.binding.refs.IntRef;
@@ -7,9 +9,9 @@ import mylib.binding.refs.CharRef;
 import mylib.internal.StatusHelper;
 
 public final class CircularBuffer implements AutoCloseable {
-    private final CircularfBufferHandle handle;
+    private final CircularBufferHandle handle;
 
-    public CircularBuffer(int bufsize)) {
+    public CircularBuffer(int bufsize) {
         handle = CircularBufferNative.create(bufsize);
         if (handle.isNull())
             throw new RuntimeException("Cannot create circular buffer.");
@@ -41,21 +43,21 @@ public final class CircularBuffer implements AutoCloseable {
         return returned_length.value;
     }
 
-    public int get(byte[] dest, int length) {
+    public byte[] get(int length) {
+        CharRef dest = new CharRef(length);
         IntRef returned_length = new IntRef();
-        CharRef _dest = new CharRef(dest);
-        int status = CircularBufferNative.get(handle, _dest, length, returned_length);
+        int status = CircularBufferNative.get(handle, dest, length, returned_length);
         StatusHelper.check(status);
 
-        return returned_length.value;
+        return Arrays.copyOfRange(dest.value, 0, returned_length.value);
     }
 
     public int clean() {
         IntRef returned_length = new IntRef();
-        int status = CircularBufferNative.resetCounter(handle, returned_length);
+        int status = CircularBufferNative.clean(handle, returned_length);
         StatusHelper.check(status);
 
-        return retval.value;
+        return returned_length.value;
     }
 
     @Override
