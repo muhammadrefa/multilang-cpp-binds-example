@@ -9,20 +9,34 @@ import mylib.binding.refs.CharRef;
 import mylib.binding.refs.IntRef;
 import mylib.internal.StatusHelper;
 
-public final class Animal implements AutoCloseable {
-    private final AnimalHandle handle;
+public class Animal implements AutoCloseable {
+    protected AnimalHandle handle;
 
     public Animal() {
-        handle = AnimalNative.create();
-        if (handle.isNull())
-            throw new RuntimeException("Cannot allocate new handle.");
+        this(createHandle());
     }
 
     public Animal(String name) {
-        CharRef _name = new CharRef(name.getBytes());
-        handle = AnimalNative.createWithName(_name, _name.value.length);
+        this(createHandle(name));
+    }
+
+    protected Animal(AnimalHandle handle) {
+        this.handle = handle;
+    }
+
+    private static AnimalHandle createHandle() {
+        AnimalHandle handle = AnimalNative.create();
         if (handle.isNull())
             throw new RuntimeException("Cannot allocate new handle.");
+        return handle;
+    }
+
+    private static AnimalHandle createHandle(String name) {
+        CharRef _name = new CharRef(name.getBytes());
+        AnimalHandle handle = AnimalNative.createWithName(_name, _name.value.length);
+        if (handle.isNull())
+            throw new RuntimeException("Cannot allocate new handle.");
+        return handle;
     }
 
     public void speak() {
