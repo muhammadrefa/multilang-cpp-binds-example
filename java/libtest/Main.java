@@ -1,5 +1,9 @@
 import mylib.Calculator;
 import mylib.CircularBuffer;
+import mylib.Animal;
+import mylib.Dog;
+import mylib.Cat;
+import mylib.Tiger;
 
 import java.nio.BufferOverflowException;
 import java.util.Arrays;
@@ -94,6 +98,79 @@ public final class Main {
         // close circular buffer
         buf.close();
     }
+    
+    static void animal_check()
+    {
+        // create animal1
+        Animal animal1 = new Animal();
+        animal1.setName("specimen1");
+        animal1.speak();
+
+        // create animal2
+        Animal animal2 = new Animal("specimen2");
+        animal2.speak(3);
+
+        // adopt a dog
+        Dog dog = new Dog("Pluto");
+        dog.speak();
+        for (int i=0; i<7; ++i)
+        {
+            if (dog.fetch())
+                System.out.println(dog.getName() + " fetched the stick!");
+            else
+                System.out.println(dog.getName() + " did not fetch the stick!");
+        }
+        System.out.println(dog.getName() + " energy: " + dog.getEnergy());
+        dog.sleep();
+        if (dog.fetch())
+            System.out.println(dog.getName() + " fetched the stick!");
+        else
+            System.out.println(dog.getName() + " did not fetch the stick!");
+    
+        // adopt a cat
+        Cat cat = new Cat("Pretty");
+        cat.speak(2);
+        cat.fight(false);
+        cat.fight(true);
+        cat.fight(true);
+        cat.fight(false);
+        if (cat.stillAlive())
+            System.out.println(cat.getName() + " still alive");
+        else
+            System.out.println(cat.getName() + " died");
+        for (int i=0; i<9; ++i)
+            cat.fight(true);
+        if (cat.stillAlive())
+            System.out.println(cat.getName() + " still alive");
+        else
+            System.out.println(cat.getName() + " died");
+
+        // adopt a tiger (?)
+        Tiger tiger = new Tiger("Tigris");
+        tiger.speak(3);
+        tiger.fight(false);
+        tiger.fight(true);
+        tiger.fight(true);
+        tiger.fight(false);
+        if (tiger.stillAlive())
+            System.out.println(tiger.getName() + " still alive");
+        else
+            System.out.println(tiger.getName() + " died");
+        System.out.println(tiger.getName() + " hunger level: " + tiger.getHunger());
+        tiger.hunt();
+        tiger.hunt();
+        System.out.println(tiger.getName() + " hunger level: " + tiger.getHunger());
+        tiger.sleep();
+        System.out.println(tiger.getName() + " hunger level: " + tiger.getHunger());
+
+
+        // kill them :(
+        animal1.close();
+        animal2.close();
+        dog.close();
+        cat.close();
+        tiger.close();
+    }
 
     public static void main(String[] args) {
         System.out.println("--- calculator check ---");
@@ -102,6 +179,10 @@ public final class Main {
 
         System.out.println("--- circbuff check ---");
         circbuff_check();
+        System.out.println();
+
+        System.out.println("--- animal check ---");
+        animal_check();
         System.out.println();
     }
 }
