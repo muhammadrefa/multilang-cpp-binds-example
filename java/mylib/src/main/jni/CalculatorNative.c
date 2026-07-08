@@ -5,7 +5,7 @@
 #include "status_code.h"
 #include "mylib_binding_CalculatorNative.h"
 
-mylib_calculator_t* get_handle(jlong handle)
+static mylib_calculator_t* get_handle(jlong handle)
 {
     return (mylib_calculator_t*)handle;
 }
