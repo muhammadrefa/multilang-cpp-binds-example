@@ -4,7 +4,6 @@ import java.lang.String;
 import java.nio.BufferOverflowException;
 
 import mylib.binding.DogNative;
-import mylib.binding.handles.AnimalHandle;
 import mylib.binding.handles.DogHandle;
 import mylib.binding.refs.CharRef;
 import mylib.binding.refs.IntRef;
