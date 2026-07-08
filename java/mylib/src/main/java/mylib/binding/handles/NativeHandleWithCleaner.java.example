@@ -22,7 +22,7 @@ public abstract class NativeHandleWithCleaner {
 
         State(long value, LongToIntFunction releaser) {
             this.value = value;
-        this.releaser = releaser;
+            this.releaser = releaser;
         }
 
         public final long value() {
@@ -40,7 +40,8 @@ public abstract class NativeHandleWithCleaner {
             if (value == 0)
                 return;
 
-            StatusHelper.check(releaser.applyAsInt(value));
+            if (releaser != null)
+                StatusHelper.check(releaser.applyAsInt(value));
 
             value = 0;
         }
@@ -53,6 +54,10 @@ public abstract class NativeHandleWithCleaner {
     protected NativeHandleWithCleaner(long value, LongToIntFunction releaser) {
         this.state = new State(value, releaser);
         this.cleanable = CLEANER.register(this, state);
+    }
+
+    protected NativeHandlerWithCleaner(long value) {
+        this(value, null);
     }
 
     public final void close() {

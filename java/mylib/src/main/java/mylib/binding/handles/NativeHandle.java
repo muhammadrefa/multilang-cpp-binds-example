@@ -13,11 +13,16 @@ public abstract class NativeHandle {
         this.releaser = releaser;
     }
 
+    protected NativeHandle(long value) {
+        this(value, null);
+    }
+
     public final void close() {
         if (value == 0)
             return;
 
-        StatusHelper.check(releaser.applyAsInt(value));
+        if (releaser != null)
+            StatusHelper.check(releaser.applyAsInt(value));
 
         value = 0;
     }
