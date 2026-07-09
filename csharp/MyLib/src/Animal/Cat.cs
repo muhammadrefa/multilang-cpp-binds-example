@@ -11,41 +11,60 @@ namespace MyLib
     /// </summary>
     public class Cat : Animal
     {
-        private SafeCatHandle _handleCat;
+        private SafeCatHandle handle;
 
         /// <summary>
         /// Create new Cat
         /// </summary>
-        /// <exception cref="OutOfMemoryException"></exception>
-        public Cat()
+        public Cat() : this(CreateHandle())
         {
-            _handleCat = CatNative.Create();
-            if (_handleCat.IsInvalid)
-                throw new OutOfMemoryException("Failed to create cat.");
-            base.InitializeAnimalHandle(CatNative.As_Animal(_handleCat));
         }
 
         /// <summary>
         /// Create new Cat
         /// </summary>
         /// <param name="name">Cat name</param>
-        /// <exception cref="OutOfMemoryException"></exception>
-        public Cat(string name)
+        public Cat(string name) : this(CreateHandle(name))
         {
-            _handleCat = CatNative.Create_With_Name(Encoding.UTF8.GetBytes(name), name.Length);
-            if (_handleCat.IsInvalid)
-                throw new OutOfMemoryException("Failed to create cat.");
-            base.InitializeAnimalHandle(CatNative.As_Animal(_handleCat));
         }
 
         /// <summary>
-        /// Initialise handle from its derivative
+        /// Create Cat by passing the handle
+        /// Used by its derivatives to set the handle for Cat
         /// </summary>
-        /// <param name="handle">Cat handle</param>
-        private protected void InitializeCatHandle(SafeCatHandle handle)
+        /// <param name="handle">Cat handle which does not owns handle</param>
+        private protected Cat(SafeCatHandle handle): base(SafeAnimalHandle.AsReference(handle.DangerousGetHandle()))
         {
-            _handleCat = handle;
-            base.InitializeAnimalHandle(CatNative.As_Animal(_handleCat));
+            this.handle = handle;
+        }
+
+        /// <summary>
+        /// Calls the native code to create new Cat
+        /// Used by the constructor
+        /// </summary>
+        /// <returns>Cat handle</returns>
+        /// <exception cref="OutOfMemoryException"></exception>
+        private static SafeCatHandle CreateHandle()
+        {
+            SafeCatHandle handle = CatNative.Create();
+            if (handle.IsInvalid)
+                throw new OutOfMemoryException("Failed to create cat.");
+            return handle;
+        }
+
+        /// <summary>
+        /// Calls the native code to create new Cat
+        /// Used by the constructor
+        /// </summary>
+        /// <param name="name">Cat name</param>
+        /// <returns>Cat handle</returns>
+        /// <exception cref="OutOfMemoryException"></exception>
+        private static SafeCatHandle CreateHandle(string name)
+        {
+            SafeCatHandle handle = CatNative.Create_With_Name(Encoding.UTF8.GetBytes(name), name.Length);
+            if (handle.IsInvalid)
+                throw new OutOfMemoryException("Failed to create cat.");
+            return handle;
         }
 
         /// <summary>
@@ -57,7 +76,7 @@ namespace MyLib
         {
             ThrowIfDisposed();
             int bigger_cat_int = bigger_cat ? 1 : 0;
-            var status = CatNative.Fight(_handleCat, bigger_cat_int, out int success_int);
+            var status = CatNative.Fight(handle, bigger_cat_int, out int success_int);
             status.ThrowIfError();
             bool success = success_int != 0;
             return success;
@@ -70,7 +89,7 @@ namespace MyLib
         public bool StillAlive()
         {
             ThrowIfDisposed();
-            var status = CatNative.StillAlive(_handleCat, out int is_alive_int);
+            var status = CatNative.StillAlive(handle, out int is_alive_int);
             status.ThrowIfError();
             bool is_alive = is_alive_int != 0;
             return is_alive;
@@ -79,18 +98,18 @@ namespace MyLib
         public override void Speak()
         {
             ThrowIfDisposed();
-            var status = CatNative.Speak(_handleCat);
+            var status = CatNative.Speak(handle);
             status.ThrowIfError();
         }
 
         public override void Dispose()
         {
-            _handleCat.Dispose();
+            handle.Dispose();
         }
 
         private void ThrowIfDisposed()
         {
-            if (_handleCat.IsClosed)
+            if (handle.IsClosed)
                 throw new ObjectDisposedException(nameof(Cat));
         }
     }
