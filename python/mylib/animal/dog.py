@@ -1,5 +1,6 @@
 import ctypes
 import typing
+import weakref
 
 from .animal import Animal
 from .._bindings.animal import dog as c_dog
@@ -16,9 +17,16 @@ class Dog(Animal):
         else:
             raise TypeError("name must be in string or None!")
         super()._init_from_ptr(c_dog.as_animal(self._ptr_dog))      # initialise handle for parent class
+        self._finalizer = weakref.finalize(self, c_dog.destroy, self._ptr_dog)
+    
+    def __enter__(self):
+        return self
 
-    def __del__(self):
-        c_dog.destroy(self._ptr_dog)
+    def __exit__(self):
+        self.close()
+
+    def close(self):
+        self._finalizer()
 
     def _init_from_ptr(self, ptr):
         """

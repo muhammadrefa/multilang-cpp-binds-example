@@ -1,5 +1,6 @@
 import ctypes
 import typing
+import weakref
 
 from ._bindings import circularbuffer as c_circular_buffer
 
@@ -14,9 +15,16 @@ class CircularBuffer:
         :type bufsize: int
         """
         self._ptr = c_circular_buffer.create(bufsize)
+        self._finalizer = weakref.finalize(self, c_circular_buffer.destroy, self._ptr)
+    
+    def __enter__(self):
+        return self
 
-    def __del__(self):
-        c_circular_buffer.destroy(self._ptr)
+    def __exit__(self):
+        self.close()
+
+    def close(self):
+        self._finalizer()
     
     def get_length(self) -> int:
         """

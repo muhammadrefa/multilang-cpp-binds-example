@@ -1,4 +1,5 @@
 import ctypes
+import weakref
 
 from ._bindings import calculator as c_calculator
 
@@ -8,9 +9,16 @@ class Calculator:
     """
     def __init__(self):
         self._ptr = c_calculator.create()
+        self._finalizer = weakref.finalize(self, c_calculator.destroy, self._ptr)
+    
+    def __enter__(self):
+        return self
 
-    def __del__(self):
-        c_calculator.destroy(self._ptr)
+    def __exit__(self):
+        self.close()
+
+    def close(self):
+        self._finalizer()
     
     def add(self, a: int, b: int) -> int:
         """
