@@ -5,11 +5,11 @@ import mylib.internal.StatusHelper;
 
 public abstract class NativeHandle {
 
-    private long value;
+    private final AtomicLong native_pointer;
     private final LongToIntFunction releaser;
 
     protected NativeHandle(long value, LongToIntFunction releaser) {
-        this.value = value;
+        this.native_pointer = new AtomicLong(value);
         this.releaser = releaser;
     }
 
@@ -18,22 +18,32 @@ public abstract class NativeHandle {
     }
 
     public final void close() {
-        if (value == 0)
+        if (releaser == null)       // non-owning handle
             return;
 
-        if (releaser != null)
-            StatusHelper.check(releaser.applyAsInt(value));
+        long pointer_to_free = native_pointer.getAndSet(0);
 
-        value = 0;
+        if (pointer_to_free != 0)
+            StatusHelper.check(releaser.applyAsInt(pointer_to_free));
     }
 
     public final long value() {
-        if (value == 0)
+        long ptr_value = native_pointer.get();
+        if (ptr_value == 0)
             throw new IllegalStateException("Handle is closed");
-        return value;
+        return ptr_value;
     }
 
     public final boolean isNull() {
-        return value == 0;
+        return native_pointer.get() == 0;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        try {
+            close();
+        } finally {
+            super().finalize();
+        }
     }
 }
