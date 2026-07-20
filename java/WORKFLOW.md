@@ -16,8 +16,54 @@ Important files and directories
 
 Writing the bindings
 ---
-1. Most of the files here can be used as a template. Copy them.
-2. TBD
+0. Most of the files here can be used as a template. Copy them.
+1. Write the [`Loader`](./mylib/src/main/java/mylib/binding/Loader.java) which will load the library. Set the library file path inside the `Loader`.
+2. Write the class for the handle, inheriting from NativeHandle ([NativeHandle.java](./mylib/src/main/java/mylib/binding/handles/NativeHandle.java)). You only have to inherit the class. There are two ways to construct the handle.
+```java
+    NativeHandle(long value, LongToIntFunction releaser);       // owning handle; the important one
+    protected NativeHandle(long value);                         // non-owning handle; useful for inheritance
+```
+3. Write the [binder/native class](./mylib/src/main/java/mylib/binding/). These files contains `native` keyword which will be used as the base for JNI. **Use only primitive data types to make writing JNI codes easier**. Conversion to Java object will be done in the next steps. If your C wrapper needs pointers, you can use [`*Ref`](./mylib/src/main/java/mylib/binding/refs/) helpers. Since the opaque handle contains pointer to the object, it will be stored as `long`.
+```java
+public final class MyClassNative {
+    static {
+        Loader.load();
+    }
+
+    private MyClassNative() {
+    }
+
+    private static native long nativeCreate();
+    private static native int nativeDestroy(long handle);
+    private static native int nativeFunc(long handle, int a, int b, IntRef result);
+}
+```
+4. Write methods to convert from primitive data types into Java objects. Also pass the destructor function when constructing the handle to initialise an owning handle.
+```java
+public final class MyClassNative {
+    public static MyClassHandle create()
+    {
+        return new MyClassHandle(nativeCreate(), MyClassNative::nativeDestroy);
+    }
+    
+    public static int destroy(MyClassHandle handle)
+    {
+        return nativeDestroy(handle.value());
+    }
+    
+    public static int func(MyClassHandle handle, int a, int b, IntRef result)
+    {
+        return nativeFunc(handle.value(), a, b, result);
+    }
+}
+```
+5. Using suppllied [`Makefile`](./mylib/Makefile), run this command. It will generate JNI headers in [`src/main/jni/`](./mylib/src/main/jni/).
+```sh
+make jni_headers
+```
+6. Write the implementation for each functions. If you are using `*Ref` helpers, you can use [these helpers](./mylib/src/main/jni/helpers/ref_helper.h) to access them.
+7. Compile the JNI using `make`. Up to this point, JNI has been generated. Now we only have to deal with Java codes (phew!).
+8. Reconstruct the OOP. TBD.
 
 Building and shipping the library
 ---
