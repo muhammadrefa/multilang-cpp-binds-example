@@ -21,7 +21,7 @@ public class Tiger extends Cat {
     }
 
     protected Tiger(TigerHandle handle) {
-        super(handle);
+        super(TigerNative.asCat(handle));
         this.handle = handle;
     }
 
