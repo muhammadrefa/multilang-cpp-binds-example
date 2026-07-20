@@ -54,3 +54,8 @@ MyLib
   - `*.cs` contains the classes recreated by utilising the bind functions.
 
 This folder contains `LibTest/` which is useful to test the library.
+
+
+Design consideration
+---
+In this example, the native resource owned by the handle (handle-centric ownership). It is implemented using `SafeHandle` which is used by `IDisposable`. This is the [best practice for .NET native interoperability](https://learn.microsoft.com/en-us/dotnet/standard/native-interop/best-practices).

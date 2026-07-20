@@ -88,3 +88,8 @@ mylib
     - `mylib_binding_*.h` are generated JNI headers. It generated using `make jni_headers` command which calls `javac`.
 
 This folder contains `libtest/` which is useful to test the library.
+
+
+Design consideration
+---
+In this example, the native resource owned by the handle (handle-centric ownership). It is implemented by having the handle class (`NativeHandle`) which stores the pointer to the resource and used by the class which implements `AutoCloseable`. Closing the resource done using `finalize()` (before JDK 9) or `Cleaner` (JDK 9+). By having separate class handle managing the resource, it will be cleaned gracefully even if the class has failed.

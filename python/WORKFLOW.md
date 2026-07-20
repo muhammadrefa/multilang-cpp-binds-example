@@ -108,7 +108,7 @@ def age(self, new_age: int):
     c_mywrapper.set_name(self._ptr, new_age)
 
 ```
-8. For inheritance, remember there are 2 approaches [(they are mentioned when writing the C wrapper)](../c_wrapper/README.md#design-choice)? If you choose to use upcasting (which is more reflecting the nature of OO), you have to set the pointers. In this example, the object owns the resource (object-centric ownership), which means the resource lifetime depends on the lifetime of the object. Let me tell you by example.
+8. For inheritance, remember there are 2 approaches [(they are mentioned when writing the C wrapper)](../c_wrapper/README.md#design-choice)? If you choose to use upcasting (which is more reflecting the nature of OO), you have to set the pointers. Let me tell you by example.
 ```python
 # In the base class (e.g. base.py)
 
