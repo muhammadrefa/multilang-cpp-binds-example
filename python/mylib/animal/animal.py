@@ -26,9 +26,9 @@ class Animal:
     def close(self):
         self._finalizer()
 
-    def _init_from_ptr(self, ptr) -> None:
+    def _assign_reference(self, ptr) -> None:
         """
-        Initialise handle from its derivative
+        Assign reference from its derivative
         :param ptr: pointer to Animal
         :type ptr: mylib_animal_t
         """

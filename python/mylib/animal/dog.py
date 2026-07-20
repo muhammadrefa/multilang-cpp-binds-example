@@ -16,8 +16,8 @@ class Dog(Animal):
             self._ptr_dog = c_dog.create_with_name(name.encode(), len(name))
         else:
             raise TypeError("name must be in string or None!")
-        super()._init_from_ptr(c_dog.as_animal(self._ptr_dog))      # initialise handle for parent class
         self._finalizer = weakref.finalize(self, c_dog.destroy, self._ptr_dog)
+        super()._assign_reference(c_dog.as_animal(self._ptr_dog))      # assign reference for parent class
     
     def __enter__(self):
         return self
@@ -28,14 +28,14 @@ class Dog(Animal):
     def close(self):
         self._finalizer()
 
-    def _init_from_ptr(self, ptr):
+    def _assign_reference(self, ptr):
         """
-        Initialise handle from its derivative
+        Assign reference from its derivative
         :param ptr: pointer to Dog
         :type ptr: mylib_dog_t
         """
+        super()._assign_reference(c_dog.as_animal(self._ptr_dog))      # assign reference for parent class
         self._ptr_dog = ptr
-        super()._init_from_ptr(c_dog.as_animal(self._ptr_dog))      # initialise handle for parent class
     
     def fetch(self) -> bool:
         """
