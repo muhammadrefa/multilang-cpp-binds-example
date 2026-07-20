@@ -34,7 +34,7 @@ namespace MyLib
         /// Used by its derivatives to set the handle for Dog
         /// </summary>
         /// <param name="handle">Dog handle which does not owns handle</param>
-        private protected Dog(SafeDogHandle handle): base(SafeAnimalHandle.AsReference(handle.DangerousGetHandle()))
+        private protected Dog(SafeDogHandle handle): base(DogNative.As_Animal(handle))
         {
             this.handle = handle;
         }

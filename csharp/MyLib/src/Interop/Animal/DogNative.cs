@@ -31,9 +31,14 @@ namespace MyLib.Interop
             NativeConstants.LibraryName,
             CallingConvention = CallingConvention.Cdecl,
             EntryPoint = "MyLib_Dog_As_Animal")]
-        internal static extern SafeAnimalHandle As_Animal(
+        private static extern IntPtr As_Animal_Internal(
             SafeDogHandle handle
         );
+
+        internal static SafeAnimalHandle As_Animal(SafeDogHandle handle)
+        {
+            return SafeAnimalHandle.AsReference(As_Animal_Internal(handle));
+        }
 
         [DllImport(
             NativeConstants.LibraryName,

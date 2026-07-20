@@ -33,7 +33,7 @@ namespace MyLib
         /// Used by its derivatives to set the handle for Cat
         /// </summary>
         /// <param name="handle">Cat handle which does not owns handle</param>
-        private protected Cat(SafeCatHandle handle): base(SafeAnimalHandle.AsReference(handle.DangerousGetHandle()))
+        private protected Cat(SafeCatHandle handle): base(CatNative.As_Animal(handle))
         {
             this.handle = handle;
         }
