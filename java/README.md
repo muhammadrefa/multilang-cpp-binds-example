@@ -3,7 +3,13 @@ Object-oriented Java library utilising C wrapper
 
 This library utilises `JNI` to bridge Java and the C wrapper. `JNI` used to achieve compatibility. Read the workflow in [WORKFLOW.md](WORKFLOW.md).
 
-The structure of the library is as follows.
+Design consideration
+---
+In this example, the native resource owned by the handle (handle-centric ownership). It is implemented by having the handle class (`NativeHandle`) which stores the pointer to the resource and used by the class which implements `AutoCloseable`. Closing the resource done using `finalize()` (before JDK 9) or `Cleaner` (JDK 9+). By having separate class handle managing the resource, it will be cleaned gracefully even if the class has failed.
+
+
+Project structure
+---
 ```
 mylib
 ├── libmylibrary_jni.so
@@ -88,8 +94,3 @@ mylib
     - `mylib_binding_*.h` are generated JNI headers. It generated using `make jni_headers` command which calls `javac`.
 
 This folder contains `libtest/` which is useful to test the library.
-
-
-Design consideration
----
-In this example, the native resource owned by the handle (handle-centric ownership). It is implemented by having the handle class (`NativeHandle`) which stores the pointer to the resource and used by the class which implements `AutoCloseable`. Closing the resource done using `finalize()` (before JDK 9) or `Cleaner` (JDK 9+). By having separate class handle managing the resource, it will be cleaned gracefully even if the class has failed.
