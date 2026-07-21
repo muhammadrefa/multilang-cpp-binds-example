@@ -18,15 +18,6 @@ class Cat(Animal):
             raise TypeError("name must be in string or None!")
         self._finalizer = weakref.finalize(self, c_cat.destroy, self._ptr_cat)
         super()._assign_reference(c_cat.as_animal(self._ptr_cat))      # assign reference for parent class
-    
-    def __enter__(self):
-        return self
-
-    def __exit__(self):
-        self.close()
-
-    def close(self):
-        self._finalizer()
 
     def _assign_reference(self, ptr):
         """
