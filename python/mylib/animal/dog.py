@@ -9,25 +9,18 @@ class Dog(Animal):
     """
     Dog - wrapper for C++ class
     """
-    def __init__(self, name: typing.Union[str, None] = None):
-        if name is None:
-            self._ptr_dog = c_dog.create()
-        elif type(name) is str:
-            self._ptr_dog = c_dog.create_with_name(name.encode(), len(name))
-        else:
-            raise TypeError("name must be in string or None!")
-        self._finalizer = weakref.finalize(self, c_dog.destroy, self._ptr_dog)
-        super()._assign_reference(c_dog.as_animal(self._ptr_dog))      # assign reference for parent class
+    def __init__(self, name: typing.Union[str, None] = None, **kwargs):
+        self._ptr_dog = kwargs.pop('_ptr', None)
+        if self._ptr_dog is None:
+            if name is None:
+                self._ptr_dog = c_dog.create()
+            elif type(name) is str:
+                self._ptr_dog = c_dog.create_with_name(name.encode(), len(name))
+            else:
+                raise TypeError("name must be in string or None!")
+            self._finalizer = weakref.finalize(self, c_dog.destroy, self._ptr_dog)
+        super().__init__(_ptr=c_dog.as_animal(self._ptr_dog), **kwargs)      # assign reference for parent class
 
-    def _assign_reference(self, ptr):
-        """
-        Assign reference from its derivative
-        :param ptr: pointer to Dog
-        :type ptr: mylib_dog_t
-        """
-        super()._assign_reference(c_dog.as_animal(self._ptr_dog))      # assign reference for parent class
-        self._ptr_dog = ptr
-    
     def fetch(self) -> bool:
         """
         Fetch!

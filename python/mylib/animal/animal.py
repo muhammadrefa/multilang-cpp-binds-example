@@ -8,14 +8,16 @@ class Animal:
     """
     Animal - wrapper for C++ class
     """
-    def __init__(self, name: typing.Union[str, None] = None):
-        if name is None:
-            self._ptr_animal = c_animal.create()
-        elif type(name) is str:
-            self._ptr_animal = c_animal.create_with_name(name.encode(), len(name))
-        else:
-            raise TypeError("name must be in string or None!")
-        self._finalizer = weakref.finalize(self, c_animal.destroy, self._ptr_animal)
+    def __init__(self, name: typing.Union[str, None] = None, **kwargs):
+        self._ptr_animal = kwargs.pop('_ptr', None)
+        if self._ptr_animal is None:
+            if name is None:
+                self._ptr_animal = c_animal.create()
+            elif type(name) is str:
+                self._ptr_animal = c_animal.create_with_name(name.encode(), len(name))
+            else:
+                raise TypeError("name must be in string or None!")
+            self._finalizer = weakref.finalize(self, c_animal.destroy, self._ptr_animal)
     
     def __enter__(self):
         return self
