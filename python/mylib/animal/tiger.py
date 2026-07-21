@@ -1,5 +1,6 @@
 import ctypes
 import typing
+import weakref
 
 from .cat import Cat
 from .._bindings.animal import tiger as c_tiger
@@ -8,26 +9,17 @@ class Tiger(Cat):
     """
     Tiger - wrapper for C++ class
     """
-    def __init__(self, name: typing.Union[str, None] = None):
-        if name is None:
-            self._ptr_tiger = c_tiger.create()
-        elif type(name) is str:
-            self._ptr_tiger = c_tiger.create_with_name(name.encode(), len(name))
-        else:
-            raise TypeError("name must be in string or None!")
-        super()._init_from_ptr(c_tiger.as_cat(self._ptr_tiger))      # initialise handle for parent class
-
-    def __del__(self):
-        c_tiger.destroy(self._ptr_tiger)
-
-    def _init_from_ptr(self, ptr):
-        """
-        Initialise handle from its derivative
-        :param ptr: pointer to Cat
-        :type ptr: mylib_cat_t
-        """
-        self._ptr_tiger = ptr
-        super()._init_from_ptr(c_tiger.as_cat(self._ptr_tiger))      # initialise handle for parent class
+    def __init__(self, name: typing.Union[str, None] = None, **kwargs):
+        self._ptr_tiger = kwargs.pop('_ptr', None)
+        if self._ptr_tiger is None:
+            if name is None:
+                self._ptr_tiger = c_tiger.create()
+            elif isinstance(name, str):
+                self._ptr_tiger = c_tiger.create_with_name(name.encode(), len(name))
+            else:
+                raise TypeError("name must be in string or None!")
+            self._finalizer = weakref.finalize(self, c_tiger.destroy, self._ptr_tiger)
+        super().__init__(_ptr=c_tiger.as_cat(self._ptr_tiger), **kwargs)      # assign reference for parent class
 
     def hunt(self) -> None:
         c_tiger.hunt(self._ptr_tiger)

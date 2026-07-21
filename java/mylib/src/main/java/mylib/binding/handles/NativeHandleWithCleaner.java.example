@@ -17,33 +17,34 @@ public abstract class NativeHandleWithCleaner {
 
     private static final class State implements Runnable {
 
-        private long value;
+        private final AtomicLong native_pointer;
         private final LongToIntFunction releaser;
 
         State(long value, LongToIntFunction releaser) {
-            this.value = value;
+            this.native_pointer = new AtomicLong(value);
             this.releaser = releaser;
         }
 
         public final long value() {
-            if (value == 0)
+            long ptr_value = native_pointer.get();
+            if (ptr_value == 0)
                 throw new IllegalStateException("Handle is closed");
-            return value;
+            return ptr_value;
         }
 
         public final boolean isNull() {
-            return value == 0;
+            return native_pointer.get() == 0;
         }
 
         @Override
         public void run() {
-            if (value == 0)
+            if (releaser == null)       // non-owning handle
                 return;
 
-            if (releaser != null)
-                StatusHelper.check(releaser.applyAsInt(value));
+            long pointer_to_free = native_pointer.getAndSet(0);
 
-            value = 0;
+            if (pointer_to_free != 0)
+                StatusHelper.check(releaser.applyAsInt(pointer_to_free));
         }
     }
 

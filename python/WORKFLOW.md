@@ -49,15 +49,24 @@ from ._bindings import mywrapper as c_mywrapper
 
 class MyCoolClass:
 ```
-5. Add the constructor and the destructor. Store the opaque handle as (private) class member (I know, python does not understand privates. That is why [leading underscore (`_`) become a convention to make it 'private'](https://peps.python.org/pep-0008/#method-names-and-instance-variables)).
+5. Add the constructor and the destructor. Store the opaque handle as (private) class member (I know, python does not understand privates. That is why [leading underscore (`_`) become a convention to make it 'private'](https://peps.python.org/pep-0008/#method-names-and-instance-variables)). Instead of using __del__, the destructor called by [weakref](https://docs.python.org/3.10/library/weakref.html).
 ```python
 # (e.g. my_cool_class.py)
+import weakref
 
-def __init__(self):
-    self._ptr = c_mywrapper.create()
+class MyCoolClass:
+    def __init__(self):
+        self._ptr = c_mywrapper.create()
+        self._finalizer = weakref.finalize(self, c_mywrapper.destroy, self._ptr)
 
-def __del__(self):
-    c_mywrapper.destroy(self._ptr)
+    def __enter__(self):
+        return self
+    
+    def __exit__(self):
+        self.close()
+
+    def close(self):
+        self._finalizer
 ```
 6. Continue to work on other methods. Use [primitive data types from `ctypes`](https://docs.python.org/3/library/ctypes.html#fundamental-data-types) if you need, and [`ctypes.byref`](https://docs.python.org/3/library/ctypes.html#ctypes.byref) if you have to pass a pointer.
 7. C++ public class members can be re-implemented as property. Call the getter and setter inside the property's getter and setter respectively.
@@ -104,15 +113,13 @@ def age(self, new_age: int):
 # In the base class (e.g. base.py)
 
 class MyBaseClass:
-    def __init__(self):
-        self._ptr_base = c_mywrapper_base.create()
+    def __init__(self, **kwargs):
+        self._ptr_base = kwargs.pop('_ptr', None)       # assign reference
+        if self._ptr_base is None:                      # ... or create new resource instead
+            self._ptr_base = c_mywrapper_base.create()
 
     def __del__(self):
         c_mywrapper_base.destroy(self._ptr_base)
-
-    # self._ptr_base is needed when calling the inherited method
-    def _init_from_ptr(self, ptr) -> None:
-        self._ptr_base = ptr
 
     # inherited class can use this method since self._ptr_base is defined
     def base_method(self) -> None:
@@ -122,16 +129,14 @@ class MyBaseClass:
 # In the inherited class (e.g. inherited.py)
 
 class MyInheritedClass(MyBaseClass):
-    def __init__(self):
-        self._ptr_inherited = c_mywrapper_inherited.create()
-        super()._init_from_ptr(c_my_wrapper_inherited.as_base(self._ptr_inherited))      # upcasting; initialise handle for parent class
+    def __init__(self, **kwargs):
+        self._ptr_inherited = kwargs.pop('_ptr', None)       # assign reference
+        if self._ptr_inherited is None:                      # ... or create new resource instead
+            self._ptr_inherited = c_mywrapper_inherited.create()
+            super().__init__(_ptr=c_my_wrapper_inherited.as_base(self._ptr_inherited), **kwargs)      # upcasting; initialise handle for parent class
 
     def __del__(self):
         c_mywrapper_inherited.destroy(self._ptr_inherited)
-
-    # needed when calling the inherited method
-    def _init_from_ptr(self, ptr) -> None:
-        self._ptr_inherited = ptr
 
     # no need to reimplement base_method()
 ```

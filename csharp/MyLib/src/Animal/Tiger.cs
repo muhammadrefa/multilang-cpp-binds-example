@@ -33,7 +33,7 @@ namespace MyLib
         /// Used by its derivatives to set the handle for Tiger
         /// </summary>
         /// <param name="handle">Tiger handle which does not owns handle</param>
-        private protected Tiger(SafeTigerHandle handle): base(SafeCatHandle.AsReference(handle.DangerousGetHandle()))
+        private protected Tiger(SafeTigerHandle handle): base(TigerNative.As_Cat(handle))
         {
             this.handle = handle;
         }

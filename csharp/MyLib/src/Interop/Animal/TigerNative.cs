@@ -31,9 +31,14 @@ namespace MyLib.Interop
             NativeConstants.LibraryName,
             CallingConvention = CallingConvention.Cdecl,
             EntryPoint = "MyLib_Tiger_As_Cat")]
-        internal static extern SafeCatHandle As_Animal(
+        private static extern IntPtr As_Cat_Internal(
             SafeTigerHandle handle
         );
+
+        internal static SafeCatHandle As_Cat(SafeTigerHandle handle)
+        {
+            return SafeCatHandle.AsReference(As_Cat_Internal(handle));
+        }
 
         [DllImport(
             NativeConstants.LibraryName,

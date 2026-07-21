@@ -1,5 +1,6 @@
 import ctypes
 import typing
+import weakref
 
 from .._bindings.animal import animal as c_animal
 
@@ -7,20 +8,29 @@ class Animal:
     """
     Animal - wrapper for C++ class
     """
-    def __init__(self, name: typing.Union[str, None] = None):
-        if name is None:
-            self._ptr_animal = c_animal.create()
-        elif type(name) is str:
-            self._ptr_animal = c_animal.create_with_name(name.encode(), len(name))
-        else:
-            raise TypeError("name must be in string or None!")
+    def __init__(self, name: typing.Union[str, None] = None, **kwargs):
+        self._ptr_animal = kwargs.pop('_ptr', None)
+        if self._ptr_animal is None:
+            if name is None:
+                self._ptr_animal = c_animal.create()
+            elif isinstance(name, str):
+                self._ptr_animal = c_animal.create_with_name(name.encode(), len(name))
+            else:
+                raise TypeError("name must be in string or None!")
+            self._finalizer = weakref.finalize(self, c_animal.destroy, self._ptr_animal)
+    
+    def __enter__(self):
+        return self
 
-    def __del__(self):
-        c_animal.destroy(self._ptr_animal)
+    def __exit__(self):
+        self.close()
 
-    def _init_from_ptr(self, ptr) -> None:
+    def close(self):
+        self._finalizer()
+
+    def _assign_reference(self, ptr) -> None:
         """
-        Initialise handle from its derivative
+        Assign reference from its derivative
         :param ptr: pointer to Animal
         :type ptr: mylib_animal_t
         """

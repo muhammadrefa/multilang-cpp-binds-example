@@ -1,5 +1,6 @@
 import ctypes
 import typing
+import weakref
 
 from .animal import Animal
 from .._bindings.animal import dog as c_dog
@@ -8,27 +9,18 @@ class Dog(Animal):
     """
     Dog - wrapper for C++ class
     """
-    def __init__(self, name: typing.Union[str, None] = None):
-        if name is None:
-            self._ptr_dog = c_dog.create()
-        elif type(name) is str:
-            self._ptr_dog = c_dog.create_with_name(name.encode(), len(name))
-        else:
-            raise TypeError("name must be in string or None!")
-        super()._init_from_ptr(c_dog.as_animal(self._ptr_dog))      # initialise handle for parent class
+    def __init__(self, name: typing.Union[str, None] = None, **kwargs):
+        self._ptr_dog = kwargs.pop('_ptr', None)
+        if self._ptr_dog is None:
+            if name is None:
+                self._ptr_dog = c_dog.create()
+            elif isinstance(name, str):
+                self._ptr_dog = c_dog.create_with_name(name.encode(), len(name))
+            else:
+                raise TypeError("name must be in string or None!")
+            self._finalizer = weakref.finalize(self, c_dog.destroy, self._ptr_dog)
+        super().__init__(_ptr=c_dog.as_animal(self._ptr_dog), **kwargs)      # assign reference for parent class
 
-    def __del__(self):
-        c_dog.destroy(self._ptr_dog)
-
-    def _init_from_ptr(self, ptr):
-        """
-        Initialise handle from its derivative
-        :param ptr: pointer to Dog
-        :type ptr: mylib_dog_t
-        """
-        self._ptr_dog = ptr
-        super()._init_from_ptr(c_dog.as_animal(self._ptr_dog))      # initialise handle for parent class
-    
     def fetch(self) -> bool:
         """
         Fetch!

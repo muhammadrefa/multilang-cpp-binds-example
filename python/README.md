@@ -3,7 +3,13 @@ Object-oriented Python library utilising C wrapper
 
 This library utilises `ctypes` to load the C wrapper and rewrite the classes to mimic the C++ library. Read the workflow in [WORKFLOW.md](WORKFLOW.md).
 
-The structure of the library is as follows.
+Design consideration
+---
+In this example, the native resource owned by the object (object-centric ownership). It is implemented by having the object store the pointer to the resource. (C)Python Garbage Collector, which counting the reference, will cleanup the resource (using `weakref` or `__del__`) when nothing refers to the object.
+
+
+Project structure
+---
 ```
 mylib
 ├── _bindings

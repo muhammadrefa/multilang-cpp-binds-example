@@ -80,14 +80,14 @@ public int MyMethod(int arg1, byte[] arg2)
 ```
 7. C++ public class members can be re-implemented as property. Call the getter and setter inside the property's getter and setter respectively.
 ```C
-// In the C header file
+// In the C header file (e.g. myclass_wrapper.h)
 
 status_t MyWrapper_Set_Age(mytype_t* handle, int age);
 status_t MyWrapper_Get_Age(mytype_t* handle, int* age);
 
 ```
 ```csharp
-// In the function binder
+// In the function binder (e.g. Interop/MyClassNative.cs)
 
 [DllImport(
     NativeConstants.LibraryName,
@@ -108,7 +108,7 @@ internal static extern MyStatus Set_Age(
 );
 ```
 ```csharp
-// Inside the class
+// Inside the class (e.g. MyClass.cs)
 
 public int Age
 {
@@ -130,58 +130,89 @@ public int Age
 ```
 8. For inheritance, remember there are 2 approaches [(they are mentioned when writing the C wrapper)](../c_wrapper/README.md#design-choice)? If you choose to use upcasting (which is more reflecting the nature of OO), you have to set the handles. Let me tell you by example.
 ```csharp
+// In the function binder (e.g. Interop/MyInheritedNative.cs)
+[DllImport(
+    NativeConstants.LibraryName,
+    CallingConvention = CallingConvention.Cdecl,
+    EntryPoint = "MyWrapper_Inherited_As_Base")]
+private static extern IntPtr As_Base_Internal(
+    SafeBaseHandle handle
+);
+
+internal static SafeBaseHandle As_Base(SafeInheritedHandle handle)
+{
+    return SafeBaseHandle.AsReference(As_Base_Internal(handle));        // does not own handle
+}
+
+```
+```csharp
 // In the base class (e.g. base.cs)
 
 public class MyBaseClass : IDisposable
 {
-    private SafeBaseHandle _handleBase;
+    private SafeBaseHandle handle;      // handle for base
 
-    public MyBaseClass()
+    public MyBaseClass() : this(CreateHandle())
     {
-        _handleBase = BaseNative.Create();
+    }
+
+    private protected MyBaseClass(SafeBaseHandle handle)
+    {
+        // called by self: owns handle
+        // called by inherited class: does not owns handle
+        this.handle = handle;
+    }
+
+    private static SafeBaseHandle CreateHandle()
+    {
+        _handleBase = BaseNative.Create();          // owns handle
         if (_handleBase.IsInvalid)
             throw new OutOfMemoryException("Failed to create base class.");
+        return handle;
     }
 
-    // _handleBase is needed when calling the inherited method
-    private protected void InitializeBaseHandle(SafeBaseHandle handle)
-    {
-        _handleBase = handle;
-    }
-
-    // inherited class can use this method since _handleBase is defined
+    // inherited class can use this method since handle is defined
     public virtual void BaseMethod()
     {
         ThrowIfDisposed();
-        var status = BaseNative.Sleep(_handleBase);
+        var status = BaseNative.Sleep(handle);
         status.ThrowIfError();
     }
 }
 ```
 ```csharp
-// In the base class (e.g. inherited.cs)
+// In the inherited class (e.g. inherited.cs)
 
 public class MyInheritedClass : MyBaseClass
 {
-    private SafeInheritedHandle _handleInherited;
+    private SafeInheritedHandle handle;     // handle for inherited
 
-    public MyInheritedClass()
+    public MyInheritedClass() : this(CreateHandle())
     {
-        _handleInherited = InheritedNative.Create();
-        if (_handleInherited.IsInvalid)
-            throw new OutOfMemoryException("Failed to create inherited class.");
-        // using C# base keyword to call the base class' method
-        base.InitializeBaseHandle(InheritedNative.As_Base(_handleBase));  // upcasting: initialise handle for parent class
     }
 
-    // _handleInherited is needed when calling the inherited method
-    private protected void InitializeInheritedHandle(SafeInheritedHandle handle)
+    // calls base class with upcasted handle
+    private protected MyInheritedClass(SafeBaseHandle handle): base(InheritedNative.As_Base(handle))
     {
-        _handleInherited = handle;
+        // called by self: owns handle
+        // called by inherited class: does not own handle
+        this.handle = handle;
+    }
+
+    private static SafeInheritedHandle CreateHandle()
+    {
+        handle = InheritedNative.Create();
+        if (handle.IsInvalid)
+            throw new OutOfMemoryException("Failed to create inherited class.");
+        return handle;
     }
 
     // no need to reimplement the BaseMethod()
 }
+```
+```
+MyInheritedClass() -> MyInheritedClass(inherited_handle) -> MyBaseClass(InheritedNative.As_Base(inherited_handle)) -> MyBaseClass(non-owning base_handle)
+(init)                                                      (assign reference for base class)
 ```
 
 Building and shipping the library

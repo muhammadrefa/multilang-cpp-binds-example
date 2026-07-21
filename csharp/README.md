@@ -3,7 +3,13 @@ Object-oriented C# library utilising C wrapper
 
 This library utilises `DllImport` to load the C wrapper and rewrite the classes to mimic the C++ library. `DllImport` used to achieve compatibility for apps using legacy .NET framework. Read the workflow in [WORKFLOW.md](WORKFLOW.md).
 
-The structure of the library is as follows.
+Design consideration
+---
+In this example, the native resource owned by the handle (handle-centric ownership). It is implemented using `SafeHandle` which is used by `IDisposable`. This is the [best practice for .NET native interoperability](https://learn.microsoft.com/en-us/dotnet/standard/native-interop/best-practices).
+
+
+Project structure
+---
 ```
 MyLib
 ├── runtimes
