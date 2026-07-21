@@ -113,15 +113,13 @@ def age(self, new_age: int):
 # In the base class (e.g. base.py)
 
 class MyBaseClass:
-    def __init__(self):
-        self._ptr_base = c_mywrapper_base.create()
+    def __init__(self, **kwargs):
+        self._ptr_base = kwargs.pop('_ptr', None)       # assign reference
+        if self._ptr_base is None:                      # ... or create new resource instead
+            self._ptr_base = c_mywrapper_base.create()
 
     def __del__(self):
         c_mywrapper_base.destroy(self._ptr_base)
-
-    # self._ptr_base is needed when calling the inherited method
-    def _assign_reference(self, ptr) -> None:
-        self._ptr_base = ptr
 
     # inherited class can use this method since self._ptr_base is defined
     def base_method(self) -> None:
@@ -131,16 +129,14 @@ class MyBaseClass:
 # In the inherited class (e.g. inherited.py)
 
 class MyInheritedClass(MyBaseClass):
-    def __init__(self):
-        self._ptr_inherited = c_mywrapper_inherited.create()
-        super()._assign_reference(c_my_wrapper_inherited.as_base(self._ptr_inherited))      # upcasting; initialise handle for parent class
+    def __init__(self, **kwargs):
+        self._ptr_inherited = kwargs.pop('_ptr', None)       # assign reference
+        if self._ptr_inherited is None:                      # ... or create new resource instead
+            self._ptr_inherited = c_mywrapper_inherited.create()
+            super().__init__(_ptr=c_my_wrapper_inherited.as_base(self._ptr_inherited), **kwargs)      # upcasting; initialise handle for parent class
 
     def __del__(self):
         c_mywrapper_inherited.destroy(self._ptr_inherited)
-
-    # needed when calling the inherited method
-    def _assign_reference(self, ptr) -> None:
-        self._ptr_inherited = ptr
 
     # no need to reimplement base_method()
 ```
