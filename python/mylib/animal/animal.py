@@ -13,7 +13,7 @@ class Animal:
         if self._ptr_animal is None:
             if name is None:
                 self._ptr_animal = c_animal.create()
-            elif type(name) is str:
+            elif isinstance(name, str):
                 self._ptr_animal = c_animal.create_with_name(name.encode(), len(name))
             else:
                 raise TypeError("name must be in string or None!")

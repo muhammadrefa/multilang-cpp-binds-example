@@ -14,7 +14,7 @@ class Tiger(Cat):
         if self._ptr_tiger is None:
             if name is None:
                 self._ptr_tiger = c_tiger.create()
-            elif type(name) is str:
+            elif isinstance(name, str):
                 self._ptr_tiger = c_tiger.create_with_name(name.encode(), len(name))
             else:
                 raise TypeError("name must be in string or None!")

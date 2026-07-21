@@ -14,7 +14,7 @@ class Dog(Animal):
         if self._ptr_dog is None:
             if name is None:
                 self._ptr_dog = c_dog.create()
-            elif type(name) is str:
+            elif isinstance(name, str):
                 self._ptr_dog = c_dog.create_with_name(name.encode(), len(name))
             else:
                 raise TypeError("name must be in string or None!")

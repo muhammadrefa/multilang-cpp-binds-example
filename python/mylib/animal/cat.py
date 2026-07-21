@@ -14,7 +14,7 @@ class Cat(Animal):
         if self._ptr_cat is None:
             if name is None:
                 self._ptr_cat = c_cat.create()
-            elif type(name) is str:
+            elif isinstance(name, str):
                 self._ptr_cat = c_cat.create_with_name(name.encode(), len(name))
             else:
                 raise TypeError("name must be in string or None!")
