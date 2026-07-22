@@ -57,21 +57,5 @@ namespace MyLib.Interop
             SafeDogHandle handle,
             out int energy
         );
-
-        [DllImport(
-            NativeConstants.LibraryName,
-            CallingConvention = CallingConvention.Cdecl,
-            EntryPoint = "MyLib_Dog_Speak")]
-        internal static extern MyLibStatus Speak(
-            SafeDogHandle handle
-        );
-
-        [DllImport(
-            NativeConstants.LibraryName,
-            CallingConvention = CallingConvention.Cdecl,
-            EntryPoint = "MyLib_Dog_Sleep")]
-        internal static extern MyLibStatus Sleep(
-            SafeDogHandle handle
-        );
     }
 }

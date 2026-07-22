@@ -40,18 +40,6 @@ public class Dog extends Animal {
         return handle;
     }
 
-    @Override
-    public void speak() {
-        int status = DogNative.speak(handle);
-        StatusHelper.check(status);
-    }
-
-    @Override
-    public void sleep() {
-        int status = DogNative.sleep(handle);
-        StatusHelper.check(status);
-    }
-
     public boolean fetch() {
         IntRef success = new IntRef();
         int status = DogNative.fetch(handle, success);

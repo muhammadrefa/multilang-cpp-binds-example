@@ -41,22 +41,6 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_TigerNative_nativeAsCat
 
 /*
  * Class:     mylib_binding_TigerNative
- * Method:    nativeSpeak
- * Signature: (J)I
- */
-JNIEXPORT jint JNICALL Java_mylib_binding_TigerNative_nativeSpeak
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     mylib_binding_TigerNative
- * Method:    nativeSleep
- * Signature: (J)I
- */
-JNIEXPORT jint JNICALL Java_mylib_binding_TigerNative_nativeSleep
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     mylib_binding_TigerNative
  * Method:    nativeHunt
  * Signature: (J)I
  */

@@ -51,24 +51,6 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_TigerNative_nativeAsCat(JNIEnv* env, 
     return (jlong)cat;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_TigerNative_nativeSpeak(JNIEnv* env, jclass clazz, jlong handle)
-{
-    (void)env;      // unused
-    (void)clazz;    // unused
-    
-    int status = MyLib_Tiger_Speak(get_handle(handle));
-    return (jint)status;
-}
-
-JNIEXPORT jint JNICALL Java_mylib_binding_TigerNative_nativeSleep(JNIEnv* env, jclass clazz, jlong handle)
-{
-    (void)env;      // unused
-    (void)clazz;    // unused
-    
-    int status = MyLib_Tiger_Sleep(get_handle(handle));
-    return (jint)status;
-}
-
 JNIEXPORT jint JNICALL Java_mylib_binding_TigerNative_nativeHunt(JNIEnv* env, jclass clazz, jlong handle)
 {
     (void)env;      // unused

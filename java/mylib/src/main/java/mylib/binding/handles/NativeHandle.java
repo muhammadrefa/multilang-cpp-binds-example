@@ -1,5 +1,6 @@
 package mylib.binding.handles;
 
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongToIntFunction;
 import mylib.internal.StatusHelper;
 
@@ -43,7 +44,7 @@ public abstract class NativeHandle {
         try {
             close();
         } finally {
-            super().finalize();
+            super.finalize();
         }
     }
 }

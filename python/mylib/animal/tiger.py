@@ -33,9 +33,3 @@ class Tiger(Cat):
         hunger = ctypes.c_int()
         c_tiger.get_hunger(self._ptr_tiger, ctypes.byref(hunger))
         return hunger.value
-
-    def speak(self, times: typing.Union[int, None] = None) -> None:
-        if times is None:
-            c_tiger.speak(self._ptr_tiger)        # only this method overridden by Tiger
-        else:
-            super().speak(times)                # call base class method

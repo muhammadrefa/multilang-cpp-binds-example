@@ -32,17 +32,10 @@ public final class CatNative {
         return nativeDestroy(handle.value());
     }
 
-    // not needed because it still referencing the same object underneath
     private static native long nativeAsAnimal(long handle);
     public static AnimalHandle asAnimal(CatHandle handle)
     {
         return new AnimalHandle(nativeAsAnimal(handle.value()));
-    }
-    
-    private static native int nativeSpeak(long handle);
-    public static int speak(CatHandle handle)
-    {
-        return nativeSpeak(handle.value());
     }
     
     private static native int nativeFight(long handle, int bigger_cat, IntRef success);

@@ -89,20 +89,6 @@ namespace MyLib
             return hunger;
         }
 
-        public override void Speak()
-        {
-            ThrowIfDisposed();
-            var status = TigerNative.Speak(handle);
-            status.ThrowIfError();
-        }
-
-        public override void Sleep()
-        {
-            ThrowIfDisposed();
-            var status = TigerNative.Sleep(handle);
-            status.ThrowIfError();
-        }
-
         public override void Dispose()
         {
             handle.Dispose();

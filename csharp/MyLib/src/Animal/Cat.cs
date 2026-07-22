@@ -95,13 +95,6 @@ namespace MyLib
             return is_alive;
         }
 
-        public override void Speak()
-        {
-            ThrowIfDisposed();
-            var status = CatNative.Speak(handle);
-            status.ThrowIfError();
-        }
-
         public override void Dispose()
         {
             handle.Dispose();

@@ -40,18 +40,6 @@ public class Tiger extends Cat {
         return handle;
     }
 
-    @Override
-    public void speak() {
-        int status = TigerNative.speak(handle);
-        StatusHelper.check(status);
-    }
-
-    @Override
-    public void sleep() {
-        int status = TigerNative.sleep(handle);
-        StatusHelper.check(status);
-    }
-
     public void hunt() {
         int status = TigerNative.hunt(handle);
         StatusHelper.check(status);

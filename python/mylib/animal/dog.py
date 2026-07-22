@@ -40,12 +40,3 @@ class Dog(Animal):
         energy = ctypes.c_int()
         c_dog.get_energy(self._ptr_dog, ctypes.byref(energy))
         return energy.value
-    
-    def speak(self, times: typing.Union[int, None] = None) -> None:
-        if times is None:
-            c_dog.speak(self._ptr_dog)      # only this method overridden by Dog
-        else:
-            super().speak(times)            # call base class method
-
-    def sleep(self) -> None:
-        c_dog.sleep(self._ptr_dog)          # overridden by Dog

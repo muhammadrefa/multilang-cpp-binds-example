@@ -42,9 +42,3 @@ class Cat(Animal):
         is_alive = ctypes.c_int()
         c_cat.still_alive(self._ptr_cat, ctypes.byref(is_alive))
         return is_alive.value != 0
-
-    def speak(self, times: typing.Union[int, None] = None) -> None:
-        if times is None:
-            c_cat.speak(self._ptr_cat)      # only this method overridden by Cat
-        else:
-            super().speak(times)            # call base class method

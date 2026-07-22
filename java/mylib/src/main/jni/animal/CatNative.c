@@ -51,15 +51,6 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_CatNative_nativeAsAnimal(JNIEnv* env,
     return (jlong)animal;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_CatNative_nativeSpeak(JNIEnv* env, jclass clazz, jlong handle)
-{
-    (void)env;      // unused
-    (void)clazz;    // unused
-    
-    int status = MyLib_Cat_Speak(get_handle(handle));
-    return (jint)status;
-}
-
 JNIEXPORT jint JNICALL Java_mylib_binding_CatNative_nativeFight(JNIEnv* env, jclass clazz, jlong handle, jint bigger_cat, jobject success)
 {
     (void)clazz;    // unused

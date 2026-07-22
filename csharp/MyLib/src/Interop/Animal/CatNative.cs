@@ -58,13 +58,5 @@ namespace MyLib.Interop
             SafeCatHandle handle,
             out int is_alive
         );
-
-        [DllImport(
-            NativeConstants.LibraryName,
-            CallingConvention = CallingConvention.Cdecl,
-            EntryPoint = "MyLib_Cat_Speak")]
-        internal static extern MyLibStatus Speak(
-            SafeCatHandle handle
-        );
     }
 }
