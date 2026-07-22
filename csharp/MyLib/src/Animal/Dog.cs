@@ -93,20 +93,6 @@ namespace MyLib
             return energy;
         }
 
-        public override void Speak()
-        {
-            ThrowIfDisposed();
-            var status = DogNative.Speak(handle);
-            status.ThrowIfError();
-        }
-
-        public override void Sleep()
-        {
-            ThrowIfDisposed();
-            var status = DogNative.Sleep(handle);
-            status.ThrowIfError();
-        }
-
         public override void Dispose()
         {
             handle.Dispose();

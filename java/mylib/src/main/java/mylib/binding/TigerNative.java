@@ -39,18 +39,6 @@ public final class TigerNative {
         return new CatHandle(nativeAsCat(handle.value()));
     }
     
-    private static native int nativeSpeak(long handle);
-    public static int speak(TigerHandle handle)
-    {
-        return nativeSpeak(handle.value());
-    }
-    
-    private static native int nativeSleep(long handle);
-    public static int sleep(TigerHandle handle)
-    {
-        return nativeSleep(handle.value());
-    }
-    
     private static native int nativeHunt(long handle);
     public static int hunt(TigerHandle handle)
     {

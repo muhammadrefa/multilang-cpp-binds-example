@@ -51,24 +51,6 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_DogNative_nativeAsAnimal(JNIEnv* env,
     return (jlong)animal;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_DogNative_nativeSpeak(JNIEnv* env, jclass clazz, jlong handle)
-{
-    (void)env;      // unused
-    (void)clazz;    // unused
-    
-    int status = MyLib_Dog_Speak(get_handle(handle));
-    return (jint)status;
-}
-
-JNIEXPORT jint JNICALL Java_mylib_binding_DogNative_nativeSleep(JNIEnv* env, jclass clazz, jlong handle)
-{
-    (void)env;      // unused
-    (void)clazz;    // unused
-    
-    int status = MyLib_Dog_Sleep(get_handle(handle));
-    return (jint)status;
-}
-
 JNIEXPORT jint JNICALL Java_mylib_binding_DogNative_nativeFetch(JNIEnv* env, jclass clazz, jlong handle, jobject success)
 {
     (void)clazz;    // unused

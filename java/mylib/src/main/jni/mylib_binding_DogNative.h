@@ -41,22 +41,6 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_DogNative_nativeAsAnimal
 
 /*
  * Class:     mylib_binding_DogNative
- * Method:    nativeSpeak
- * Signature: (J)I
- */
-JNIEXPORT jint JNICALL Java_mylib_binding_DogNative_nativeSpeak
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     mylib_binding_DogNative
- * Method:    nativeSleep
- * Signature: (J)I
- */
-JNIEXPORT jint JNICALL Java_mylib_binding_DogNative_nativeSleep
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     mylib_binding_DogNative
  * Method:    nativeFetch
  * Signature: (JLmylib/binding/refs/IntRef;)I
  */

@@ -41,14 +41,6 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_CatNative_nativeAsAnimal
 
 /*
  * Class:     mylib_binding_CatNative
- * Method:    nativeSpeak
- * Signature: (J)I
- */
-JNIEXPORT jint JNICALL Java_mylib_binding_CatNative_nativeSpeak
-  (JNIEnv *, jclass, jlong);
-
-/*
- * Class:     mylib_binding_CatNative
  * Method:    nativeFight
  * Signature: (JILmylib/binding/refs/IntRef;)I
  */

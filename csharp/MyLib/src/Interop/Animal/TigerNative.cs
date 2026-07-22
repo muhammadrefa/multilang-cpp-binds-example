@@ -56,21 +56,5 @@ namespace MyLib.Interop
             SafeTigerHandle handle,
             out int hunger
         );
-
-        [DllImport(
-            NativeConstants.LibraryName,
-            CallingConvention = CallingConvention.Cdecl,
-            EntryPoint = "MyLib_Tiger_Speak")]
-        internal static extern MyLibStatus Speak(
-            SafeTigerHandle handle
-        );
-
-        [DllImport(
-            NativeConstants.LibraryName,
-            CallingConvention = CallingConvention.Cdecl,
-            EntryPoint = "MyLib_Tiger_Sleep")]
-        internal static extern MyLibStatus Sleep(
-            SafeTigerHandle handle
-        );
     }
 }

@@ -40,12 +40,6 @@ public class Cat extends Animal {
         return handle;
     }
 
-    @Override
-    public void speak() {
-        int status = CatNative.speak(handle);
-        StatusHelper.check(status);
-    }
-
     public boolean fight(boolean bigger_cat) {
         IntRef success = new IntRef();
         int status = CatNative.fight(handle, (bigger_cat ? 1 : 0), success);

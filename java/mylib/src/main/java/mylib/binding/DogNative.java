@@ -32,23 +32,10 @@ public final class DogNative {
         return nativeDestroy(handle.value());
     }
 
-    // not needed because it still referencing the same object underneath
     private static native long nativeAsAnimal(long handle);
     public static AnimalHandle asAnimal(DogHandle handle)
     {
         return new AnimalHandle(nativeAsAnimal(handle.value()));
-    }
-    
-    private static native int nativeSpeak(long handle);
-    public static int speak(DogHandle handle)
-    {
-        return nativeSpeak(handle.value());
-    }
-    
-    private static native int nativeSleep(long handle);
-    public static int sleep(DogHandle handle)
-    {
-        return nativeSleep(handle.value());
     }
     
     private static native int nativeFetch(long handle, IntRef success);
