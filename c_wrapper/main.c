@@ -10,6 +10,9 @@
 #include "animal/cat.h"
 #include "animal/tiger.h"
 
+#include "number_processor/number_processor.h"
+#include "number_processor/process_add2.h"
+
 void calculator_check()
 {
     int val;
@@ -207,6 +210,17 @@ void animal_check()
     MyLib_Tiger_Destroy(tiger);
 }
 
+void number_processor_check()
+{
+    // add 2
+    mylib_process_add2_t* add2 = MyLib_ProcessAdd2_Create();
+    MyLib_NumberProcessor_SetNumber(MyLib_ProcessAdd2_As_NumberProcessor(add2), 10);
+    MyLib_NumberProcessor_PrintNumber(MyLib_ProcessAdd2_As_NumberProcessor(add2));
+    MyLib_NumberProcessor_Process(MyLib_ProcessAdd2_As_NumberProcessor(add2));
+    MyLib_NumberProcessor_PrintNumber(MyLib_ProcessAdd2_As_NumberProcessor(add2));
+    MyLib_ProcessAdd2_Destroy(add2);
+}
+
 int main()
 {
     printf("--- calculator check ---\n");
@@ -219,6 +233,10 @@ int main()
 
     printf("--- animal check ---\n");
     animal_check();
+    printf("\n");
+
+    printf("--- number processor check ---\n");
+    number_processor_check();
     printf("\n");
 
     return 0;

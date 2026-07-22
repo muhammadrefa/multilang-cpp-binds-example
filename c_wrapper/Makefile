@@ -20,6 +20,7 @@ endif
 # Source and object files
 SOURCES = calculator.cpp circular_buffer.cpp
 SOURCES += animal/animal.cpp animal/dog.cpp animal/cat.cpp animal/tiger.cpp
+SOURCES += number_processor/number_processor.cpp number_processor/process_add2.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 LIBRARY = $(DLL_PREFIX)mylibraryc.$(DLL_EXT)
 
