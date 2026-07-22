@@ -28,11 +28,12 @@ MYLIB_API mylib_cat_t* MyLib_Tiger_As_Cat(mylib_tiger_t* handle);
 MYLIB_API mylib_status_t MyLib_Tiger_Hunt(mylib_tiger_t* handle);
 MYLIB_API mylib_status_t MyLib_Tiger_GetHunger(mylib_tiger_t* handle, int* hunger);
 
+// ----- Wrapper for inherited Cat methods ----- //
+
 // Overridden Cat methods
 MYLIB_API mylib_status_t MyLib_Tiger_Speak(mylib_tiger_t* handle);
 MYLIB_API mylib_status_t MyLib_Tiger_Sleep(mylib_tiger_t* handle);
 
-// Wrapper for inherited Cat methods
 // Consumers do not need to think about inheritance or upcasting
 MYLIB_API mylib_status_t MyLib_Tiger_Fight(mylib_tiger_t* handle, int bigger_cat, int* success);
 MYLIB_API mylib_status_t MyLib_Tiger_StillAlive(mylib_tiger_t* handle, int* is_alive);
