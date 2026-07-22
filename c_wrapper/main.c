@@ -12,6 +12,7 @@
 
 #include "number_processor/number_processor.h"
 #include "number_processor/process_add2.h"
+#include "number_processor/cprocess_add3.h"
 
 void calculator_check()
 {
@@ -219,6 +220,15 @@ void number_processor_check()
     MyLib_NumberProcessor_Process(MyLib_ProcessAdd2_As_NumberProcessor(add2));
     MyLib_NumberProcessor_PrintNumber(MyLib_ProcessAdd2_As_NumberProcessor(add2));
     MyLib_ProcessAdd2_Destroy(add2);
+
+    // C - add 3
+    mylib_cprocess_add3_t* add3 = MyLib_CProcessAdd3_Create();
+    mylib_number_processor_t* _add3 = MyLib_CProcessAdd3_As_NumberProcessor(add3);
+    MyLib_NumberProcessor_SetNumber(_add3, 10);
+    MyLib_NumberProcessor_PrintNumber(_add3);
+    MyLib_NumberProcessor_Process(_add3);
+    MyLib_NumberProcessor_PrintNumber(_add3);
+    MyLib_CProcessAdd3_Destroy(add3);
 }
 
 int main()
