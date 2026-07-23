@@ -11,13 +11,13 @@ namespace MyLibrary
             NumberProcessorProxy();
             ~NumberProcessorProxy();
 
-            void SetCallback(mylib_number_processor_proxy_t* handle, mylib_number_processor_proxy_cb_t* callback);
+            void SetCallback(mylib_NumberProcessorProxy_t* handle, mylib_NumberProcessorProxy_cb_t* callback);
 
             void process();
             void PrintNumber() override;
         
         private:
-            mylib_number_processor_proxy_t* handle;
-            mylib_number_processor_proxy_cb_t cb;
+            mylib_NumberProcessorProxy_t* handle;
+            mylib_NumberProcessorProxy_cb_t cb;
     };
 }

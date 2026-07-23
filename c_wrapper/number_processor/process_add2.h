@@ -10,12 +10,12 @@ extern "C"
 {
 #endif
 
-typedef struct mylib_process_add2 mylib_process_add2_t;
+typedef struct mylib_ProcessAdd2 mylib_ProcessAdd2_t;
 
 // Constructor and Destructor
-MYLIB_API mylib_process_add2_t* MyLib_ProcessAdd2_Create();
-MYLIB_API mylib_status_t MyLib_ProcessAdd2_Destroy(mylib_process_add2_t* handle);
-MYLIB_API mylib_number_processor_t* MyLib_ProcessAdd2_As_NumberProcessor(mylib_process_add2_t* handle);
+MYLIB_API mylib_ProcessAdd2_t* MyLib_ProcessAdd2_Create();
+MYLIB_API mylib_status_t MyLib_ProcessAdd2_Destroy(mylib_ProcessAdd2_t* handle);
+MYLIB_API mylib_NumberProcessor_t* MyLib_ProcessAdd2_As_NumberProcessor(mylib_ProcessAdd2_t* handle);
 
 #ifdef __cplusplus
 }

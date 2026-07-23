@@ -214,7 +214,7 @@ void animal_check()
 void number_processor_check()
 {
     // add 2
-    mylib_process_add2_t* add2 = MyLib_ProcessAdd2_Create();
+    mylib_ProcessAdd2_t* add2 = MyLib_ProcessAdd2_Create();
     MyLib_NumberProcessor_SetNumber(MyLib_ProcessAdd2_As_NumberProcessor(add2), 10);
     MyLib_NumberProcessor_PrintNumber(MyLib_ProcessAdd2_As_NumberProcessor(add2));
     MyLib_NumberProcessor_Process(MyLib_ProcessAdd2_As_NumberProcessor(add2));
@@ -222,8 +222,8 @@ void number_processor_check()
     MyLib_ProcessAdd2_Destroy(add2);
 
     // C - add 3
-    mylib_cprocess_add3_t* add3 = MyLib_CProcessAdd3_Create();
-    mylib_number_processor_t* _add3 = MyLib_CProcessAdd3_As_NumberProcessor(add3);
+    mylib_CProcessAdd3_t* add3 = MyLib_CProcessAdd3_Create();
+    mylib_NumberProcessor_t* _add3 = MyLib_CProcessAdd3_As_NumberProcessor(add3);
     MyLib_NumberProcessor_SetNumber(_add3, 10);
     MyLib_NumberProcessor_PrintNumber(_add3);
     MyLib_NumberProcessor_Process(_add3);

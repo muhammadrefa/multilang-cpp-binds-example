@@ -10,25 +10,25 @@ extern "C"
 {
 #endif
 
-typedef struct mylib_number_processor_proxy mylib_number_processor_proxy_t;
+typedef struct mylib_NumberProcessorProxy mylib_NumberProcessorProxy_t;
 
 typedef struct
 {
-    void (*cb_process)(mylib_number_processor_proxy_t*);
-    void (*cb_print_number)(mylib_number_processor_proxy_t*);
-} mylib_number_processor_proxy_cb_t;
+    void (*cb_process)(mylib_NumberProcessorProxy_t*);
+    void (*cb_print_number)(mylib_NumberProcessorProxy_t*);
+} mylib_NumberProcessorProxy_cb_t;
 
 
 // Constructor and Destructor
-MYLIB_API mylib_number_processor_proxy_t* MyLib_NumberProcessorProxy_Create();
-MYLIB_API mylib_status_t MyLib_NumberProcessorProxy_Destroy(mylib_number_processor_proxy_t* handle);
-MYLIB_API mylib_number_processor_t* MyLib_NumberProcessorProxy_As_NumberProcessor(mylib_number_processor_proxy_t* handle);
+MYLIB_API mylib_NumberProcessorProxy_t* MyLib_NumberProcessorProxy_Create();
+MYLIB_API mylib_status_t MyLib_NumberProcessorProxy_Destroy(mylib_NumberProcessorProxy_t* handle);
+MYLIB_API mylib_NumberProcessor_t* MyLib_NumberProcessorProxy_As_NumberProcessor(mylib_NumberProcessorProxy_t* handle);
 
 // set callback
-MYLIB_API void MyLib_NumberProcessorProxy_SetCallback(mylib_number_processor_proxy_t* handle, mylib_number_processor_proxy_cb_t* callback);
+MYLIB_API void MyLib_NumberProcessorProxy_SetCallback(mylib_NumberProcessorProxy_t* handle, mylib_NumberProcessorProxy_cb_t* callback);
 
 // calls base method
-MYLIB_API mylib_status_t MyLib_NumberProcessorProxy_CallBase_PrintNumber(mylib_number_processor_proxy_t* handle);
+MYLIB_API mylib_status_t MyLib_NumberProcessorProxy_CallBase_PrintNumber(mylib_NumberProcessorProxy_t* handle);
 
 #ifdef __cplusplus
 }

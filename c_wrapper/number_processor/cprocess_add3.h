@@ -5,9 +5,9 @@
 #include "../status_code.h"
 #include "number_processor_proxy.h"
 
-typedef struct mylib_cprocess_add3 mylib_cprocess_add3_t;
+typedef struct mylib_CProcessAdd3 mylib_CProcessAdd3_t;
 
 // Constructor and Destructor
-MYLIB_API mylib_cprocess_add3_t* MyLib_CProcessAdd3_Create();
-MYLIB_API mylib_status_t MyLib_CProcessAdd3_Destroy(mylib_cprocess_add3_t* handle);
-MYLIB_API mylib_number_processor_t* MyLib_CProcessAdd3_As_NumberProcessor(mylib_cprocess_add3_t* handle);
+MYLIB_API mylib_CProcessAdd3_t* MyLib_CProcessAdd3_Create();
+MYLIB_API mylib_status_t MyLib_CProcessAdd3_Destroy(mylib_CProcessAdd3_t* handle);
+MYLIB_API mylib_NumberProcessor_t* MyLib_CProcessAdd3_As_NumberProcessor(mylib_CProcessAdd3_t* handle);
