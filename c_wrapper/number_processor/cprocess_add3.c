@@ -1,9 +1,12 @@
+#include <stdio.h>
 #include "cprocess_add3.h"
 
 static void CProcess_Add3_process(mylib_number_processor_proxy_t* handle);
+static void CProcess_Add3_PrintNumber(mylib_number_processor_proxy_t* handle);
 
 static mylib_number_processor_proxy_cb_t callback = {
-    .cb_process = CProcess_Add3_process
+    .cb_process = CProcess_Add3_process,
+    .cb_print_number = CProcess_Add3_PrintNumber
 };
 
 static void CProcess_Add3_process(mylib_number_processor_proxy_t* handle)
@@ -15,6 +18,12 @@ static void CProcess_Add3_process(mylib_number_processor_proxy_t* handle)
     number += 3;
     // set number
     MyLib_NumberProcessor_SetNumber(MyLib_NumberProcessorProxy_As_NumberProcessor(handle), number);
+}
+
+static void CProcess_Add3_PrintNumber(mylib_number_processor_proxy_t* handle)
+{
+    printf("Cprocess print number -> ");
+    MyLib_NumberProcessorProxy_CallBase_PrintNumber(handle);
 }
 
 mylib_cprocess_add3_t* MyLib_CProcessAdd3_Create()
