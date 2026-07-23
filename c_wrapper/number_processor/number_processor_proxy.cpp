@@ -14,15 +14,23 @@ MyLibrary::NumberProcessorProxy::~NumberProcessorProxy()
 
 }
 
-void MyLibrary::NumberProcessorProxy::process()
-{
-    cb.cb_process(handle);
-}
-
 void MyLibrary::NumberProcessorProxy::SetCallback(mylib_number_processor_proxy_t* handle, mylib_number_processor_proxy_cb_t* callback)
 {
     this->handle = handle;
     cb = *callback;
+}
+
+void MyLibrary::NumberProcessorProxy::process()
+{
+    if (cb.cb_process != nullptr)
+        cb.cb_process(handle);
+}
+
+void MyLibrary::NumberProcessorProxy::PrintNumber()
+{
+    if (cb.cb_print_number != nullptr)
+        return cb.cb_print_number(handle);
+    return MyLibrary::NumberProcessor::PrintNumber();
 }
 
 // ----- Implementation of abstract C++ class ----- //
@@ -71,6 +79,16 @@ mylib_number_processor_t* MyLib_NumberProcessorProxy_As_NumberProcessor(mylib_nu
 void MyLib_NumberProcessorProxy_SetCallback(mylib_number_processor_proxy_t* handle, mylib_number_processor_proxy_cb_t* callback)
 {
     GetObject(handle)->SetCallback(handle, callback);
+}
+
+mylib_status_t MyLib_NumberProcessorProxy_CallBase_PrintNumber(mylib_number_processor_proxy_t* handle)
+{
+    if (handle == nullptr)
+        return MYLIB_STATUS_INVALID_HANDLE;
+
+    GetObject(handle)->MyLibrary::NumberProcessor::PrintNumber();
+
+    return MYLIB_STATUS_OK;
 }
 
 // ----- C wrapper for the C++ class ----- //

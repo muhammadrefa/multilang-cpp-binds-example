@@ -15,6 +15,7 @@ typedef struct mylib_number_processor_proxy mylib_number_processor_proxy_t;
 typedef struct
 {
     void (*cb_process)(mylib_number_processor_proxy_t*);
+    void (*cb_print_number)(mylib_number_processor_proxy_t*);
 } mylib_number_processor_proxy_cb_t;
 
 
@@ -25,6 +26,9 @@ MYLIB_API mylib_number_processor_t* MyLib_NumberProcessorProxy_As_NumberProcesso
 
 // set callback
 MYLIB_API void MyLib_NumberProcessorProxy_SetCallback(mylib_number_processor_proxy_t* handle, mylib_number_processor_proxy_cb_t* callback);
+
+// calls base method
+MYLIB_API mylib_status_t MyLib_NumberProcessorProxy_CallBase_PrintNumber(mylib_number_processor_proxy_t* handle);
 
 #ifdef __cplusplus
 }
