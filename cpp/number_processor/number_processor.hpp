@@ -13,7 +13,7 @@ namespace MyLibrary
             virtual void process() = 0;
             void SetNumber(int number);
             int GetNumber();
-            void PrintNumber();
+            virtual void PrintNumber();
         
         protected:
             int number;
