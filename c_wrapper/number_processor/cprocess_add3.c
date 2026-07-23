@@ -28,10 +28,9 @@ static void CProcess_Add3_PrintNumber(mylib_NumberProcessorProxy_t* handle)
 
 mylib_CProcessAdd3_t* MyLib_CProcessAdd3_Create()
 {
-    mylib_NumberProcessorProxy_t *proxy = MyLib_NumberProcessorProxy_Create();
+    mylib_NumberProcessorProxy_t *proxy = MyLib_NumberProcessorProxy_Create(&callback);
     if (proxy == NULL)
         return NULL;
-    MyLib_NumberProcessorProxy_SetCallback(proxy, &callback);
     return (mylib_CProcessAdd3_t *)proxy;
 }
 

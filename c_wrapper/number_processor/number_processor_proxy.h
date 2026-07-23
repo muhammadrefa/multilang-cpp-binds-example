@@ -20,12 +20,9 @@ typedef struct
 
 
 // Constructor and Destructor
-MYLIB_API mylib_NumberProcessorProxy_t* MyLib_NumberProcessorProxy_Create();
+MYLIB_API mylib_NumberProcessorProxy_t* MyLib_NumberProcessorProxy_Create(mylib_NumberProcessorProxy_cb_t* callback);
 MYLIB_API mylib_status_t MyLib_NumberProcessorProxy_Destroy(mylib_NumberProcessorProxy_t* handle);
 MYLIB_API mylib_NumberProcessor_t* MyLib_NumberProcessorProxy_As_NumberProcessor(mylib_NumberProcessorProxy_t* handle);
-
-// set callback
-MYLIB_API void MyLib_NumberProcessorProxy_SetCallback(mylib_NumberProcessorProxy_t* handle, mylib_NumberProcessorProxy_cb_t* callback);
 
 // calls base method
 MYLIB_API mylib_status_t MyLib_NumberProcessorProxy_CallBase_PrintNumber(mylib_NumberProcessorProxy_t* handle);

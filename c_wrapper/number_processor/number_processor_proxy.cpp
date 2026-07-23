@@ -42,12 +42,14 @@ static MyLibrary::NumberProcessorProxy* GetObject(mylib_NumberProcessorProxy_t* 
     return reinterpret_cast<MyLibrary::NumberProcessorProxy*>(handle);
 }
 
-mylib_NumberProcessorProxy_t* MyLib_NumberProcessorProxy_Create()
+mylib_NumberProcessorProxy_t* MyLib_NumberProcessorProxy_Create(mylib_NumberProcessorProxy_cb_t* callback)
 {
     try
     {
-        MyLibrary::NumberProcessorProxy *proxy = new MyLibrary::NumberProcessorProxy();
-        return reinterpret_cast<mylib_NumberProcessorProxy_t*>(proxy);
+        MyLibrary::NumberProcessorProxy *_proxy = new MyLibrary::NumberProcessorProxy();
+        mylib_NumberProcessorProxy_t* proxy = reinterpret_cast<mylib_NumberProcessorProxy_t*>(_proxy);
+        _proxy->SetCallback(proxy, callback);
+        return proxy;
     }
     catch (const std::bad_alloc& e)
     {
@@ -74,11 +76,6 @@ mylib_NumberProcessor_t* MyLib_NumberProcessorProxy_As_NumberProcessor(mylib_Num
     MyLibrary::NumberProcessorProxy* proxy = GetObject(handle);
     MyLibrary::NumberProcessor* np = static_cast<MyLibrary::NumberProcessor*>(proxy);
     return reinterpret_cast<mylib_NumberProcessor_t*>(np);
-}
-
-void MyLib_NumberProcessorProxy_SetCallback(mylib_NumberProcessorProxy_t* handle, mylib_NumberProcessorProxy_cb_t* callback)
-{
-    GetObject(handle)->SetCallback(handle, callback);
 }
 
 mylib_status_t MyLib_NumberProcessorProxy_CallBase_PrintNumber(mylib_NumberProcessorProxy_t* handle)
