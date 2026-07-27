@@ -1,8 +1,4 @@
 using System;
-using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
 using MyLib.Interop;
 using MyLib.Interop.Handles;
 
@@ -32,7 +28,7 @@ namespace MyLib
         private protected NumberProcessorProxy(SafeNumberProcessorProxyHandle handle): base(NumberProcessorProxyNative.As_NumberProcessor(handle))
         {
             this.handle = handle;
-            
+
             try
             {
                 _closure = t_pendingClosure!;
@@ -67,44 +63,7 @@ namespace MyLib
             return closure.Handle;
         }
 
-        protected internal static T CreateProxy<T>(Func <SafeNumberProcessorProxyHandle, T> factory)
-            where T : NumberProcessorProxy
-        {
-            T instance = null!;
-
-            // lambdas
-            NumberProcessorProxyNative.ProcessCallback cbProcess = (h) => instance?.Process();
-            NumberProcessorProxyNative.PrintNumberCallback cbPrintNumber = (h) => instance?.PrintNumber();
-
-            var _callback = new NumberProcessorProxyNative.NumberProcessorProxyCallbacks
-            {
-                Process = cbProcess,
-                PrintNumber = cbPrintNumber
-            };
-
-            SafeNumberProcessorProxyHandle handle = NumberProcessorProxyNative.Create(ref _callback);
-            if (handle.IsInvalid)
-                throw new OutOfMemoryException("Failed to create number processor proxy.");
-            
-            instance = factory(handle);
-
-            instance._cbProcess = cbProcess;
-            instance._cbPrintNumber = cbPrintNumber;
-
-            return instance;
-        }
-
-        // private void OnProcessNative(IntPtr handle)
-        // {
-        //     Process();
-        // }
-
         public abstract override void Process();
-
-        // private void OnPrintNumberNative(IntPtr _handle)
-        // {
-        //     PrintNumber();
-        // }
 
         public override void PrintNumber()
         {
