@@ -152,6 +152,21 @@ void animal_check()
     // they should have been died when this function returned
 }
 
+void number_processor_check()
+{
+    ProcessAdd2 add2 = new();
+    add2.SetNumber(10);
+    add2.PrintNumber();
+    add2.Process();
+    add2.PrintNumber();
+
+    CSProcessAdd5 add5 = new();
+    add5.SetNumber(10);
+    add5.PrintNumber();
+    add5.Process();
+    add5.PrintNumber();
+}
+
 Console.WriteLine("--- calculator check ---");
 calculator_check();
 Console.WriteLine();
@@ -162,4 +177,8 @@ Console.WriteLine();
 
 Console.WriteLine("--- animal check ---");
 animal_check();
+Console.WriteLine();
+
+Console.WriteLine("--- number processor check ---");
+number_processor_check();
 Console.WriteLine();
