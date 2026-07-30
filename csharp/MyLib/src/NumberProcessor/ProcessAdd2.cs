@@ -6,28 +6,28 @@ using MyLib.Interop.Handles;
 
 namespace MyLib
 {
-    public class Process2 : NumberProcessor
+    public class ProcessAdd2 : NumberProcessor
     {
-        private SafeProcess2Handle handle;
+        private SafeProcessAdd2Handle handle;
 
-        public Process2() : this(CreateHandle())
+        public ProcessAdd2() : this(CreateHandle())
         {
         }
 
-        private protected Process2(SafeProcess2Handle handle): base(Process2Native.As_NumberProcessor(handle))
+        private protected ProcessAdd2(SafeProcessAdd2Handle handle): base(ProcessAdd2Native.As_NumberProcessor(handle))
         {
             this.handle = handle;
         }
 
-        private static SafeProcess2Handle CreateHandle()
+        private static SafeProcessAdd2Handle CreateHandle()
         {
-            SafeProcess2Handle handle = Process2Native.Create();
+            SafeProcessAdd2Handle handle = ProcessAdd2Native.Create();
             if (handle.IsInvalid)
                 throw new OutOfMemoryException("Failed to create cat.");
             return handle;
         }
 
-        internal new SafeProcess2Handle GetHandle()
+        internal new SafeProcessAdd2Handle GetHandle()
         {
             return handle;
         }
@@ -35,7 +35,7 @@ namespace MyLib
         public override void Process()
         {
             ThrowIfDisposed();
-            // var status = NumberProcessorNative.Process(Process2Native.As_NumberProcessor(handle));
+            // var status = NumberProcessorNative.Process(ProcessAdd2Native.As_NumberProcessor(handle));
             var status = NumberProcessorNative.Process(((NumberProcessor)this).GetHandle());
             status.ThrowIfError();
         }
@@ -48,7 +48,7 @@ namespace MyLib
         private void ThrowIfDisposed()
         {
             if (handle.IsClosed)
-                throw new ObjectDisposedException(nameof(Process2));
+                throw new ObjectDisposedException(nameof(ProcessAdd2));
         }
     }
 }

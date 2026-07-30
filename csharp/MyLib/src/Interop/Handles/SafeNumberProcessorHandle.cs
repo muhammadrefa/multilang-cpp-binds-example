@@ -23,22 +23,22 @@ namespace MyLib.Interop.Handles
         }
     }
 
-    internal class SafeProcess2Handle : SafeNumberProcessorHandle
+    internal class SafeProcessAdd2Handle : SafeNumberProcessorHandle
     {
 
-        private protected SafeProcess2Handle() : base() { }
-        private protected SafeProcess2Handle(bool ownsHandle) : base(ownsHandle) { }
+        private protected SafeProcessAdd2Handle() : base() { }
+        private protected SafeProcessAdd2Handle(bool ownsHandle) : base(ownsHandle) { }
 
-        internal new static SafeProcess2Handle AsReference(IntPtr ptr)
+        internal new static SafeProcessAdd2Handle AsReference(IntPtr ptr)
         {
-            var handle = new SafeProcess2Handle(false);
+            var handle = new SafeProcessAdd2Handle(false);
             handle.SetHandle(ptr);
             return handle;
         }
 
         protected override bool ReleaseHandle()
         {
-            return Process2Native.Destroy(handle) == MyLibStatus.Ok;
+            return ProcessAdd2Native.Destroy(handle) == MyLibStatus.Ok;
         }
     }
 
