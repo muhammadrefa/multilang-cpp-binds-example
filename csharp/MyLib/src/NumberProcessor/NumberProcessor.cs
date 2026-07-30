@@ -5,21 +5,18 @@ using MyLib.Interop.Handles;
 
 namespace MyLib
 {
-    /// <summary>
-    /// Animal - bindings from C wrapper to C++ class
-    /// </summary>
     public abstract class NumberProcessor : IDisposable
     {
         private readonly SafeNumberProcessorHandle handle;
 
-        /// <summary>
-        /// Create Animal by passing the handle
-        /// Used by its derivatives to set the handle for Animal
-        /// </summary>
-        /// <param name="handle">Animal handle which does not owns handle</param>
         private protected NumberProcessor(SafeNumberProcessorHandle handle)
         {
             this.handle = handle;
+        }
+
+        internal SafeNumberProcessorHandle GetHandle()
+        {
+            return handle;
         }
 
         public abstract void Process();

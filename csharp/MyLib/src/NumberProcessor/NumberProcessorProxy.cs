@@ -11,8 +11,7 @@ namespace MyLib
         {
             public NumberProcessorProxy? Target;
             public SafeNumberProcessorProxyHandle Handle = null!;
-            public NumberProcessorProxyNative.ProcessCallback CbProcess = null!;
-            public NumberProcessorProxyNative.PrintNumberCallback CbPrintNumber = null!;
+            public NumberProcessorProxyNative.NumberProcessorProxyCallbacks Callback;
         }
 
         [ThreadStatic]
@@ -21,7 +20,7 @@ namespace MyLib
         private readonly CallbackClosure _closure;
         private SafeNumberProcessorProxyHandle handle;
 
-        public NumberProcessorProxy() : this(CreateHandleAndParkClosure())
+        protected NumberProcessorProxy() : this(CreateHandleAndParkClosure())
         {
         }
 
@@ -29,16 +28,19 @@ namespace MyLib
         {
             this.handle = handle;
 
-            try
+            if (t_pendingClosure != null)
             {
-                _closure = t_pendingClosure!;
-            }
-            finally
-            {
-                t_pendingClosure = null;
-            }
+                try
+                {
+                    _closure = t_pendingClosure!;
+                }
+                finally
+                {
+                    t_pendingClosure = null;
+                }
 
-            _closure.Target = this;
+                _closure.Target = this;
+            }
         }
 
         private static SafeNumberProcessorProxyHandle CreateHandleAndParkClosure()
@@ -46,16 +48,15 @@ namespace MyLib
             t_pendingClosure = null;
 
             var closure = new CallbackClosure();
-            closure.CbProcess = (_) => closure.Target?.Process();
-            closure.CbPrintNumber = (_) => closure.Target?.PrintNumber();
-
-            var NativeCallbacks = new NumberProcessorProxyNative.NumberProcessorProxyCallbacks
+            
+            // set the callbacks
+            closure.Callback = new NumberProcessorProxyNative.NumberProcessorProxyCallbacks
             {
-                Process = closure.CbProcess,
-                PrintNumber = closure.CbPrintNumber
+                Process = (_) => closure.Target?.Process(),
+                PrintNumber = (_) => closure.Target?.PrintNumber()
             };
 
-            closure.Handle = NumberProcessorProxyNative.Create(ref NativeCallbacks);
+            closure.Handle = NumberProcessorProxyNative.Create(ref closure.Callback);
             if (closure.Handle.IsInvalid)
                 throw new OutOfMemoryException("Failed to create number processor proxy.");
             
@@ -80,7 +81,7 @@ namespace MyLib
         private void ThrowIfDisposed()
         {
             if (handle.IsClosed)
-                throw new ObjectDisposedException(nameof(Process2));
+                throw new ObjectDisposedException(nameof(NumberProcessorProxy));
         }
     }
 }
