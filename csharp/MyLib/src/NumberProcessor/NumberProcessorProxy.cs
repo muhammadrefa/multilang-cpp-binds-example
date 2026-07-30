@@ -64,6 +64,11 @@ namespace MyLib
             return closure.Handle;
         }
 
+        internal new SafeNumberProcessorProxyHandle GetHandle()
+        {
+            return handle;
+        }
+
         public abstract override void Process();
 
         public override void PrintNumber()
