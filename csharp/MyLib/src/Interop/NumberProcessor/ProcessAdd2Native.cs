@@ -30,5 +30,19 @@ namespace MyLib.Interop
         {
             return SafeNumberProcessorHandle.AsReference(As_NumberProcessor_Internal(handle));
         }
+
+        [DllImport(
+            NativeConstants.LibraryName,
+            CallingConvention = CallingConvention.Cdecl,
+            EntryPoint = "MyLib_ProcessAdd2_From_NumberProcessor")]
+        private static extern IntPtr From_NumberProcessor_Internal(
+            SafeNumberProcessorHandle handle
+        );
+
+        internal static SafeProcessAdd2Handle From_NumberProcessor(SafeNumberProcessorHandle handle)
+        {
+            return SafeProcessAdd2Handle.AsReference(From_NumberProcessor_Internal(handle));
+        }
+
     }
 }

@@ -1,15 +1,17 @@
 using System;
+using System.Reflection;
 using MyLib.Interop;
 using MyLib.Interop.Handles;
 
 namespace MyLib
 {
-    public abstract class NumberProcessorProxy : NumberProcessor
+    public abstract class NumberProcessorProxy<T> : NumberProcessor
+        where T : NumberProcessorProxy<T>
     {
 
         private class CallbackClosure
         {
-            public NumberProcessorProxy? Target;
+            public T? Target;
             public SafeNumberProcessorProxyHandle Handle = null!;
             public NumberProcessorProxyNative.NumberProcessorProxyCallbacks Callback;
         }
@@ -27,6 +29,7 @@ namespace MyLib
         private protected NumberProcessorProxy(SafeNumberProcessorProxyHandle handle): base(NumberProcessorProxyNative.As_NumberProcessor(handle))
         {
             this.handle = handle;
+            ObjectRegistry.Register(this.handle.DangerousGetHandle(), this);
 
             if (t_pendingClosure != null)
             {
@@ -39,8 +42,12 @@ namespace MyLib
                     t_pendingClosure = null;
                 }
 
-                _closure.Target = this;
+                _closure.Target = (T)this;
             }
+        }
+
+        protected internal NumberProcessorProxy(IntPtr rawHandle) : this(SafeNumberProcessorProxyHandle.AsReference(rawHandle))
+        {
         }
 
         private static SafeNumberProcessorProxyHandle CreateHandleAndParkClosure()
@@ -62,6 +69,24 @@ namespace MyLib
             
             t_pendingClosure = closure;
             return closure.Handle;
+        }
+
+        public static T FromBase(NumberProcessor numberProcessor)
+        {
+            SafeNumberProcessorProxyHandle proxyHandle = NumberProcessorProxyNative.From_NumberProcessor(numberProcessor.GetHandle());
+            
+            // check for existing instance which holds the handle in the registry
+            if (ObjectRegistry.TryGet<T>(proxyHandle, out T? existingInstance))
+            {
+                return existingInstance!;
+            }
+            
+            return (T)Activator.CreateInstance(
+                typeof(T),
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                null,
+                new object[] { proxyHandle },
+                null)!;
         }
 
         internal new SafeNumberProcessorProxyHandle GetHandle()
@@ -86,7 +111,7 @@ namespace MyLib
         private void ThrowIfDisposed()
         {
             if (handle.IsClosed)
-                throw new ObjectDisposedException(nameof(NumberProcessorProxy));
+                throw new ObjectDisposedException(GetType().Name);
         }
     }
 }

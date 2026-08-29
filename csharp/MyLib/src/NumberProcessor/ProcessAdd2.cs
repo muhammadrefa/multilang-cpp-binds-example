@@ -27,6 +27,11 @@ namespace MyLib
             return handle;
         }
 
+        public static ProcessAdd2 FromBase(NumberProcessor numberProcessor)
+        {
+            return new ProcessAdd2(ProcessAdd2Native.From_NumberProcessor(numberProcessor.GetHandle()));
+        }
+
         internal new SafeProcessAdd2Handle GetHandle()
         {
             return handle;
@@ -49,6 +54,14 @@ namespace MyLib
         {
             if (handle.IsClosed)
                 throw new ObjectDisposedException(nameof(ProcessAdd2));
+        }
+    }
+
+    public static class ProcessAdd2Extensions
+    {
+        public static ProcessAdd2 ToProcessAdd2(this NumberProcessor numberProcessor)
+        {
+            return ProcessAdd2.FromBase(numberProcessor);
         }
     }
 }
