@@ -165,6 +165,15 @@ void number_processor_check()
     add5.PrintNumber();
     add5.Process();
     add5.PrintNumber();
+    
+    // try upcast and downcast
+    Console.WriteLine("-- upcast test");
+    NumberProcessor add5_up = add5;
+    add5_up.PrintNumber();
+    Console.WriteLine("-- downcast test");
+    CSProcessAdd5 add5_dn = CSProcessAdd5.FromBase(add5_up);
+    add5_dn.Hello();
+    add5_dn.PrintNumber();
 }
 
 Console.WriteLine("--- calculator check ---");

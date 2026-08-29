@@ -6,9 +6,14 @@ using MyLib.Interop.Handles;
 
 namespace MyLib
 {
-    public class CSProcessAdd5 : NumberProcessorProxy
+    public class CSProcessAdd5 : NumberProcessorProxy<CSProcessAdd5>
     {
         public CSProcessAdd5() : base()
+        {
+        }
+
+        // for downcasting
+        protected internal CSProcessAdd5(IntPtr handle) : base(handle)
         {
         }
 
@@ -23,6 +28,11 @@ namespace MyLib
         {
             Console.Write("CS print number -> ");
             base.PrintNumber();
+        }
+
+        public void Hello()
+        {
+            Console.WriteLine("Hello from C#!");
         }
     }
 }
