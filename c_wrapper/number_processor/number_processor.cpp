@@ -1,11 +1,17 @@
 #include <stdexcept>
 
+#include "number_processor_internal.hpp"
 #include "number_processor.hpp"
 #include "number_processor.h"
 
-static MyLibrary::NumberProcessor* GetObject(mylib_NumberProcessor_t* handle)
+MyLibrary::NumberProcessor* MyLib_NumberProcessor_Internal_GetObject(mylib_NumberProcessor_t* handle)
 {
     return reinterpret_cast<MyLibrary::NumberProcessor*>(handle);
+}
+
+static MyLibrary::NumberProcessor* GetObject(mylib_NumberProcessor_t* handle)
+{
+    return MyLib_NumberProcessor_Internal_GetObject(handle);
 }
 
 mylib_status_t MyLib_NumberProcessor_Destroy(mylib_NumberProcessor_t* handle)

@@ -1,4 +1,6 @@
 #include <iostream>
+
+#include "number_processor_internal.hpp"
 #include "number_processor_proxy.hpp"
 #include "number_processor_proxy.h"
 
@@ -79,6 +81,17 @@ mylib_NumberProcessor_t* MyLib_NumberProcessorProxy_As_NumberProcessor(mylib_Num
     MyLibrary::NumberProcessorProxy* proxy = GetObject(handle);
     MyLibrary::NumberProcessor* np = static_cast<MyLibrary::NumberProcessor*>(proxy);
     return reinterpret_cast<mylib_NumberProcessor_t*>(np);
+}
+
+mylib_NumberProcessorProxy_t* MyLib_NumberProcessorProxy_From_NumberProcessor(mylib_NumberProcessor_t* handle, mylib_NumberProcessorProxy_cb_t* callback)
+{
+    MyLibrary::NumberProcessor* np = MyLib_NumberProcessor_Internal_GetObject(handle);
+    MyLibrary::NumberProcessorProxy* proxy = static_cast<MyLibrary::NumberProcessorProxy*>(np);
+
+    mylib_NumberProcessorProxy_t* _proxy = reinterpret_cast<mylib_NumberProcessorProxy_t*>(proxy);
+    GetObject(_proxy)->SetCallback(_proxy, callback);
+    
+    return _proxy;
 }
 
 mylib_status_t MyLib_NumberProcessorProxy_CallBase_PrintNumber(mylib_NumberProcessorProxy_t* handle)
