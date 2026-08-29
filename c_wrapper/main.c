@@ -228,6 +228,11 @@ void number_processor_check()
     MyLib_NumberProcessor_PrintNumber(_add3);
     MyLib_NumberProcessor_Process(_add3);
     MyLib_NumberProcessor_PrintNumber(_add3);
+    
+    // downcast test
+    mylib_CProcessAdd3_t* _add3_downcasted = MyLib_CProcessAdd3_From_NumberProcessor(_add3);
+    MyLib_CProcessAdd3_Hello(_add3_downcasted);
+
     MyLib_CProcessAdd3_Destroy(add3);
 }
 

@@ -44,4 +44,15 @@ mylib_NumberProcessor_t* MyLib_CProcessAdd3_As_NumberProcessor(mylib_CProcessAdd
     return MyLib_NumberProcessorProxy_As_NumberProcessor((mylib_NumberProcessorProxy_t *)handle);
 }
 
+mylib_CProcessAdd3_t* MyLib_CProcessAdd3_From_NumberProcessor(mylib_NumberProcessor_t* handle)
+{
+    return (mylib_CProcessAdd3_t *)MyLib_NumberProcessorProxy_From_NumberProcessor(handle, &callback);
+}
+
+mylib_status_t MyLib_CProcessAdd3_Hello(mylib_CProcessAdd3_t* handle)
+{
+    printf("Hello from C!\n");
+    return MYLIB_STATUS_OK;
+}
+
 // ----- C wrapper for the C++ class ----- //
