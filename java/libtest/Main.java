@@ -4,6 +4,7 @@ import mylib.animal.Animal;
 import mylib.animal.Dog;
 import mylib.animal.Cat;
 import mylib.animal.Tiger;
+import mylib.numberprocessor.ProcessAdd2;
 
 import java.nio.BufferOverflowException;
 import java.util.Arrays;
@@ -172,6 +173,17 @@ public final class Main {
         tiger.close();
     }
 
+    static void number_processor_check()
+    {
+        ProcessAdd2 add2 = new ProcessAdd2();
+        add2.setNumber(10);
+        add2.printNumber();
+        add2.process();
+        add2.printNumber();
+
+        add2.close();
+    }
+
     public static void main(String[] args) {
         System.out.println("--- calculator check ---");
         calculator_check();
@@ -183,6 +195,10 @@ public final class Main {
 
         System.out.println("--- animal check ---");
         animal_check();
+        System.out.println();
+
+        System.out.println("--- number processor check ---");
+        number_processor_check();
         System.out.println();
     }
 }

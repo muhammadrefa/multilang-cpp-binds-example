@@ -30,7 +30,10 @@ SOURCES = \
 	src/main/jni/animal/AnimalNative.c \
 	src/main/jni/animal/DogNative.c \
 	src/main/jni/animal/CatNative.c \
-	src/main/jni/animal/TigerNative.c
+	src/main/jni/animal/TigerNative.c \
+	src/main/jni/number_processor/NumberProcessorNative.c \
+	src/main/jni/number_processor/ProcessAdd2Native.c \
+	src/main/jni/number_processor/NumberProcessorProxyNative.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 LIBRARY = $(DLL_PREFIX)mylibrary_jni.$(DLL_EXT)
