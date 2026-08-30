@@ -68,7 +68,7 @@ public class Animal implements AutoCloseable {
             int status = AnimalNative.getName(handle, _name, length);
             StatusHelper.check(status);
 
-            return new String(_name.value);
+            return new String(_name.value, 0, length.value);
         }
         catch (BufferOverflowException ex)
         {
@@ -76,7 +76,7 @@ public class Animal implements AutoCloseable {
             int status = AnimalNative.getName(handle, _name, length);
             StatusHelper.check(status);
 
-            return new String(_name2.value);
+            return new String(_name2.value, 0, length.value);
         }
     }
 
