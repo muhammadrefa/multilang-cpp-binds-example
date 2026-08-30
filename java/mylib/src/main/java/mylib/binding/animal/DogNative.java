@@ -1,9 +1,10 @@
-package mylib.binding;
+package mylib.binding.animal;
 
+import mylib.binding.Loader;
 import mylib.binding.refs.CharRef;
 import mylib.binding.refs.IntRef;
-import mylib.binding.handles.AnimalHandle;
-import mylib.binding.handles.DogHandle;
+import mylib.binding.handles.animal.AnimalHandle;
+import mylib.binding.handles.animal.DogHandle;
 
 public final class DogNative {
 

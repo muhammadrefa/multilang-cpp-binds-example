@@ -1,9 +1,10 @@
-package mylib.binding;
+package mylib.binding.animal;
 
+import mylib.binding.Loader;
 import mylib.binding.refs.CharRef;
 import mylib.binding.refs.IntRef;
-import mylib.binding.handles.CatHandle;
-import mylib.binding.handles.TigerHandle;
+import mylib.binding.handles.animal.CatHandle;
+import mylib.binding.handles.animal.TigerHandle;
 
 public final class TigerNative {
 

@@ -4,14 +4,14 @@
 #include "animal/cat.h"
 #include "animal/tiger.h"
 #include "status_code.h"
-#include "../mylib_binding_TigerNative.h"
+#include "../mylib_binding_animal_TigerNative.h"
 
 static mylib_tiger_t* get_handle(jlong handle)
 {
     return (mylib_tiger_t*)handle;
 }
 
-JNIEXPORT jlong JNICALL Java_mylib_binding_TigerNative_nativeCreate(JNIEnv* env, jclass clazz)
+JNIEXPORT jlong JNICALL Java_mylib_binding_animal_TigerNative_nativeCreate(JNIEnv* env, jclass clazz)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -20,7 +20,7 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_TigerNative_nativeCreate(JNIEnv* env,
     return (jlong)tiger;
 }
 
-JNIEXPORT jlong JNICALL Java_mylib_binding_TigerNative_nativeCreateWithName(JNIEnv* env, jclass clazz, jobject name, jint length)
+JNIEXPORT jlong JNICALL Java_mylib_binding_animal_TigerNative_nativeCreateWithName(JNIEnv* env, jclass clazz, jobject name, jint length)
 {
     (void)clazz;    // unused
     
@@ -33,7 +33,7 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_TigerNative_nativeCreateWithName(JNIE
     return (jlong)tiger;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_TigerNative_nativeDestroy(JNIEnv* env, jclass clazz, jlong handle)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_TigerNative_nativeDestroy(JNIEnv* env, jclass clazz, jlong handle)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -42,7 +42,7 @@ JNIEXPORT jint JNICALL Java_mylib_binding_TigerNative_nativeDestroy(JNIEnv* env,
     return (jint)status;
 }
 
-JNIEXPORT jlong JNICALL Java_mylib_binding_TigerNative_nativeAsCat(JNIEnv* env, jclass clazz, jlong handle)
+JNIEXPORT jlong JNICALL Java_mylib_binding_animal_TigerNative_nativeAsCat(JNIEnv* env, jclass clazz, jlong handle)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -51,7 +51,7 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_TigerNative_nativeAsCat(JNIEnv* env, 
     return (jlong)cat;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_TigerNative_nativeHunt(JNIEnv* env, jclass clazz, jlong handle)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_TigerNative_nativeHunt(JNIEnv* env, jclass clazz, jlong handle)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -60,7 +60,7 @@ JNIEXPORT jint JNICALL Java_mylib_binding_TigerNative_nativeHunt(JNIEnv* env, jc
     return (jint)status;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_TigerNative_nativeGetHunger(JNIEnv* env, jclass clazz, jlong handle, jobject hunger)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_TigerNative_nativeGetHunger(JNIEnv* env, jclass clazz, jlong handle, jobject hunger)
 {
     (void)clazz;    // unused
     

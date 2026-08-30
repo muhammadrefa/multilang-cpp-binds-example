@@ -1,10 +1,10 @@
-package mylib;
+package mylib.animal;
 
 import java.lang.String;
 import java.nio.BufferOverflowException;
 
-import mylib.binding.AnimalNative;
-import mylib.binding.handles.AnimalHandle;
+import mylib.binding.animal.AnimalNative;
+import mylib.binding.handles.animal.AnimalHandle;
 import mylib.binding.refs.CharRef;
 import mylib.binding.refs.IntRef;
 import mylib.internal.StatusHelper;

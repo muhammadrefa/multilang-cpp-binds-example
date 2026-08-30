@@ -1,9 +1,9 @@
 import mylib.Calculator;
 import mylib.CircularBuffer;
-import mylib.Animal;
-import mylib.Dog;
-import mylib.Cat;
-import mylib.Tiger;
+import mylib.animal.Animal;
+import mylib.animal.Dog;
+import mylib.animal.Cat;
+import mylib.animal.Tiger;
 
 import java.nio.BufferOverflowException;
 import java.util.Arrays;

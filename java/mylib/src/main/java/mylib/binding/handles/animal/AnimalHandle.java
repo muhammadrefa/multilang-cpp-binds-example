@@ -1,4 +1,6 @@
-package mylib.binding.handles;
+package mylib.binding.handles.animal;
+
+import mylib.binding.handles.NativeHandle;
 
 import java.util.function.LongToIntFunction;
 
