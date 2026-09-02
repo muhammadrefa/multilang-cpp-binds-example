@@ -4,7 +4,7 @@ import mylib.binding.numberprocessor.ProcessAdd2Native;
 import mylib.binding.handles.numberprocessor.ProcessAdd2Handle;
 
 public class ProcessAdd2 extends NumberProcessor {
-    protected ProcessAdd2Handle handle;
+    private volatile ProcessAdd2Handle handle;
 
     public ProcessAdd2() {
         this(createHandle());
@@ -23,7 +23,7 @@ public class ProcessAdd2 extends NumberProcessor {
     }
 
     public static ProcessAdd2 fromBase(NumberProcessor number_processor) {
-        return new ProcessAdd2(ProcessAdd2Native.fromNumberProcessor(number_processor.handle));
+        return new ProcessAdd2(ProcessAdd2Native.fromNumberProcessor(number_processor.getHandle()));
     }
 
     @Override

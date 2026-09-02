@@ -6,10 +6,21 @@ import mylib.binding.refs.IntRef;
 import mylib.internal.StatusHelper;
 
 public abstract class NumberProcessor implements AutoCloseable {
-    protected NumberProcessorHandle handle;
+    private volatile NumberProcessorHandle handle;
 
     protected NumberProcessor(NumberProcessorHandle handle) {
         this.handle = handle;
+    }
+
+    protected final void setHandle(NumberProcessorHandle handle) {
+        if (this.handle != null && !this.handle.isNull()) {
+            throw new IllegalStateException("Base handle already initialized.");
+        }
+        this.handle = handle;
+    }
+
+    protected final NumberProcessorHandle getHandle() {
+        return this.handle;
     }
 
     public void process() {
