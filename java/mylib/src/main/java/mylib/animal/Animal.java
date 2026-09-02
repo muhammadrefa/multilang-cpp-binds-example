@@ -10,7 +10,7 @@ import mylib.binding.refs.IntRef;
 import mylib.internal.StatusHelper;
 
 public class Animal implements AutoCloseable {
-    protected AnimalHandle handle;
+    private final AnimalHandle handle;
 
     public Animal() {
         this(createHandle());
