@@ -33,11 +33,11 @@ namespace MyLib.Interop
             NativeConstants.LibraryName,
             CallingConvention = CallingConvention.Cdecl,
             EntryPoint = "MyLib_NumberProcessorProxy_From_NumberProcessor")]
-        private static extern IntPtr From_NumberProcessor_Internal(SafeNumberProcessorHandle handle);
+        private static extern IntPtr From_NumberProcessor_Internal(SafeNumberProcessorHandle handle, NumberProcessorProxyCallbacks callbacks);
 
-        internal static SafeNumberProcessorProxyHandle From_NumberProcessor(SafeNumberProcessorHandle handle)
+        internal static SafeNumberProcessorProxyHandle From_NumberProcessor(SafeNumberProcessorHandle handle, NumberProcessorProxyCallbacks callbacks)
         {
-            return SafeNumberProcessorProxyHandle.AsReference(From_NumberProcessor_Internal(handle));
+            return SafeNumberProcessorProxyHandle.AsReference(From_NumberProcessor_Internal(handle, callbacks));
         }
 
         [DllImport(
