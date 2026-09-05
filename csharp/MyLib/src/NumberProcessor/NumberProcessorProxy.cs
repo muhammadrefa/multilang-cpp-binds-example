@@ -59,6 +59,7 @@ namespace MyLib
             // set the callbacks
             closure.Callback = new NumberProcessorProxyNative.NumberProcessorProxyCallbacks
             {
+                // we don't need the handle since the callbacks are already object-specific
                 Process = (_) => closure.Target?.Process(),
                 PrintNumber = (_) => closure.Target?.PrintNumber()
             };
