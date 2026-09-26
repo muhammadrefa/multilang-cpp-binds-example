@@ -22,7 +22,8 @@ void MyLibrary::NumberProcessorProxy::SetCallback(mylib_NumberProcessorProxy_t* 
     
     // store the struct values instead of only storing the pointer to the struct
     // by doing this way, the lifetime of the struct passed to this function can be ignored
-    cb = *callback;
+    if (callback != nullptr)
+        cb = *callback;
 }
 
 void MyLibrary::NumberProcessorProxy::process()

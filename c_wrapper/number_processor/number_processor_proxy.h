@@ -14,8 +14,8 @@ typedef struct mylib_NumberProcessorProxy mylib_NumberProcessorProxy_t;
 
 typedef struct
 {
-    void (*cb_process)(mylib_NumberProcessorProxy_t*);
-    void (*cb_print_number)(mylib_NumberProcessorProxy_t*);
+    void (*cb_process)(mylib_NumberProcessorProxy_t*) = nullptr;
+    void (*cb_print_number)(mylib_NumberProcessorProxy_t*) = nullptr;
 } mylib_NumberProcessorProxy_cb_t;
 
 
