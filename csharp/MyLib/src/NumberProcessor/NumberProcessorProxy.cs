@@ -21,7 +21,6 @@ namespace MyLib
         
         private readonly CallbackClosure _closure;
         private SafeNumberProcessorProxyHandle handle;
-        private bool _disposed;
 
         protected NumberProcessorProxy() : this(CreateHandleAndParkClosure())
         {
@@ -30,8 +29,7 @@ namespace MyLib
         private protected NumberProcessorProxy(SafeNumberProcessorProxyHandle handle): base(NumberProcessorProxyNative.As_NumberProcessor(handle))
         {
             this.handle = handle;
-            IntPtr baseHandle = base.GetHandle().DangerousGetHandle();
-            ObjectRegistry.Register(baseHandle, this);          // using baseHandle to register the object
+            ObjectRegistry.Register(this.handle.DangerousGetHandle(), this);
 
             if (t_pendingClosure != null)
             {
@@ -46,8 +44,6 @@ namespace MyLib
 
                 _closure.Target = (T)this;
             }
-
-            _disposed = false;
         }
 
         protected internal NumberProcessorProxy(IntPtr rawHandle) : this(SafeNumberProcessorProxyHandle.AsReference(rawHandle))
@@ -78,20 +74,20 @@ namespace MyLib
 
         public static T FromBase(NumberProcessor numberProcessor)
         {
-            // check for existing instance which holds the handle in the registry by using baseHandle
-            if (ObjectRegistry.TryGet<T>(numberProcessor.GetHandle(), out T? existingInstance))
+            SafeNumberProcessorProxyHandle proxyHandle = NumberProcessorProxyNative.From_NumberProcessor(numberProcessor.GetHandle());
+            
+            // check for existing instance which holds the handle in the registry
+            if (ObjectRegistry.TryGet<T>(proxyHandle, out T? existingInstance))
             {
                 return existingInstance!;
             }
-
-            // TODO
-            // return (T)Activator.CreateInstance(
-            //     typeof(T),
-            //     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-            //     null,
-            //     new object[] { proxyHandle },
-            //     null)!;
-            return null;
+            
+            return (T)Activator.CreateInstance(
+                typeof(T),
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                null,
+                new object[] { proxyHandle },
+                null)!;
         }
 
         internal new SafeNumberProcessorProxyHandle GetHandle()
@@ -110,15 +106,12 @@ namespace MyLib
 
         public override void Dispose()
         {
-            _disposed = true;
-            IntPtr baseHandle = base.GetHandle().DangerousGetHandle();
-            ObjectRegistry.Unregister(baseHandle);      // unregister the object/(base) handle from the registry
             handle.Dispose();
         }
 
         private void ThrowIfDisposed()
         {
-            if (_disposed)
+            if (handle.IsClosed)
                 throw new ObjectDisposedException(GetType().Name);
         }
     }

@@ -58,7 +58,13 @@ namespace MyLib.Interop.Handles
 
         protected override bool ReleaseHandle()
         {
-            return NumberProcessorProxyNative.Destroy(handle) == MyLibStatus.Ok;
+            if (NumberProcessorProxyNative.Destroy(handle) == MyLibStatus.Ok)
+            {
+                ObjectRegistry.Unregister(handle);
+                return true;
+            }
+
+            return false;
         }
     }
 }
