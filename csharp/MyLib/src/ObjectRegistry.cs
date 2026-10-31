@@ -18,16 +18,8 @@ namespace MyLib
             }
         }
 
-        public static bool TryGet<T>(SafeHandle handle, out T? instance) where T : class
+        public static bool TryGet<T>(IntPtr ptr, out T? instance) where T : class
         {
-            if (handle == null || handle.IsInvalid)
-            {
-                instance = null;
-                return false;
-            }
-
-            IntPtr ptr = handle.DangerousGetHandle();
-
             if (ptr != IntPtr.Zero && _map.TryGetValue(ptr, out var weakRef))
             {
                 if (weakRef.TryGetTarget(out object? target) && target is T matched)

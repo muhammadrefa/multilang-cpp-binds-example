@@ -29,7 +29,9 @@ namespace MyLib
         private protected NumberProcessorProxy(SafeNumberProcessorProxyHandle handle): base(NumberProcessorProxyNative.As_NumberProcessor(handle))
         {
             this.handle = handle;
-            ObjectRegistry.Register(this.handle.DangerousGetHandle(), this);
+            
+            // get the handle as the key for the object registry
+            ObjectRegistry.Register(handle.DangerousGetHandle(), this);
 
             if (t_pendingClosure != null)
             {
@@ -44,10 +46,6 @@ namespace MyLib
 
                 _closure.Target = (T)this;
             }
-        }
-
-        protected internal NumberProcessorProxy(IntPtr rawHandle) : this(SafeNumberProcessorProxyHandle.AsReference(rawHandle))
-        {
         }
 
         private static SafeNumberProcessorProxyHandle CreateHandleAndParkClosure()
@@ -74,20 +72,17 @@ namespace MyLib
 
         public static T FromBase(NumberProcessor numberProcessor)
         {
-            SafeNumberProcessorProxyHandle proxyHandle = NumberProcessorProxyNative.From_NumberProcessor(numberProcessor.GetHandle());
-            
             // check for existing instance which holds the handle in the registry
-            if (ObjectRegistry.TryGet<T>(proxyHandle, out T? existingInstance))
+            using (var _handle = NumberProcessorProxyNative.From_NumberProcessor(numberProcessor.GetHandle()))
             {
-                return existingInstance!;
+                if (ObjectRegistry.TryGet<T>(_handle.DangerousGetHandle(), out T? existingInstance))
+                {
+                    return existingInstance!;
+                }
             }
             
-            return (T)Activator.CreateInstance(
-                typeof(T),
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                null,
-                new object[] { proxyHandle },
-                null)!;
+            // throw an exception if it is not T
+            throw new InvalidCastException($"This object is not {typeof(T).Name}!");
         }
 
         internal new SafeNumberProcessorProxyHandle GetHandle()
@@ -107,6 +102,7 @@ namespace MyLib
         public override void Dispose()
         {
             handle.Dispose();
+            base.Dispose();
         }
 
         private void ThrowIfDisposed()

@@ -12,11 +12,6 @@ namespace MyLib
         {
         }
 
-        // for downcasting
-        protected internal CSProcessAdd5(IntPtr handle) : base(handle)
-        {
-        }
-
         public override void Process()
         {
             int number = GetNumber();
