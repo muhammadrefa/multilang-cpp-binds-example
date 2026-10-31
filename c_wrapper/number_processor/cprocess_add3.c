@@ -46,7 +46,7 @@ mylib_NumberProcessor_t* MyLib_CProcessAdd3_As_NumberProcessor(mylib_CProcessAdd
 
 mylib_CProcessAdd3_t* MyLib_CProcessAdd3_From_NumberProcessor(mylib_NumberProcessor_t* handle)
 {
-    return (mylib_CProcessAdd3_t *)MyLib_NumberProcessorProxy_From_NumberProcessor(handle, &callback);
+    return (mylib_CProcessAdd3_t *)MyLib_NumberProcessorProxy_From_NumberProcessor(handle);
 }
 
 mylib_status_t MyLib_CProcessAdd3_Hello(mylib_CProcessAdd3_t* handle)

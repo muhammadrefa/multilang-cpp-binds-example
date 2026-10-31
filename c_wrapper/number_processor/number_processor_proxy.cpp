@@ -8,16 +8,7 @@
 
 MyLibrary::NumberProcessorProxy::NumberProcessorProxy()
 {
-    // upcast and store the base handle for base class operation
-    MyLibrary::NumberProcessorProxy* proxy = this;
-    MyLibrary::NumberProcessor* np = static_cast<MyLibrary::NumberProcessor*>(proxy);
-    this->base_handle = reinterpret_cast<mylib_NumberProcessor_t*>(np);
-}
-
-MyLibrary::NumberProcessorProxy::NumberProcessorProxy(mylib_NumberProcessor_t* base_handle)
-{
-    // use the supplied base handle for base class operation
-    this->base_handle = base_handle;
+    cb = {};
 }
 
 MyLibrary::NumberProcessorProxy::~NumberProcessorProxy()
@@ -92,7 +83,10 @@ mylib_status_t MyLib_NumberProcessorProxy_Destroy(mylib_NumberProcessorProxy_t* 
 
 mylib_NumberProcessor_t* MyLib_NumberProcessorProxy_As_NumberProcessor(mylib_NumberProcessorProxy_t* handle)
 {
-    return GetObject(handle)->GetBaseHandle();
+    MyLibrary::NumberProcessorProxy* npp = GetObject(handle);
+    MyLibrary::NumberProcessor* np = static_cast<MyLibrary::NumberProcessor*>(npp);
+
+    return reinterpret_cast<mylib_NumberProcessor_t*>(np);
 }
 
 mylib_NumberProcessorProxy_t* MyLib_NumberProcessorProxy_From_NumberProcessor(mylib_NumberProcessor_t* handle)
@@ -103,33 +97,6 @@ mylib_NumberProcessorProxy_t* MyLib_NumberProcessorProxy_From_NumberProcessor(my
     mylib_NumberProcessorProxy_t* _proxy = reinterpret_cast<mylib_NumberProcessorProxy_t*>(proxy);
     
     return _proxy;
-}
-
-mylib_NumberProcessorProxy_t* MyLib_NumberProcessorProxy_Attach_NumberProcessor(mylib_NumberProcessor_t* handle, mylib_NumberProcessorProxy_cb_t* callback)
-{
-    try
-    {
-        // Create NPP
-        MyLibrary::NumberProcessorProxy *_proxy = new MyLibrary::NumberProcessorProxy();
-        mylib_NumberProcessorProxy_t* proxy = reinterpret_cast<mylib_NumberProcessorProxy_t*>(_proxy);
-
-        // Cast NP handle to NPP handle for callback
-        MyLibrary::NumberProcessor* np_handle = MyLib_NumberProcessor_Internal_GetObject(handle);
-        MyLibrary::NumberProcessorProxy* casted_handle = static_cast<MyLibrary::NumberProcessorProxy*>(np_handle);
-        mylib_NumberProcessorProxy_t* _casted_handle = reinterpret_cast<mylib_NumberProcessorProxy_t*>(casted_handle);
-
-        // Use casted handle for callback
-        _proxy->SetCallback(_casted_handle, callback);
-        return proxy;
-    }
-    catch (const std::bad_alloc& e)
-    {
-        return nullptr;
-    }
-    catch (...)
-    {
-        return nullptr;
-    }
 }
 
 mylib_status_t MyLib_NumberProcessorProxy_CallBase_PrintNumber(mylib_NumberProcessorProxy_t* handle)
