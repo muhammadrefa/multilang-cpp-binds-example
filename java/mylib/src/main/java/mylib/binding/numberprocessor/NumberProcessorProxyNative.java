@@ -3,7 +3,6 @@ package mylib.binding.numberprocessor;
 import mylib.binding.Loader;
 import mylib.binding.handles.numberprocessor.NumberProcessorHandle;
 import mylib.binding.handles.numberprocessor.NumberProcessorProxyHandle;
-import mylib.numberprocessor.NumberProcessorProxy;
 
 public final class NumberProcessorProxyNative {
 
@@ -14,10 +13,10 @@ public final class NumberProcessorProxyNative {
     private NumberProcessorProxyNative() {
     }
 
-    private static native long nativeCreate(NumberProcessorProxy instance);
-    public static NumberProcessorProxyHandle create(NumberProcessorProxy instance)
+    private static native long nativeCreate(NumberProcessorProxyCallbacks callbacks);
+    public static NumberProcessorProxyHandle create(NumberProcessorProxyCallbacks callbacks)
     {
-        return new NumberProcessorProxyHandle(nativeCreate(instance), NumberProcessorProxyNative::nativeDestroy);
+        return new NumberProcessorProxyHandle(nativeCreate(callbacks), NumberProcessorProxyNative::nativeDestroy);
     }
     
     private static native int nativeDestroy(long handle);
@@ -32,10 +31,10 @@ public final class NumberProcessorProxyNative {
         return new NumberProcessorHandle(nativeAsNumberProcessor(handle.value()));
     }
     
-    private static native long nativeFromNumberProcessor(long handle);
-    public static NumberProcessorProxyHandle fromNumberProcessor(NumberProcessorHandle handle)
+    private static native NumberProcessorProxyCallbacks nativeFromNumberProcessor(long handle);
+    public static NumberProcessorProxyCallbacks fromNumberProcessor(NumberProcessorHandle handle)
     {
-        return new NumberProcessorProxyHandle(nativeFromNumberProcessor(handle.value()));
+        return nativeFromNumberProcessor(handle.value());
     }
 
     private static native int nativeBasePrintNumber(long handle);

@@ -11,26 +11,28 @@
 
 class NumberProcessorProxyJNI {
 public:
-    mylib_NumberProcessorProxy_t* handle;
-    mylib_NumberProcessorProxy_cb_t* callbacks;      // has to live as long as the handle lives
-
-    JavaVM* jvm;
-    jobject java_instance;
-
-    volatile bool is_java_ready = false;     // TRICK: Gates callbacks until the Java constructor completes!
-
     NumberProcessorProxyJNI(JNIEnv* env, jobject instance, mylib_NumberProcessorProxy_cb_t* cb);
     ~NumberProcessorProxyJNI();
 
     mylib_NumberProcessorProxy_t* get_handle() { return handle; }
+    jobject get_instance() { return java_instance; }
 
-    jmethodID func_process;
+    // java function callers
     void do_process();
-
-    jmethodID func_print_number;
     void do_print_number();
 
 private:
+    JavaVM* jvm;
+    jobject java_instance;
+    volatile bool is_java_ready = false;     // TRICK: Gates callbacks until the Java constructor completes!
+
+    mylib_NumberProcessorProxy_t* handle;
+    mylib_NumberProcessorProxy_cb_t* callbacks;      // has to live as long as the handle lives
+
+    // java functions
+    jmethodID func_process;
+    jmethodID func_print_number;
+
     template <typename Action>
     void executeWithJniEnv(Action action);
 };

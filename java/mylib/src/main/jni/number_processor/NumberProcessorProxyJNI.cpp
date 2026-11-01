@@ -19,6 +19,7 @@ NumberProcessorProxyJNI::NumberProcessorProxyJNI(JNIEnv *env, jobject instance, 
 
     // get functions
     func_process = env->GetMethodID(actual_class, "process", "()V");
+    func_print_number = env->GetMethodID(actual_class, "printNumber", "()V");
 
     // (Optional but) Good practice: free local refs when done
     env->DeleteLocalRef(actual_class);
@@ -30,6 +31,11 @@ NumberProcessorProxyJNI::~NumberProcessorProxyJNI()
 {
     if (MyLib_NumberProcessorProxy_Destroy(handle) == MYLIB_STATUS_OK)
         handle = nullptr;
+
+    // delete java instance
+    executeWithJniEnv([this](JNIEnv* env) {
+        env->DeleteGlobalRef(this->java_instance);
+    });
 }
 
 void NumberProcessorProxyJNI::do_process()
