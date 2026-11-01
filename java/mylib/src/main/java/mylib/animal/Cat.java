@@ -54,4 +54,10 @@ public class Cat extends Animal {
 
         return (is_alive.value != 0);
     }
+
+    @Override
+    public void close() {
+        handle.close();
+        super.close();
+    }
 }

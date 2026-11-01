@@ -51,4 +51,10 @@ public class Tiger extends Cat {
 
         return hunger.value;
     }
+
+    @Override
+    public void close() {
+        handle.close();
+        super.close();
+    }
 }

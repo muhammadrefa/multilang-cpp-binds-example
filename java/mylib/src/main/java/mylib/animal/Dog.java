@@ -53,4 +53,10 @@ public class Dog extends Animal {
         StatusHelper.check(status);
         return energy.value;
     }
+
+    @Override
+    public void close() {
+        handle.close();
+        super.close();
+    }
 }
