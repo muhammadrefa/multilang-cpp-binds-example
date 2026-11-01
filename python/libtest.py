@@ -3,7 +3,7 @@ from mylib.circularbuffer import CircularBuffer
 from mylib.animal import Animal, Dog, Cat, Tiger
 from mylib.NumberProcessor import ProcessAdd2
 
-from PyProcessAdd5 import PyProcessAdd5
+from PyProcessAdd11 import PyProcessAdd11
 
 
 def calculator_check():
@@ -152,11 +152,11 @@ def number_processor_check():
     add2.process()
     add2.print_number()
 
-    add5 = PyProcessAdd5()
-    add5.set_number(10)
-    add5.print_number()
-    add5.process()
-    add5.print_number()
+    add11 = PyProcessAdd11()
+    add11.set_number(10)
+    add11.print_number()
+    add11.process()
+    add11.print_number()
 
 
 
