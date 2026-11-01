@@ -27,7 +27,7 @@ namespace MyLib
             return handle;
         }
 
-        public static ProcessAdd2 FromBase(NumberProcessor numberProcessor)
+        public static ProcessAdd2 FromNumberProcessor(NumberProcessor numberProcessor)
         {
             return new ProcessAdd2(ProcessAdd2Native.From_NumberProcessor(numberProcessor.GetHandle()));
         }
@@ -62,7 +62,7 @@ namespace MyLib
     {
         public static ProcessAdd2 ToProcessAdd2(this NumberProcessor numberProcessor)
         {
-            return ProcessAdd2.FromBase(numberProcessor);
+            return ProcessAdd2.FromNumberProcessor(numberProcessor);
         }
     }
 }

@@ -70,7 +70,7 @@ namespace MyLib
             return closure.Handle;
         }
 
-        public static T FromBase(NumberProcessor numberProcessor)
+        public static T FromNumberProcessor(NumberProcessor numberProcessor)
         {
             // check for existing instance which holds the handle in the registry
             using (var _handle = NumberProcessorProxyNative.From_NumberProcessor(numberProcessor.GetHandle()))
@@ -109,6 +109,15 @@ namespace MyLib
         {
             if (handle.IsClosed)
                 throw new ObjectDisposedException(GetType().Name);
+        }
+    }
+
+    public static class NumberProcessorProxyExtensions
+    {
+        public static T To<T>(this NumberProcessor numberProcessor)
+            where T : NumberProcessorProxy<T>
+        {
+            return NumberProcessorProxy<T>.FromNumberProcessor(numberProcessor);
         }
     }
 }
