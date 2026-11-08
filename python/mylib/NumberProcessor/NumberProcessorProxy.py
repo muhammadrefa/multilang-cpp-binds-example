@@ -85,10 +85,10 @@ class NumberProcessorProxy(NumberProcessor):
                 _g_registry.pop(_ptr_val, None)
         c_NumberProcessorProxy.destroy(ptr)
 
-    @staticmethod
-    def from_NumberProcessor(number_processor: NumberProcessor):
+    @classmethod
+    def from_NumberProcessor(cls, number_processor: NumberProcessor):
         ptr_npp = c_NumberProcessorProxy.from_NumberProcessor(number_processor._ptr_NumberProcessor)
-        return NumberProcessorProxy._get_object_from_handle(ptr_npp)
+        return cls._get_object_from_handle(ptr_npp)
 
 
     @abc.abstractmethod
