@@ -32,6 +32,13 @@ as_NumberProcessor = _bind(
     check_pointer
 )
 
+from_NumberProcessor = _bind(
+    "MyLib_NumberProcessorProxy_From_NumberProcessor",
+    mylib_NumberProcessorProxy_t,
+    [mylib_NumberProcessor_t],
+    check_pointer
+)
+
 base__print_number = _bind(
     "MyLib_NumberProcessorProxy_CallBase_PrintNumber",
     mylib_status_t,

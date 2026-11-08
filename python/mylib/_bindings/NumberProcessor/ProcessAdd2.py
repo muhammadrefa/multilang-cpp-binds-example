@@ -31,3 +31,10 @@ as_NumberProcessor = _bind(
     [mylib_ProcessAdd2_t],
     check_pointer
 )
+
+from_NumberProcessor = _bind(
+    "MyLib_ProcessAdd2_From_NumberProcessor",
+    mylib_ProcessAdd2_t,
+    [mylib_NumberProcessor_t],
+    check_pointer
+)

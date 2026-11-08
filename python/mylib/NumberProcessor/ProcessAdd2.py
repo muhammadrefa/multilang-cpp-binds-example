@@ -14,5 +14,11 @@ class ProcessAdd2(NumberProcessor):
         self._finalizer = weakref.finalize(self, c_ProcessAdd2.destroy, self._ptr_ProcessAdd2)
         super().__init__(_ptr=c_ProcessAdd2.as_NumberProcessor(self._ptr_ProcessAdd2), **kwargs)
 
+    @staticmethod
+    def from_NumberProcessor(number_processor: NumberProcessor) -> ProcessAdd2:
+        _ptr_np = number_processor._ptr_NumberProcessor
+        _ptr_pa2 = c_ProcessAdd2.from_NumberProcessor(_ptr_np)
+        return ProcessAdd2(_ptr=_ptr_pa2)
+
     def process(self):
         c_NumberProcessor.process(c_ProcessAdd2.as_NumberProcessor(self._ptr_ProcessAdd2))
