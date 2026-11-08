@@ -99,6 +99,8 @@ extern "C" {
         mylib_NumberProcessorProxy_t* npp_handle = MyLib_NumberProcessorProxy_From_NumberProcessor(NumberProcessor_Internal_NumberProcessor_get_handle(handle));
         npp = get_object(npp_handle);
 
+        if (npp == nullptr)
+            return NULL;
         return npp->get_instance();
     }
 
