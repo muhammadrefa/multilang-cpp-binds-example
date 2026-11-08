@@ -154,13 +154,13 @@ void animal_check()
 
 void number_processor_check()
 {
-    ProcessAdd2 add2 = new();
+    using ProcessAdd2 add2 = new();
     add2.SetNumber(10);
     add2.PrintNumber();
     add2.Process();
     add2.PrintNumber();
 
-    CSProcessAdd5 add5 = new();
+    using CSProcessAdd5 add5 = new();
     add5.SetNumber(10);
     add5.PrintNumber();
     add5.Process();
