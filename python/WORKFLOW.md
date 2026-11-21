@@ -13,7 +13,7 @@ Important files and directories
 6. `_binding_utils.py` contains helper to bind the native C functions.
 7. `native/` contains the DLLs loaded by `_loader.py` (you can move the DLL path as long as you fix the `_loader.py`)
 
-Writing the bindings
+Write the bindings
 ---
 1. Starts with creating a new file in `bindings/`. In this repo, the filename follows the C wrapper header filename. Import the helpers to make life easier.
 ```python

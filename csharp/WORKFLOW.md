@@ -13,7 +13,7 @@ Important files and directories
 5. `src/Interop/StatusExtensions.cs` contains the extension of `status` which is defined in the `NativeEnums.cs`. This extension translates status codes into C# exceptions.
 6. `src/Exceptions/` contains custom exceptions.
 
-Writing the bindings
+Write the bindings
 ---
 1. Starts with write a class for the handle, inheriting from `SafeHandle`. You can copy an example from `src/Interop/Handles/` straight away and make some modification. Make sure you write the implementation of `ReleaseHandle()` correctly (i.e. call the `Destroy()` function). Since the native binder has not been written yet, we can visit `ReleaseHandle()` later.
 2. Create `src/Interop/*Native.cs` file. Use the file in this example as a template to define every C functions. Start with the constructor (`Create()`) and the destructor (`Destroy(IntPtr)`), and continue to other functions. Do not forget to use the `SafeHandle` we wrote earlier.

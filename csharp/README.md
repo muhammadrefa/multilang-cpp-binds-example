@@ -36,14 +36,24 @@ MyLib
 │   │   ├── Handles
 │   │   │   ├── SafeAnimalHandle.cs
 │   │   │   ├── SafeCalculatorHandle.cs
-│   │   │   └── SafeCircularBufferHandle.cs
+│   │   │   ├── SafeCircularBufferHandle.cs
+│   │   │   └── SafeNumberProcessorHandle.cs
+│   │   ├── NumberProcessor
+│   │   │   ├── NumberProcessorNative.cs
+│   │   │   ├── NumberProcessorProxyNative.cs
+│   │   │   └── ProcessAdd2Native.cs
 │   │   ├── CalculatorNative.cs
 │   │   ├── CircularBufferNative.cs
 │   │   ├── NativeConstants.cs
 │   │   ├── NativeEnums.cs
 │   │   └── StatusExtensions.cs
+│   ├── NumberProcessor
+│   │   ├── NumberProcessor.cs
+│   │   ├── NumberProcessorProxy.cs
+│   │   └── ProcessAdd2.cs
 │   ├── Calculator.cs
-│   └── CircularBuffer.cs
+│   ├── CircularBuffer.cs
+│   └── ObjectRegistry.cs
 └── MyLib.csproj
 
 ```
@@ -54,7 +64,7 @@ MyLib
   - `Interop/` contains bindings to the C library.
     - `Handles/` contains `SafeHandle` for every handles in the C wrapper.
     - `*Native.cs` contains bindings for C functions.
-    - `NativeConstants.cs` contains common constants. It also stores the DLL name to load/
+    - `NativeConstants.cs` contains common constants. It also stores the DLL name to load
     - `NativeEnums.cs` contains common enums.
     - `StatusExtensions.cs` contains extension of status returned by the C wrapper. It translates the status into exception.
   - `*.cs` contains the classes recreated by utilising the bind functions.

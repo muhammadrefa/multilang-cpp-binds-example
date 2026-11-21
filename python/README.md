@@ -5,7 +5,7 @@ This library utilises `ctypes` to load the C wrapper and rewrite the classes to 
 
 Design consideration
 ---
-In this example, the native resource owned by the object (object-centric ownership). It is implemented by having the object store the pointer to the resource. (C)Python Garbage Collector, which counting the reference, will cleanup the resource (using `weakref` or `__del__`) when nothing refers to the object.
+In this example, the native resource owned by the object (object-centric ownership). It is implemented by having the object store the pointer to the resource. (C)Python Garbage Collector, which counting the references, will cleanup the resource (using `weakref` or `__del__`) when nothing refers to the object.
 
 
 Project structure
@@ -19,6 +19,12 @@ mylib
 │   │   ├── cat.py
 │   │   ├── dog.py
 │   │   └── tiger.py
+│   ├── NumberProcessor
+│   │   ├── __init__.py
+│   │   ├── NumberProcessorProxy.py
+│   │   ├── NumberProcessor.py
+│   │   ├── ProcessAdd2.py
+│   │   └── _types.py
 │   ├── _binding_utils.py
 │   ├── calculator.py
 │   └── circularbuffer.py
@@ -30,6 +36,11 @@ mylib
 │   └── tiger.py
 ├── native
 │   └── PUT DLLs HERE
+├── NumberProcessor
+│   ├── __init__.py
+│   ├── NumberProcessorProxy.py
+│   ├── NumberProcessor.py
+│   └── ProcessAdd2.py
 ├── __init__.py
 ├── _enums.py
 ├── _errors.py
