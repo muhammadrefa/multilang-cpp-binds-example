@@ -20,6 +20,7 @@ endif
 # Source and object files
 SOURCES = calculator.cpp circular_buffer.cpp
 SOURCES += animal/animal.cpp animal/dog.cpp animal/cat.cpp animal/tiger.cpp
+SOURCES += number_processor/number_processor.cpp number_processor/process_add2.cpp number_processor/number_processor_proxy.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 LIBRARY = $(DLL_PREFIX)mylibraryc.$(DLL_EXT)
 
@@ -34,8 +35,8 @@ $(LIBRARY): $(OBJECTS)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-libtest: main.c $(LIBRARY)
-	$(CC) $(CFLAGS) -o libtest main.c -L. -lmylibraryc -lmylibrary -Wl,-rpath,.
+libtest: number_processor/cprocess_add3.c main.c $(LIBRARY)
+	$(CC) $(CFLAGS) -o libtest number_processor/cprocess_add3.c main.c -L. -lmylibraryc -lmylibrary -Wl,-rpath,.
 
 # Clean build artifacts
 clean:

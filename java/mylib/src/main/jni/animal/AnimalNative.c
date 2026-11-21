@@ -3,14 +3,14 @@
 #include "../helpers/ref_helper.h"
 #include "animal/animal.h"
 #include "status_code.h"
-#include "../mylib_binding_AnimalNative.h"
+#include "../mylib_binding_animal_AnimalNative.h"
 
 static mylib_animal_t* get_handle(jlong handle)
 {
     return (mylib_animal_t*)handle;
 }
 
-JNIEXPORT jlong JNICALL Java_mylib_binding_AnimalNative_nativeCreate(JNIEnv* env, jclass clazz)
+JNIEXPORT jlong JNICALL Java_mylib_binding_animal_AnimalNative_nativeCreate(JNIEnv* env, jclass clazz)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -19,7 +19,7 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_AnimalNative_nativeCreate(JNIEnv* env
     return (jlong)animal;
 }
 
-JNIEXPORT jlong JNICALL Java_mylib_binding_AnimalNative_nativeCreateWithName(JNIEnv* env, jclass clazz, jobject name, jint length)
+JNIEXPORT jlong JNICALL Java_mylib_binding_animal_AnimalNative_nativeCreateWithName(JNIEnv* env, jclass clazz, jobject name, jint length)
 {
     (void)clazz;    // unused
     
@@ -32,7 +32,7 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_AnimalNative_nativeCreateWithName(JNI
     return (jlong)animal;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_AnimalNative_nativeDestroy(JNIEnv* env, jclass clazz, jlong handle)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_AnimalNative_nativeDestroy(JNIEnv* env, jclass clazz, jlong handle)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -41,7 +41,7 @@ JNIEXPORT jint JNICALL Java_mylib_binding_AnimalNative_nativeDestroy(JNIEnv* env
     return (jint)status;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_AnimalNative_nativeSpeak(JNIEnv* env, jclass clazz, jlong handle)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_AnimalNative_nativeSpeak(JNIEnv* env, jclass clazz, jlong handle)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -50,7 +50,7 @@ JNIEXPORT jint JNICALL Java_mylib_binding_AnimalNative_nativeSpeak(JNIEnv* env, 
     return (jint)status;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_AnimalNative_nativeSpeakMultipleTimes(JNIEnv* env, jclass clazz, jlong handle, jint times)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_AnimalNative_nativeSpeakMultipleTimes(JNIEnv* env, jclass clazz, jlong handle, jint times)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -59,7 +59,7 @@ JNIEXPORT jint JNICALL Java_mylib_binding_AnimalNative_nativeSpeakMultipleTimes(
     return (jint)status;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_AnimalNative_nativeSleep(JNIEnv* env, jclass clazz, jlong handle)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_AnimalNative_nativeSleep(JNIEnv* env, jclass clazz, jlong handle)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -68,7 +68,7 @@ JNIEXPORT jint JNICALL Java_mylib_binding_AnimalNative_nativeSleep(JNIEnv* env, 
     return (jint)status;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_AnimalNative_nativeSetName(JNIEnv* env, jclass clazz, jlong handle, jobject name, jint length)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_AnimalNative_nativeSetName(JNIEnv* env, jclass clazz, jlong handle, jobject name, jint length)
 {
     (void)clazz;    // unused
     
@@ -81,7 +81,7 @@ JNIEXPORT jint JNICALL Java_mylib_binding_AnimalNative_nativeSetName(JNIEnv* env
     return (jint)status;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_AnimalNative_nativeGetName(JNIEnv* env, jclass clazz, jlong handle, jobject name, jobject length)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_AnimalNative_nativeGetName(JNIEnv* env, jclass clazz, jlong handle, jobject name, jobject length)
 {
     (void)clazz;    // unused
     

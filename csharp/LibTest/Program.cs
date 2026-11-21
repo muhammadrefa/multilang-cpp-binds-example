@@ -152,6 +152,34 @@ void animal_check()
     // they should have been died when this function returned
 }
 
+void number_processor_check()
+{
+    using ProcessAdd2 add2 = new();
+    add2.SetNumber(10);
+    add2.PrintNumber();
+    add2.Process();
+    add2.PrintNumber();
+
+    using CSProcessAdd5 add5 = new();
+    add5.SetNumber(10);
+    add5.PrintNumber();
+    add5.Process();
+    add5.PrintNumber();
+    
+    // try upcast and downcast
+    Console.WriteLine("-- upcast test");
+    NumberProcessor add5_up = add5;
+    add5_up.PrintNumber();
+    Console.WriteLine("-- downcast test");
+    CSProcessAdd5 add5_dn = CSProcessAdd5.FromNumberProcessor(add5_up);
+    add5_dn.Hello();
+    add5_dn.PrintNumber();
+    // other way to downcast
+    CSProcessAdd5 add5_dn2 = add5.To<CSProcessAdd5>();
+    add5_dn2.Hello();
+    add5_dn2.PrintNumber();
+}
+
 Console.WriteLine("--- calculator check ---");
 calculator_check();
 Console.WriteLine();
@@ -162,4 +190,8 @@ Console.WriteLine();
 
 Console.WriteLine("--- animal check ---");
 animal_check();
+Console.WriteLine();
+
+Console.WriteLine("--- number processor check ---");
+number_processor_check();
 Console.WriteLine();

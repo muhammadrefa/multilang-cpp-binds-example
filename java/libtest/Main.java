@@ -1,9 +1,11 @@
 import mylib.Calculator;
 import mylib.CircularBuffer;
-import mylib.Animal;
-import mylib.Dog;
-import mylib.Cat;
-import mylib.Tiger;
+import mylib.animal.Animal;
+import mylib.animal.Dog;
+import mylib.animal.Cat;
+import mylib.animal.Tiger;
+import mylib.numberprocessor.NumberProcessor;
+import mylib.numberprocessor.ProcessAdd2;
 
 import java.nio.BufferOverflowException;
 import java.util.Arrays;
@@ -172,6 +174,35 @@ public final class Main {
         tiger.close();
     }
 
+    static void number_processor_check()
+    {
+        ProcessAdd2 add2 = new ProcessAdd2();
+        add2.setNumber(10);
+        add2.printNumber();
+        add2.process();
+        add2.printNumber();
+
+        JProcessAdd7 add7 = new JProcessAdd7();
+        add7.setNumber(10);
+        add7.printNumber();
+        add7.process();
+        add7.printNumber();
+
+        // try upcast and downcast
+        System.out.println("-- upcast test");
+        NumberProcessor add7_up = add7;
+        add7_up.printNumber();
+        System.out.println("-- downcast test");
+        JProcessAdd7 add7_dn = JProcessAdd7.fromNumberProcessor(add7_up, JProcessAdd7.class);
+        add7_dn.hello();
+        add7_dn.printNumber();
+
+        add7_dn.close();
+        add7_up.close();
+        add7.close();
+        add2.close();
+    }
+
     public static void main(String[] args) {
         System.out.println("--- calculator check ---");
         calculator_check();
@@ -183,6 +214,10 @@ public final class Main {
 
         System.out.println("--- animal check ---");
         animal_check();
+        System.out.println();
+
+        System.out.println("--- number processor check ---");
+        number_processor_check();
         System.out.println();
     }
 }

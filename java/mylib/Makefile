@@ -3,6 +3,9 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Inative/inc
 LDFLAGS = -shared -Lnative/lib -lmylibraryc -Wl,-rpath,'$$ORIGIN'
 
+CXX = g++
+CXXFLAGS = -Wall -std=c++17 -Inative/inc
+
 # For Windows
 ifeq ($(OS),Windows_NT)
 	DLL_PREFIX = 
@@ -16,6 +19,7 @@ else
 	DLL_PREFIX = lib
 	DLL_EXT = so
     CFLAGS += -fPIC
+    CXXFLAGS += -fPIC
 
     JAVA_HOME ?= /usr/lib64/jvm/java-1.8.0-openjdk
     JNI_INC = \
@@ -30,26 +34,39 @@ SOURCES = \
 	src/main/jni/animal/AnimalNative.c \
 	src/main/jni/animal/DogNative.c \
 	src/main/jni/animal/CatNative.c \
-	src/main/jni/animal/TigerNative.c
+	src/main/jni/animal/TigerNative.c \
+	src/main/jni/number_processor/NumberProcessorNative.c \
+	src/main/jni/number_processor/ProcessAdd2Native.c \
 
 OBJECTS = $(SOURCES:.c=.o)
+
+SOURCES_CPP = \
+	src/main/jni/number_processor/NumberProcessorProxyNative.cpp \
+	src/main/jni/number_processor/NumberProcessorProxyJNI.cpp \
+
+OBJECTS_CPP = $(SOURCES_CPP:.cpp=.o)
+
 LIBRARY = $(DLL_PREFIX)mylibrary_jni.$(DLL_EXT)
 
 # Default target
 all: $(LIBRARY)
 
 # Create shared library
-$(LIBRARY): $(OBJECTS)
-	$(CC) $(LDFLAGS) -o $@ $^
+$(LIBRARY): $(OBJECTS) $(OBJECTS_CPP)
+	$(CXX) $(LDFLAGS) -o $@ $^
 
-# Compile .cpp to .o
+# Compile .c to .o
 %.o: %.c
 	$(CC) $(CFLAGS) $(JNI_INC) -c $< -o $@
+
+# Compile .cpp to .o
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(JNI_INC) -c $< -o $@
 
 jni_headers:
 	javac -h src/main/jni $(shell find src/main/java/mylib -name "*.java")
 
 clean:
-	rm -f $(OBJECTS) $(LIBRARY)
+	rm -f $(OBJECTS) $(OBJECTS_CPP) $(LIBRARY)
 
 .PHONY: all clean

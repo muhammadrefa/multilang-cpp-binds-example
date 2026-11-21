@@ -4,14 +4,14 @@
 #include "animal/animal.h"
 #include "animal/cat.h"
 #include "status_code.h"
-#include "../mylib_binding_CatNative.h"
+#include "../mylib_binding_animal_CatNative.h"
 
 static mylib_cat_t* get_handle(jlong handle)
 {
     return (mylib_cat_t*)handle;
 }
 
-JNIEXPORT jlong JNICALL Java_mylib_binding_CatNative_nativeCreate(JNIEnv* env, jclass clazz)
+JNIEXPORT jlong JNICALL Java_mylib_binding_animal_CatNative_nativeCreate(JNIEnv* env, jclass clazz)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -20,7 +20,7 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_CatNative_nativeCreate(JNIEnv* env, j
     return (jlong)cat;
 }
 
-JNIEXPORT jlong JNICALL Java_mylib_binding_CatNative_nativeCreateWithName(JNIEnv* env, jclass clazz, jobject name, jint length)
+JNIEXPORT jlong JNICALL Java_mylib_binding_animal_CatNative_nativeCreateWithName(JNIEnv* env, jclass clazz, jobject name, jint length)
 {
     (void)clazz;    // unused
     
@@ -33,7 +33,7 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_CatNative_nativeCreateWithName(JNIEnv
     return (jlong)cat;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_CatNative_nativeDestroy(JNIEnv* env, jclass clazz, jlong handle)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_CatNative_nativeDestroy(JNIEnv* env, jclass clazz, jlong handle)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -42,7 +42,7 @@ JNIEXPORT jint JNICALL Java_mylib_binding_CatNative_nativeDestroy(JNIEnv* env, j
     return (jint)status;
 }
 
-JNIEXPORT jlong JNICALL Java_mylib_binding_CatNative_nativeAsAnimal(JNIEnv* env, jclass clazz, jlong handle)
+JNIEXPORT jlong JNICALL Java_mylib_binding_animal_CatNative_nativeAsAnimal(JNIEnv* env, jclass clazz, jlong handle)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -51,7 +51,7 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_CatNative_nativeAsAnimal(JNIEnv* env,
     return (jlong)animal;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_CatNative_nativeFight(JNIEnv* env, jclass clazz, jlong handle, jint bigger_cat, jobject success)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_CatNative_nativeFight(JNIEnv* env, jclass clazz, jlong handle, jint bigger_cat, jobject success)
 {
     (void)clazz;    // unused
     
@@ -61,7 +61,7 @@ JNIEXPORT jint JNICALL Java_mylib_binding_CatNative_nativeFight(JNIEnv* env, jcl
     return (jint)status;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_CatNative_nativeStillAlive(JNIEnv* env, jclass clazz, jlong handle, jobject is_alive)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_CatNative_nativeStillAlive(JNIEnv* env, jclass clazz, jlong handle, jobject is_alive)
 {
     (void)clazz;    // unused
     

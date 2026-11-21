@@ -10,6 +10,10 @@
 #include "animal/cat.h"
 #include "animal/tiger.h"
 
+#include "number_processor/number_processor.h"
+#include "number_processor/process_add2.h"
+#include "number_processor/cprocess_add3.h"
+
 void calculator_check()
 {
     int val;
@@ -207,6 +211,31 @@ void animal_check()
     MyLib_Tiger_Destroy(tiger);
 }
 
+void number_processor_check()
+{
+    // add 2
+    mylib_ProcessAdd2_t* add2 = MyLib_ProcessAdd2_Create();
+    MyLib_NumberProcessor_SetNumber(MyLib_ProcessAdd2_As_NumberProcessor(add2), 10);
+    MyLib_NumberProcessor_PrintNumber(MyLib_ProcessAdd2_As_NumberProcessor(add2));
+    MyLib_NumberProcessor_Process(MyLib_ProcessAdd2_As_NumberProcessor(add2));
+    MyLib_NumberProcessor_PrintNumber(MyLib_ProcessAdd2_As_NumberProcessor(add2));
+    MyLib_ProcessAdd2_Destroy(add2);
+
+    // C - add 3
+    mylib_CProcessAdd3_t* add3 = MyLib_CProcessAdd3_Create();
+    mylib_NumberProcessor_t* _add3 = MyLib_CProcessAdd3_As_NumberProcessor(add3);
+    MyLib_NumberProcessor_SetNumber(_add3, 10);
+    MyLib_NumberProcessor_PrintNumber(_add3);
+    MyLib_NumberProcessor_Process(_add3);
+    MyLib_NumberProcessor_PrintNumber(_add3);
+    
+    // downcast test
+    mylib_CProcessAdd3_t* _add3_downcasted = MyLib_CProcessAdd3_From_NumberProcessor(_add3);
+    MyLib_CProcessAdd3_Hello(_add3_downcasted);
+
+    MyLib_CProcessAdd3_Destroy(add3);
+}
+
 int main()
 {
     printf("--- calculator check ---\n");
@@ -219,6 +248,10 @@ int main()
 
     printf("--- animal check ---\n");
     animal_check();
+    printf("\n");
+
+    printf("--- number processor check ---\n");
+    number_processor_check();
     printf("\n");
 
     return 0;

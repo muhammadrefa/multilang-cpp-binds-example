@@ -23,56 +23,80 @@ mylib
     └── main
         ├── java
         │   └── mylib
+        │       ├── animal
+        │       │   ├── Animal.java
+        │       │   ├── Cat.class
+        │       │   ├── Dog.java
+        │       │   └── Tiger.java
         │       ├── binding
+        │       │   ├── animal
+        │       │   │   ├── AnimalNative.java
+        │       │   │   ├── CatNative.java
+        │       │   │   ├── DogNative.java
+        │       │   │   └── TigerNative.java
         │       │   ├── handles
-        │       │   │   ├── AnimalHandle.java
+        │       │   │   ├── animal
+        │       │   │   │   ├── AnimalHandle.java
+        │       │   │   │   ├── CatHandle.java
+        │       │   │   │   ├── DogHandle.java
+        │       │   │   │   └── TigerHandle.java
+        │       │   │   ├── numberprocessor
+        │       │   │   │   ├── NumberProcessorHandle.java
+        │       │   │   │   ├── NumberProcessorProxyHandle.java
+        │       │   │   │   └── ProcessAdd2Handle.java
         │       │   │   ├── CalculatorHandle.java
-        │       │   │   ├── CatHandle.java
         │       │   │   ├── CircularBufferHandle.java
-        │       │   │   ├── DogHandle.java
         │       │   │   ├── NativeHandle.java
-        │       │   │   ├── NativeHandleWithCleaner.java.example
-        │       │   │   └── TigerHandle.java
+        │       │   │   └── NativeHandleWithCleaner.java.example
+        │       │   ├── numberprocessor
+        │       │   │   ├── NumberProcessorNative.class
+        │       │   │   ├── NumberProcessorProxyCallbacks.class
+        │       │   │   ├── NumberProcessorProxyNative.class
+        │       │   │   └── ProcessAdd2Native.class
         │       │   ├── refs
         │       │   │   ├── CharRef.java
         │       │   │   └── IntRef.java
-        │       │   ├── AnimalNative.java
         │       │   ├── CalculatorNative.java
-        │       │   ├── CatNative.java
         │       │   ├── CircularBufferNative.java
-        │       │   ├── DogNative.java
         │       │   ├── Loader.java
-        │       │   ├── MyLibStatus.java
-        │       │   └── TigerNative.java
+        │       │   └── MyLibStatus.java
         │       ├── exceptions
         │       │   └── MyLibException.java
         │       ├── internal
         │       │   └── StatusHelper.java
-        │       ├── Animal.java
+        │       │── numberprocessor
+        │       │   ├── NumberProcessor.java
+        │       │   ├── NumberProcessorProxy.java
+        │       │   └── ProcessAdd2.java
         │       ├── Calculator.java
-        │       ├── Cat.java
-        │       ├── CircularBuffer.java
-        │       ├── Dog.java
-        │       └── Tiger.java
+        │       └── CircularBuffer.java
         └── jni
             ├── animal
             │   ├── AnimalNative.c
             │   ├── CatNative.c
             │   ├── DogNative.c
             │   └── TigerNative.c
-            ├── CalculatorNative.c
-            ├── CircularBufferNative.c
             ├── helpers
             │   ├── ref_helper.c
             │   └── ref_helper.h
-            ├── mylib_binding_AnimalNative.h
+            ├── number_processor
+            │   ├── number_processor_internal.h
+            │   ├── NumberProcessorNative.c
+            │   ├── NumberProcessorProxyJNI.cpp
+            │   ├── NumberProcessorProxyJNI.hpp
+            │   ├── NumberProcessorProxyNative.cpp
+            │   └── ProcessAdd2Native.c
+            ├── CalculatorNative.c
+            ├── CircularBufferNative.c
+            ├── mylib_binding_animal_AnimalNative.h
+            ├── mylib_binding_animal_CatNative.h
+            ├── mylib_binding_animal_DogNative.h
+            ├── mylib_binding_animal_TigerNative.h
             ├── mylib_binding_CalculatorNative.h
-            ├── mylib_binding_CatNative.h
             ├── mylib_binding_CircularBufferNative.h
-            ├── mylib_binding_DogNative.h
-            └── mylib_binding_TigerNative.h
-
-
+            ├── mylib_binding_numberprocessor_NumberProcessorNative.h
+            ├── mylib_binding_numberprocessor_NumberProcessorProxyNative.h
+            └── mylib_binding_numberprocessor_ProcessAdd2Native.h
 ```
 
 - `native`

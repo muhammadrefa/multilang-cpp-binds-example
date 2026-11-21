@@ -1,6 +1,9 @@
 from mylib.calculator import Calculator
 from mylib.circularbuffer import CircularBuffer
 from mylib.animal import Animal, Dog, Cat, Tiger
+from mylib.NumberProcessor import ProcessAdd2
+
+from PyProcessAdd11 import PyProcessAdd11
 
 
 def calculator_check():
@@ -142,6 +145,20 @@ def animal_check():
     # they should have been died when this function returned
 
 
+def number_processor_check():
+    add2 = ProcessAdd2()
+    add2.set_number(10)
+    add2.print_number()
+    add2.process()
+    add2.print_number()
+
+    add11 = PyProcessAdd11()
+    add11.set_number(10)
+    add11.print_number()
+    add11.process()
+    add11.print_number()
+
+
 
 if __name__ == "__main__":
     print("--- calculator check ---")
@@ -154,4 +171,8 @@ if __name__ == "__main__":
 
     print("--- animal check ---")
     animal_check()
+    print()
+
+    print("--- number processor check ---")
+    number_processor_check()
     print()

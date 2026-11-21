@@ -4,14 +4,14 @@
 #include "animal/animal.h"
 #include "animal/dog.h"
 #include "status_code.h"
-#include "../mylib_binding_DogNative.h"
+#include "../mylib_binding_animal_DogNative.h"
 
 static mylib_dog_t* get_handle(jlong handle)
 {
     return (mylib_dog_t*)handle;
 }
 
-JNIEXPORT jlong JNICALL Java_mylib_binding_DogNative_nativeCreate(JNIEnv* env, jclass clazz)
+JNIEXPORT jlong JNICALL Java_mylib_binding_animal_DogNative_nativeCreate(JNIEnv* env, jclass clazz)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -20,7 +20,7 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_DogNative_nativeCreate(JNIEnv* env, j
     return (jlong)dog;
 }
 
-JNIEXPORT jlong JNICALL Java_mylib_binding_DogNative_nativeCreateWithName(JNIEnv* env, jclass clazz, jobject name, jint length)
+JNIEXPORT jlong JNICALL Java_mylib_binding_animal_DogNative_nativeCreateWithName(JNIEnv* env, jclass clazz, jobject name, jint length)
 {
     (void)clazz;    // unused
     
@@ -33,7 +33,7 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_DogNative_nativeCreateWithName(JNIEnv
     return (jlong)dog;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_DogNative_nativeDestroy(JNIEnv* env, jclass clazz, jlong handle)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_DogNative_nativeDestroy(JNIEnv* env, jclass clazz, jlong handle)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -42,7 +42,7 @@ JNIEXPORT jint JNICALL Java_mylib_binding_DogNative_nativeDestroy(JNIEnv* env, j
     return (jint)status;
 }
 
-JNIEXPORT jlong JNICALL Java_mylib_binding_DogNative_nativeAsAnimal(JNIEnv* env, jclass clazz, jlong handle)
+JNIEXPORT jlong JNICALL Java_mylib_binding_animal_DogNative_nativeAsAnimal(JNIEnv* env, jclass clazz, jlong handle)
 {
     (void)env;      // unused
     (void)clazz;    // unused
@@ -51,7 +51,7 @@ JNIEXPORT jlong JNICALL Java_mylib_binding_DogNative_nativeAsAnimal(JNIEnv* env,
     return (jlong)animal;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_DogNative_nativeFetch(JNIEnv* env, jclass clazz, jlong handle, jobject success)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_DogNative_nativeFetch(JNIEnv* env, jclass clazz, jlong handle, jobject success)
 {
     (void)clazz;    // unused
     
@@ -61,7 +61,7 @@ JNIEXPORT jint JNICALL Java_mylib_binding_DogNative_nativeFetch(JNIEnv* env, jcl
     return (jint)status;
 }
 
-JNIEXPORT jint JNICALL Java_mylib_binding_DogNative_nativeGetEnergy(JNIEnv* env, jclass clazz, jlong handle, jobject energy)
+JNIEXPORT jint JNICALL Java_mylib_binding_animal_DogNative_nativeGetEnergy(JNIEnv* env, jclass clazz, jlong handle, jobject energy)
 {
     (void)clazz;    // unused
     

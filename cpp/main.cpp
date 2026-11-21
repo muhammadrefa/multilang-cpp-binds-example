@@ -9,6 +9,9 @@
 #include "animal/cat.hpp"
 #include "animal/tiger.hpp"
 
+#include "number_processor/number_processor.hpp"
+#include "number_processor/process_add2.hpp"
+
 void calculator_check()
 {
     int val;
@@ -160,6 +163,17 @@ void animal_check()
     delete tiger;
 }
 
+void number_processor_check()
+{
+    // add 2
+    MyLibrary::ProcessAdd2 *add2 = new MyLibrary::ProcessAdd2();
+    add2->SetNumber(10);
+    add2->PrintNumber();
+    add2->process();
+    add2->PrintNumber();
+    delete add2;
+}
+
 int main()
 {
     printf("--- calculator check ---\n");
@@ -172,6 +186,10 @@ int main()
 
     printf("--- animal check ---\n");
     animal_check();
+    printf("\n");
+
+    printf("--- number processor check ---\n");
+    number_processor_check();
     printf("\n");
 
     return 0;

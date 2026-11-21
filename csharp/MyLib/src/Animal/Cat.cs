@@ -98,6 +98,7 @@ namespace MyLib
         public override void Dispose()
         {
             handle.Dispose();
+            base.Dispose();
         }
 
         private void ThrowIfDisposed()
